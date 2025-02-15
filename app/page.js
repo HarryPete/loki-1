@@ -12,14 +12,11 @@ import mock from '@/assets/mock.png'
 import discussion from '@/assets/discussion.png'
 import placement from '@/assets/placement.png'
 
-import profile1 from '@/assets/profile1.jpeg'
-import profile2 from '@/assets/profile2.jpg'
-import profile3 from '@/assets/profile1.jpeg'
-
 import globe from '@/assets/globe.png'
 import compliance from '@/assets/compliance.png'
 import career from '@/assets/career.png'
 import goal from '@/assets/goal.png'
+
 
 import organisation from '@/assets/organisation.png'
 import prevention from '@/assets/prevention.png'
@@ -55,6 +52,21 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { FormatDate } from '@/utility/FormatDate'
 import { useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
+import { AnimatedTestimonials } from '@/components/ui/animated-testimonials'
+import WorldMap from '@/components/ui/world-map'
+import { WobbleCard } from '@/components/ui/wobble-card'
+import CourseTimeline from './components/CourseTimeline'
+import { HoverEffect } from '@/components/ui/card-hover-effect'
+import CourseBenefits from './components/CourseBenefits'
+import ContactForm from './components/ContactForm'
+import InstructorSection from './components/InstructorSection'
+import FAQ from './components/FAQ'
+import StatSection from './components/StatSection'
+import { cn } from '@/lib/utils'
+import { DotPattern } from '@/components/magicui/dot-pattern'
+import UpcomingBatches from './components/UpcomingBatches'
+import MarqueeProfiles from './components/MarqueeProfiles'
+import ReferralSection from './components/ReferralSection'
 
 const heroData =
 [
@@ -129,8 +141,6 @@ const roadmap = [
   },
 ];
 
-
-
 const numbers =
 [
     {
@@ -150,63 +160,17 @@ const numbers =
     },
 ]
 
-const feeds = [
-    {
-      name: "John Doe",
-      image: profile1,
-      feedback: "The training program was well-structured. The mock tests and curated materials made exam preparation much easier. The instructors were knowledgeable and provided excellent support throughout. Highly recommended for CAMS and CGSS aspirants!",
-    },
-    {
-      name: "Jane Smith",
-      image: profile2,
-      feedback: "I found the live sessions and interactive discussions extremely helpful. The real-world examples and case studies made the concepts easy to understand. The forum and chat support were great for clarifying doubts quickly. This program is a complete package!",
-    },
-    {
-      name: "Sam Wilson",
-      image: profile3,
-      feedback: "The flexibility of accessing recordings and curated materials at my own pace was a game-changer. The detailed curriculum covered every topic needed for the certifications. The mock tests helped me identify areas for improvement. Overall, a fantastic learning experience!",
-    },
-    {
-      name: "John Doe",
-      image: profile1,
-      feedback: "The training program was well-structured. The mock tests and curated materials made exam preparation much easier. The instructors were knowledgeable and provided excellent support throughout. Highly recommended for CAMS and CGSS aspirants!",
-    },
-    {
-      name: "Jane Smith",
-      image: profile2,
-      feedback: "I found the live sessions and interactive discussions extremely helpful. The real-world examples and case studies made the concepts easy to understand. The forum and chat support were great for clarifying doubts quickly. This program is a complete package!",
-    },
-    {
-      name: "Sam Wilson",
-      image: profile3,
-      feedback: "The flexibility of accessing recordings and curated materials at my own pace was a game-changer. The detailed curriculum covered every topic needed for the certifications. The mock tests helped me identify areas for improvement. Overall, a fantastic learning experience!",
-    },
-    {
-      name: "John Doe",
-      image: profile1,
-      feedback: "The training program was well-structured. The mock tests and curated materials made exam preparation much easier. The instructors were knowledgeable and provided excellent support throughout. Highly recommended for CAMS and CGSS aspirants!",
-    },
-    {
-      name: "Jane Smith",
-      image: profile2,
-      feedback: "I found the live sessions and interactive discussions extremely helpful. The real-world examples and case studies made the concepts easy to understand. The forum and chat support were great for clarifying doubts quickly. This program is a complete package!",
-    },
-    {
-      name: "Sam Wilson",
-      image: profile3,
-      feedback: "The flexibility of accessing recordings and curated materials at my own pace was a game-changer. The detailed curriculum covered every topic needed for the certifications. The mock tests helped me identify areas for improvement. Overall, a fantastic learning experience!",
-    },
-  ];
-
   const whyCamsAndCgss = [
     {
       id: 1,
+      color: 'bg-pink-800',
       icon: compliance, // Replace with actual icons or paths to images
       header: "Regulatory Compliance",
       description: "Increasing regulatory scrutiny demands professionals skilled in AML and sanctions compliance.",
     },
     {
       id: 2,
+      color: 'bg-blue-900',
       icon: career,
       header: "Career Opportunities",
       description: "Certifications open high-paying career opportunities in compliance and risk management.",
@@ -214,18 +178,21 @@ const feeds = [
     {
       id: 3,
       icon: prevention,
+      color: 'bg-green-800',
       header: "Financial Crime Prevention",
       description: "They provide tools to identify and prevent financial crimes like money laundering and fraud.",
     },
     {
       id: 4,
       icon: updated,
+      color: 'bg-yellow-600',
       header: "Stay Updated",
       description: "Keep professionals updated with evolving financial crime techniques and sanctions frameworks.",
     },
     {
       id: 5,
       icon: globe,
+      color: 'bg-violet-800',
       header: "Global Recognition",
       description: "CAMS and CGSS are globally recognized, enhancing professional credibility.",
     },
@@ -244,6 +211,7 @@ const feeds = [
     {
       id: 8,
       icon: goal,
+      color: 'bg-gray-800',
       header: "Professional Commitment",
       description: "Demonstrate commitment to compliance and readiness for specialized challenges.",
     },
@@ -303,90 +271,58 @@ const Home = () =>
     }
 
     return(
-        <div className='md:text-sm text-xs md:leading-7 leading-5'>
-            <HeroSection />
-            <div className='sm:px-[10vw] px-[15vw] py-12'>
-            <Carousel >
-            <CarouselContent>
-              <CarouselItem className='h-max lg:basis-1/3'>
-                <Card className='p-6'>
-                  <h1 className='text-center text-lg font-semibold'>CAMS - 0</h1>
-                  <p className='text-center text-gray-400'>Fastrack Batch</p>
-                  {/* <p className='text-start text-gray-400'>An accelerated course for individuals aiming to quickly prepare for the CAMS certification.</p>
-                  <h1 className='font-semibold'>Highlights</h1> */}
-                  <ul className='pt-2'>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Intensive and fast-paced learning</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Expert-curated resources</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Covers all critical topics in a condensed timeframe with focused study</li>
-                  </ul>
-                </Card>
-              </CarouselItem>
+        <div className='md:text-sm text-xs leading-loose'>
+            
+            <HeroSection isLoading={isLoading} displayData={displayData}/>
+            <div>
+              <StatSection/>
+              <WorldMap dots={[
+                {
+                  start: { lat: 64.2008, lng: -149.4937 }, // Alaska (Fairbanks)
+                  end: { lat: 34.0522, lng: -118.2437 }, // Los Angeles
+                },
+                {
+                  start: { lat: 64.2008, lng: -149.4937 }, // Alaska (Fairbanks)
+                  end: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
+                },
+                {
+                  start: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
+                  end: { lat: 38.7223, lng: -9.1393 }, // Lisbon
+                },
+                {
+                  start: { lat: 51.5074, lng: -0.1278 }, // London
+                  end: { lat: 28.6139, lng: 77.209 }, // New Delhi
+                },
+                {
+                  start: { lat: 28.6139, lng: 77.209 }, // New Delhi
+                  end: { lat: 43.1332, lng: 131.9113 }, // Vladivostok
+                },
+                {
+                  start: { lat: 28.6139, lng: 77.209 }, // New Delhi
+                  end: { lat: -1.2921, lng: 36.8219 }, // Nairobi
+                },
+                {
+                  start: { lat: 20.5937, lng: 78.9629 }, // India
+                  end: { lat: -25.2744, lng: 133.7751 }, // Australia
+                }]}/>
+                
+              <MarqueeProfiles isLoading={isLoading} displayData={displayData}/>
+              </div>
+              <UpcomingBatches/>
+              <CourseBenefits/>
+              <ReferralSection/>
+              <CourseTimeline/>
+              <InstructorSection/>
+              <AnimatedTestimonials testimonials={displayData?.feedbacks} isLoading={isLoading} />
+              <FAQ/>
+              <Footer/>
+      </div>
+    )
+}
 
-              <CarouselItem className='h-max lg:basis-1/3'>
-                <Card className='p-6'>
-                  <h1 className='text-center text-lg font-semibold'>CAMS - 150</h1>
-                  <p className='text-center text-gray-400'>Coming soon</p>
-                  {/* <p className='text-start text-gray-400'>Comprehensive learning program for aspirants preparing for CAMS certification.</p>
-                  <h1 className='font-semibold'>Highlights</h1> */}
-                  <ul className='pt-2'>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Full syllabus coverage in a structured manner</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Interactive sessions with trainers</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Suitable for both working professionals and full-time learners</li>
-                  </ul>
-                </Card>
-              </CarouselItem>
+export default Home
 
-              
-              <CarouselItem className='h-max lg:basis-1/3'>
-                <Card className='p-6'>
-                  <h1 className='text-center text-lg font-semibold'>CGSS - 4</h1>
-                  <p className='text-center text-gray-400'>Coming soon</p>
-                  {/* <p className='text-start text-gray-400'>Comprehensive learning program for aspirants preparing for CGSS certification.</p>
-                  <h1 className='font-semibold'>Highlights</h1> */}
-                  <ul className='pt-2'>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Focuses on global sanctions and their impact</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Curated videos and learning materials</li>
-                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Ideal for compliance officers and AML professionals</li>
-                  </ul>
-                </Card>
-              </CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious/>
-              <CarouselNext />
-            </Carousel>
-          </div>
-
-            <div className='space-y-6 text-center items-center py-12'>
-            <h1 className='font-semibold text-center md:text-xl lg:text-2xl text-lg'>CAMS Graduates, December 2024</h1>
-                <Marquee className="justify-center overflow-hidden [--duration:60s] [--gap:2rem] w-[100%]">
-                {isLoading ? 
-                [1,2,3,4,5,6,7,8].map((_, index)=>
-                  (
-                      <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
-                          <Skeleton className='lg:p-24 md:p-16 p-8 bg-gray-200 shadow-md rounded-full mb-2'/>
-                          <Skeleton className='p-2 rounded-xl bg-gray-200 mt-2 shadow-md mb-3 w-36'/>
-                          <Skeleton className='p-1.5 rounded-xl shadow-md w-20 bg-gray-200'/>
-                      </div>
-                  ))
-                :  
-                displayData?.recentGraduates?.map((user, index)=>
-                (
-                    <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
-                        <Link className='relative' href={user?.linkedIn ?? ''}>
-                          <Image className='lg:h-48 md:h-36 h-24 w-fit aspect-square object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} width={100}  height={100} alt={user?.name}/>
-                          <Image className='lg:h-10 md:h-8 h-6  w-fit absolute bottom-0 right-2' src={linkedin} alt={user?.name}/>
-                        </Link>
-                        <h1 className='text-base font-semibold mt-2'>{user?.name}</h1>
-                        <p className='lg:text-sm text-xxs text-gray-400'>{user?.country}</p>
-                    </div>
-                ))}
-                </Marquee>
-                {/* <div className='space-y-2'>
-                  <h1 className='lg:px-[10vw] px-[5vw] text-2xl  leading-snug font-semibold text-orange-700'>Join Our Growing Network of Successful Graduates</h1>
-                  <p className='lg:px-[10vw] px-[5vw] text-gray-400'>Explore the achievements of our recent graduates and see how our program is shaping the future of AML and compliance professionals.</p>
-                </div> */}
-
-                <div className='sm:px-[10vw] px-[15vw] py-12'>
+{/* <div className='sm:px-[10vw] px-[15vw] py-12'>
             <h1 className='font-semibold w-full flex items-center justify-center gap-2 md:text-xl lg:text-2xl text-lg mb-8'>Fints AML Referrals</h1>
             {isLoading ?
             <div className='grid md:grid-cols-3 grid-cols-1 w-full rounded gap-5'>
@@ -429,9 +365,9 @@ const Home = () =>
                   <div>
                     <p><span>Experience : </span>{job.experience} years</p>
                     <p className="pb-4"><span>Location : </span>{job.city +', ' +job.country}</p>
-                    {/* <p className="pb-4"><span>Openings : </span>{job.openings}</p> */}
+                    <p className="pb-4"><span>Openings : </span>{job.openings}</p>
                   </div>
-                  {/* <p className="border-t py-4">{job.description}</p> */}
+                  <p className="border-t py-4">{job.description}</p>
                   <footer className="flex text-xs md:flex-row flex-col justify-between md:items-end items-start space-y-2 w-full border-t pt-6">
                     <div className='md:space-y-2 space-y-4'>
                     <div className="space-x-2">
@@ -455,141 +391,4 @@ const Home = () =>
           <CarouselPrevious/>
           <CarouselNext />
           </Carousel>}
-          </div>
-            </div>
-            
-
-            <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
-                <h1 className='font-semibold text-center md:text-xl lg:text-2xl text-lg'>Why CAMS & CGSS ?</h1>
-                <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
-                    {whyCamsAndCgss.map((data, index)=>
-                    (
-                      <div className='space-y-2 p-8 rounded-xl shadow-2xl' key={data.id}  style={{backgroundColor: 'var(--primary-bg)'}}>
-                       <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.icon} alt='icon'/>
-                        <h1 className='font-semibold'>{data.header}</h1>
-                        <p className='text-gray-400'>{data.description}</p>
-                      </div>
-                    ))}
-                  </div>
-            </div>
-
-            <div className='lg:px-[10vw] space-y-16 px-[5vw] bg-white py-12'>
-            <h1 className='font-semibold w-full text-center md:text-xl lg:text-2xl text-lg mb-8'>Course benefits</h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-                {heroData.map((data, index)=>
-                (
-                    <div className='flex flex-col gap-2' key={data.id}>
-                        <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.image} alt='icon'/>
-                        <h1 className='md:text-base text-sm font-semibold mt-4'>{data.header}</h1>
-                        <p className='text-muted-foreground'>{data.detail}</p>
-                    </div>
-                ))}
-                </div>    
-            </div>
-
-            <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
-                <div className='flex lg:flex-row flex-col lg:items-start items-center gap-8'>
-                  <div className='lg:w-[50%] space-y-4 lg:sticky top-[5%]'>
-                    <p className='font-semibold md:text-xl lg:text-2xl text-lg lg:text-start text-center'>Course timeline</p>
-                    <p className='text-gray-400'>Master the essentials, refine your skills, and excel with a structured 11-week roadmap for certification excellence.</p>
-                    <Image className='md:h-20 h-16 w-fit' src={success} alt='icon'/>
-                  </div>
-                  <div className='lg:w-[50%] space-y-4'>
-                    {roadmap.map((data, index)=>
-                    (
-                      <div className='space-y-2 p-8 rounded-xl shadow-2xl' key={index}style={{backgroundColor: 'var(--primary-bg)'}}>
-                       {/* <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.icon} alt='icon'/> */}
-                        <h1 className='font-semibold bg-white text-black px-2 rounded w-fit'>Week {data.weeks}</h1>
-                        <p className='font-semibold'>{data.focus}</p>
-                        <p className='text-gray-400'>{data.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-            </div>
-
-            <div className='lg:px-[10vw] px-[5vw] space-y-6 py-12 flex flex-col gap-4'>
-              
-              <h1 className='font-semibold w-full text-center text-2xl'>Founder & Instructor</h1>
-              <div className='flex justify-center'>
-              <Founder/>
-              </div>
-            </div>
-
-            <div className='sm:px-[10vw] px-[5vw] py-12 flex lg:flex-row flex-col gap-8 text-white' style={{backgroundColor: 'var(--primary-color)'}}>
-            <div className='lg:w-[50%] w-full space-y-4'>
-              <h1 className='lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold'>Request a Callback</h1>
-              <p className='text-gray-400'>Get personalized assistance, clear your doubts, and take the first step toward achieving your CAMS & CGSS certifications with expert guidance.</p>
-            </div>
-            <div className='lg:w-[50%] w-full'>
-              <RequestForm/>
-            </div>
-          </div>
-            
-
-            <div className='sm:px-[10vw] px-[15vw] py-12'>
-            <h1 className='font-semibold w-full text-center md:text-xl lg:text-2xl text-lg mb-8'>Testimonials</h1>
-            {isLoading ?
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
-            {[1,2,3].map((_,index)=>(
-              <Card className='space-y-6 p-6 h-84' key={index}>
-                  <Skeleton className='h-16 w-16 shadow-md bg-gray-100 rounded-full'/>
-                  <div className='space-y-3'>
-                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-2 rounded-xl bg-gray-200 w-[50%]'/>
-                  </div>
-                  <div className='space-y-3'>
-                  <Skeleton className='p-2 rounded-xl bg-gray-200 w-56'/>
-                  <Skeleton className='p-2 rounded-xl bg-gray-200 w-40'/>
-                  </div>
-              </Card>
-            ))}
-            </div> :
-            <Carousel >
-            <CarouselContent>
-            
-            {displayData?.feedbacks?.map((feed, index) => (
-            <CarouselItem key={index} className='lg:basis-1/3 h-max'>
-              <Card>
-                <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4">
-                        <Link className='relative' href={feed.user?.linkedIn ?? ''}>
-                          <Image className='h-20 text-sm md:text-base aspect-square w-fit object-cover rounded-full' src={feed.user?.imageURL ? feed.user?.imageURL : defaultDP} width={100} height={100} alt='user'/>
-                          <Image className='h-8 w-fit absolute bottom-0 right-0' src={linkedin} alt={feed.user.name}/>
-                        </Link>
-                        
-                        <p className=''>{feed.comment}</p>
-                        <div className='space-y-1'>
-                        <h1 className='font-semibold'>{feed.user.name}</h1>
-                        <Rating value={feed.rating}/>
-                        </div>
-                </CardContent>
-              </Card>
-          </CarouselItem>
-          ))}
-          </CarouselContent>
-          <CarouselPrevious/>
-          <CarouselNext />
-          </Carousel>}
-          </div>
-
-          
-
-          <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-6 items-center' >
-              <p className='font-semibold md:text-xl lg:text-2xl text-lg mb-4'>FAQs</p>
-              <div className='flex flex-col gap-4 w-full'>
-              {faqData.map((data, index)=>
-              (
-                <Accordian data={data} key={data.id} index={index} showFaq={showFaq} setShowFaq={setShowFaq}/>
-              ))}
-              </div>
-          </div>
-        <Footer/>
-      </div>
-    )
-}
-
-export default Home
-
+          </div> */}

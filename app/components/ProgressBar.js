@@ -39,19 +39,19 @@ const ProgressBar = ({batch}) =>
     const chartData = 
     [
         { label: 'Completed', value: completed, fill:'hsl(var(--chart-1))'},
-        { label: 'Upcoming', value: pending, fill:'hsl(var(--chart-2))'},
+        { label: 'Upcoming', value: pending, fill:'white'},
     ]
 
     return (
-    <Card className="flex flex-col h-fit text-lg">
+    <div className="flex flex-col h-fit text-lg text-white">
       <CardHeader className="items-center pb-0">
-        <CardTitle>{batch.course.title}</CardTitle>
-        <CardDescription>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>
+        <CardTitle className='text-base'>{batch.course.title}</CardTitle>
+        <CardDescription className='pt-1'>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[200px]"
         >
           <PieChart>
             <ChartTooltip
@@ -62,7 +62,7 @@ const ProgressBar = ({batch}) =>
               data={chartData}
               dataKey="value"
               nameKey="label"
-              innerRadius={60}
+              innerRadius={50}
               strokeWidth={5}
             >
             <Label
@@ -85,16 +85,12 @@ const ProgressBar = ({batch}) =>
         <div className="font-semibold">
           
         </div>
-        <div className="flex items-center gap-2 font-semibold leading-none text-sm">
+        <div className="flex items-center gap-2 font-semibold leading-none text-sm text-white">
         {batch.title} <span className="text-gray-500 font-medium">instructed by</span> {batch.mentor.name}
         </div>
-        <div className="space-x-2 text-white mt-2">
-          <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link>
-          {/* <Link href='/forum' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Forum</Link> */}
-          {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
-        </div>
+        
       </CardFooter>
-    </Card>
+    </div>
   )
 }
 

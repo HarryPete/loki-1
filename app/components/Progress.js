@@ -33,8 +33,8 @@ const Progress = ({batchData, getBatch}) =>
     
     return(
         <div className='space-y-4'>
-            <div className='flex flex-col text-sm md:text-base h-[60vh] text-white justify-center items-center rounded p-6 relative'>
-                <Image className='object-cover rounded-xl' src={batchData.course.imageURL} alt={batchData.course.title} layout='fill'/>
+            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <Image className='object-cover rounded-xl h-48 w-fit' src={batchData.course.imageURL} alt={batchData.course.title} height={100} width={100}/>
                 <div className='text-3xl absolute bottom-4 text-center space-y-2 mb-2 z-50'>
                     <p className='font-semibold'>{batchData.title.split('-')[1]}</p>
                     <p className='bg-gray-700 p-2 rounded z-50 text-xs'>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>
@@ -52,22 +52,22 @@ const Progress = ({batchData, getBatch}) =>
             </div>
             
             <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-4'>
-                <Card className='p-4 text-center text-sm space-y-1'>
-                    <h1 className='text-xl font-semibold'>{Math.ceil((batchData.sessions?.length - pendingSessions(batchData.sessions))*100/batchData.sessions.length)}%</h1>
+                <div className='p-4 text-center text-sm space-y-1'>
                     <p>Completion</p>
-                </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
-                    <h1 className='text-xl font-semibold'>{pendingSessions(batchData.sessions)}</h1>
+                    <h1 className='text-xl font-semibold'>{Math.ceil((batchData.sessions?.length - pendingSessions(batchData.sessions))*100/batchData.sessions.length)}%</h1>
+                </div>
+                <div className='p-4 text-center text-sm space-y-1'>
                     <p>Sessions pending</p>
-                </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
-                    <h1 className='text-xl font-semibold'>{batchData.enrollments.length}</h1>
+                    <h1 className='text-xl font-semibold'>{pendingSessions(batchData.sessions)}</h1>          
+                </div>
+                <div className='p-4 text-center text-sm space-y-1'>
                     <p>Enrollments</p>
-                </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
-                    <h1 className='text-xl font-semibold'>{batchData.mocks.length}</h1>
+                    <h1 className='text-xl font-semibold'>{batchData.enrollments.length}</h1>
+                </div>
+                <div className='p-4 text-center text-sm space-y-1'>
                     <p>Mocks</p>
-                </Card>
+                    <h1 className='text-xl font-semibold'>{batchData.mocks.length}</h1>
+                </div>
             </div>
         </div>
     )

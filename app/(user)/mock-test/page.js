@@ -41,6 +41,7 @@ const Mock = () =>
     const [ active, setActive ] = useState(null);
     const mockAnswers = useSelector((state)=> state.mockAnswers.responses);
     const [ reviewQuestions, setReviewQuestions ] = useState([]);
+    const [ showReview, setShowReview ] = useState(false);
 
     const onSubmit = async () =>
     {
@@ -110,6 +111,9 @@ const Mock = () =>
         }
     }
 
+    console.log(mockAnswers)
+
+
     useEffect(() => 
     {
         if(status === "authenticated")
@@ -129,12 +133,41 @@ const Mock = () =>
     )
 
     return(
-        <div>
-            <div className='grid grid-cols-1 gap-4 relative text-sm bg-white p-8 rounded-xl shadow-lg'>
-           <p className="font-semibold leading-relaxed">{index+1 +'. ' +active[index].question}</p>
+        <div className="space-y-2">
+            <div className='rounded-xl p-4 text-white space-y-3' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <h1 className="font-semibold">All the best, {mock.enrollment.user.name}</h1>
+                <div className="flex items-center gap-1 text-muted text-xs">
+                    <p>{mock.enrollment.batch.title.split('-')[0]}</p>
+                    <span className='hidden sm:inline'>•</span>
+                    <p>{mock.quiz.reference.length} questions</p>
+                </div>
+            </div>
+
+            {active.length===mockAnswers.length && reviewQuestions.length>0 &&
+            <div className="flex flex-wrap text-sm items-center gap-2 mt-4 py-4">
+            <p className="font-semibold">Review flagged questions</p>
+            {reviewQuestions.map((question)=>
+            (
+                <div className={`${question === index && 'bg-yellow-400 border-yellow-400'} border-2 text-xs p-2 aspect-square rounded-full cursor-pointer`} key={question} onClick={()=> setIndex(question)}>{question+1}</div>
+            ))}
+            </div>}
+
+            <div className='grid grid-cols-1 gap-4 relative text-sm bg-neutral-50 p-8 rounded-xl shadow-lg'>
+            <span className="font-semibold">Question {index+1}</span>
+                    
+            <div>
+            <p className="font-semibold leading-relaxed">{active[index].question}</p>
+            {active[index]?.extendedQuestion?.length>0 && 
+                <div className="font-semibold leading-loose pt-1">
+                {active[index]?.extendedQuestion.map((sentence,index)=>
+                (
+                    <p className='font-medium' key={index}>{index+1 +'. '  +sentence}</p>
+                ))}
+                </div>}
+            </div>
                 {active[index].options.map((data,ind)=>
                 (
-                    <div key={ind} className="flex items-start gap-4 bg-gray-50 p-4 rounded">
+                    <div key={ind} className="flex items-start gap-4 bg-neutral-200 p-4 rounded">
                         <Checkbox
                             id={ind + 1}
                             checked={mockAnswers[index]?.answers?.includes(ind + 1)}
@@ -150,7 +183,9 @@ const Mock = () =>
                 </div>
                 ))}
 
+
                 <div className="flex gap-2 justify-center mt-4 w-full relative">
+                    
                     <Image className={`${index > 0 ? 'bg-yellow-400 cursor-pointer' : 'bg-gray-200' }  rounded-full p-2 h-8 w-fit`} src={back} alt='previous' 
                         onClick={()=> 
                         {   
@@ -168,7 +203,7 @@ const Mock = () =>
                                 return
                             setIndex((prev)=> prev+1)
                         }}/>
-                    <Image className="h-8 w-fit cursor-pointer absolute b-0 right-0" src={mockAnswers[index].isFlagged ? flagged : flag} alt='previous' 
+                    <Image className="h-8 w-fit cursor-pointer absolute b-0 left-0" src={mockAnswers[index].isFlagged ? flagged : flag} alt='previous' 
                         onClick={()=> 
                         {
                             if(!mockAnswers[index].isFlagged)
@@ -182,18 +217,13 @@ const Mock = () =>
                         }
                     }/>
                 </div>
-                {index+1 === mockAnswers.length && <div className="flex justify-center">
-                    <Button className='text-xs' onClick={onSubmit}>Submit</Button>
+                {index+1 === mockAnswers.length &&
+                <div className="absolute right-8 bottom-8">
+                    <Button className='text-xs' onClick={onSubmit}>Finish</Button>
                 </div>}
         </div>
         
-        {reviewQuestions.length>0 && <p className="font-semibold text-sm text-center mt-6">Review flagged questions</p>}
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
-        {reviewQuestions.map((question)=>
-        (
-            <div className={`${question === index && 'bg-yellow-400 text-white'} border p-1.5 px-3 rounded-full cursor-pointer`} key={question} onClick={()=> setIndex(question)}>{question+1}</div>
-        ))}
-        </div>
+        
         </div>
     )
 }

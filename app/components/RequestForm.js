@@ -21,6 +21,7 @@ import Loading from "./Loading"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Loader2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().min(7, {
@@ -31,6 +32,9 @@ const formSchema = z.object({
   }),
   contact: z.string().min(7, {
     message: "Contact is required",
+  }),
+  message: z.string().min(2, {
+    message: "Message is required",
   })
 })
 
@@ -44,7 +48,8 @@ const RequestForm = () =>
             {
               name: "",
               email: "",
-              contact: ""
+              contact: "",
+              message: ""
             },
         })
 
@@ -119,10 +124,25 @@ const RequestForm = () =>
                     </FormItem>)}
                 />
 
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                        <Textarea className='min-h-28 text-sm' {...field} />
+                        </FormControl>
+                        <FormDescription>
+                        </FormDescription>
+                        <FormMessage/>
+                    </FormItem>)}
+                />
+
               {isLoading ? <Button className='lg:h-12 h-10 text-md'>
                 <Loader2 className='animate-spin'/>
                 </Button> :                       
-                <Button type="submit" className='md:h-12 h-10 md:text-base text-sm font-semibold w-full'>Request Callback</Button>}
+                <Button type="submit" className='md:h-12 h-10 md:text-base text-sm w-full'>Request Callback</Button>}
               </form>
         </Form>
   )

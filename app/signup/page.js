@@ -93,16 +93,16 @@ const Signup = () =>
     }
 
     return(
-        <div className='h-[100vh] flex items-center justify-center' style={{backgroundColor:'var(--primary-bg)'}}>
-            <div className='bg-white rounded w-96 p-6'> 
-                <div className='flex justify-center mb-4'>
-                    <Image className='h-16 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
+        <div className='h-[100vh] flex items-center justify-center' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+            <div className='bg-white rounded-xl w-96 p-8'> 
+                <div className='flex justify-center cursor-pointer mb-4'>
+                    <Image className='h-12 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
                 </div>
                 <div className='w-full flex flex-col gap-4 items-center'>
                     <form className='flex flex-col w-full gap-4'onSubmit={handleSubmit}>
-                        <Input className='h-12' name="name" type="text" placeholder="Name" />
-                        <Input className='h-12' name="email" type="text" placeholder="Email" />
-                        <Input className='h-12' name="password" type="text" placeholder="Password" />
+                        <Input className='h-12 bg-neutral-50' name="name" type="text" placeholder="Name" />
+                        <Input className='h-12 bg-neutral-50' name="email" type="text" placeholder="Email" />
+                        <Input className='h-12 bg-neutral-50' name="password" type="text" placeholder="Password" />
 
                         {error && 
                         <div className='flex gap-2 items-center text-sm'>
@@ -121,8 +121,8 @@ const Signup = () =>
                     <p className=''>or</p>
                     <GoogleAuth/>
                 </div>
-                <p className='text-center mt-2 text-sm text-gray-400'>Already a user? 
-                    <Link href='/login' className='pl-1 hover:text-yellow-300 cursor-pointer'>Login</Link></p>
+                <p className='text-center pt-2 text-sm text-gray-400'>Already a user? 
+                    <Link href='/login' className='pl-1 text-blue-500 hover:underline cursor-pointer'>Login</Link></p>
            </div>
         </div>
     )

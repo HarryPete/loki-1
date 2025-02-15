@@ -8,6 +8,7 @@ import lectureIcon from '../../../../../assets/lecture.png'
 import Loading from '@/app/components/Loading';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { Video } from 'lucide-react';
 
 const Page = () =>
 {
@@ -53,19 +54,19 @@ const Page = () =>
         return <Loading/>
 
     return(
-        <div className='flex flex-col gap-4 space-y-4 md:text-base text-sm'>
-            <h1 className='text-2xl font-semibold'>{course.toUpperCase() +' > '} Lecture {id}</h1>
-            <div className='bg-white shadow-lg rounded'>
-                <div className='flex items-center gap-2 bg-gray-200 p-4'>
-                <Image className='h-6 w-fit' src={lectureIcon} alt='icon'/>
-                <h1 className='text-base font-semibold'>{lecture.title}</h1>
-            </div>
-            <div className='space-y-4 p-4 text-sm'>
-            {lecture.modules.map((module,index)=>
-            (
-                <p key={index}>{module}</p>
-            ))}
-            </div>
+        <div className='flex flex-col gap-4 space-y-2 md:text-base text-sm'>
+            <h1 className='text-xl font-semibold'>{course.toUpperCase() +' > '} Lecture {id}</h1>
+            <div className='rounded-lg  bg-neutral-100'>                
+                <div className='flex rounded-lg items-center gap-2 p-6 text-white' style={{backgroundImage:"radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                    <Video size={20} className="text-neutral-50"/>
+                    <h1 className='text-base font-semibold'>{lecture.title}</h1>
+                </div>
+                <div className='space-y-4 p-6 text-sm'>
+                {lecture.modules.map((module,index)=>
+                (
+                    <p key={index}>{module}</p>
+                ))}
+                </div>
             </div>
             <iframe className='lg:w-[100%] lg:h-[60vh] h-[100%] w-[100%] rounded shadow-lg' width="560" height="315" src={url} title={lecture.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>

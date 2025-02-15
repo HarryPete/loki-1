@@ -47,7 +47,7 @@ const Course = () =>
         <div className='mt-12'>
             <Header/>
             <div className='flex flex-col gap-4 lg:px-[10vw] px-[5vw] py-12 md:text-sm text-xs'>
-            <Breadcrumb>
+            {/* <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -65,7 +65,7 @@ const Course = () =>
                         <BreadcrumbLink href={`/courses/${course.id}`}>{course.id.toUpperCase()}</BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div>
                 <CourseDetail course={course} level='visitor'/>
             </div>

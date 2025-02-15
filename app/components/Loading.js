@@ -25,8 +25,8 @@ const Loading = () =>
     }, []);
 
   return (
-    <div className="fixed top-0 left-0 z-50 w-[100vw] bg-white h-[100vh] flex justify-center items-center">
-        <div className="relative rounded-full" style={{backgroundColor: 'var(--primary-color)'}}>
+    <div className="fixed top-0 left-0 z-50 w-[100vw] bg-black bg-opacity-30 h-[100vh] flex justify-center items-center">
+        <div className="relative rounded-full" style={{backgroundImage:"radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
         <AnimatedCircularProgressBar
         max={100}
         min={0}

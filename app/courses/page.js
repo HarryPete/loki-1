@@ -60,7 +60,7 @@ const Courses = () =>
             <Header/>
 
             <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4'>
-            <Breadcrumb>
+            {/* <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -72,7 +72,7 @@ const Courses = () =>
                         <BreadcrumbLink href="/courses">Courses</BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
             {courses?.map((course) =>

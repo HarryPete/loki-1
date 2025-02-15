@@ -80,13 +80,13 @@ const Founder = () =>
                 ))}              
                 </div>
             </div>
-                <div className='z-10 flex justify-center gap-4'>
+            <div className='z-10 flex justify-center gap-4'>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={jpmorganLogo} alt='logo'/>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={standardLogo} alt='logo'/>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={mashreqLogo} alt='logo'/>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={westernLogo} alt='logo'/>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={brightLogo} alt='logo'/>
-                </div>
+            </div>
             
         </div>
     )

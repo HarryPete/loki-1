@@ -53,13 +53,15 @@ const Page = () =>
 
     const downloadScores = () => 
     {   
-        if(divRef.current === null) 
-            return
+        // if(divRef.current === null) 
+        //     return
+
+        console.log('het')
 
         toPng(divRef.current, { cacheBust: true, })
         .then((dataUrl) => {
             const link = document.createElement('a')
-            link.download = `${graduates[0]._id}.png`
+            link.download = `Graduates.png`
             link.href = dataUrl
             link.click()
         })
@@ -68,8 +70,6 @@ const Page = () =>
             console.log(err)
         })
     }
-
-    console.log(graduates);
 
     if(isLoading)
         return <Loading/>

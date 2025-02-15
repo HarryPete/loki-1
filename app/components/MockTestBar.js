@@ -68,11 +68,11 @@ const MockTestBar = ({mockData}) =>
     }, [divRef])
 
     return (
-    <Card className="">
-      <div className="flex flex-col bg-white" ref={divRef}>
+    <Card className="" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+      <div className="flex flex-col text-white rounded-t-xl" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}} ref={divRef}>
       <CardHeader className="items-center pb-0">
       <h1 className="font-semibold text-center text-lg">Mock Report</h1>
-      <p className="text-gray-400">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p>
+      <p className="text-muted">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p>
       </CardHeader>
       <CardContent className="flex gap-2 pb-0 items-center">
         
@@ -91,7 +91,7 @@ const MockTestBar = ({mockData}) =>
               data={chartData}
               dataKey="value"
               nameKey="label"
-              innerRadius={55}
+              innerRadius={50}
               strokeWidth={5}
             >
             <Label

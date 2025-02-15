@@ -93,7 +93,7 @@ const Checkout = () =>
             <Header/>
             {(course ? 
             <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4'>
-                <Breadcrumb>
+                {/* <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -105,21 +105,21 @@ const Checkout = () =>
                         <BreadcrumbLink href="/cart">Cart</BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
-                </Breadcrumb>
-                <h1 className='lg:text-5xl md:text-2xl text-2xl font-bold' style={{color:'var(--primary-bg)'}}>Your Cart</h1>
+                </Breadcrumb> */}
+                <h1 className='md:3xl text-xl font-bold' style={{color:'var(--primary-bg)'}}>Your Cart</h1>
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                 
                  
                 <div className='flex flex-col gap-4'>
-                    <div className='flex justify-between items-center gap-4 p-4 rounded shadow-md'>
+                    <div className='flex justify-between items-center gap-4 p-4 rounded-xl bg-neutral-50 shadow-md'>
                         <div className='flex gap-4 items-center'>
-                            <Image className='h-16 w-fit rounded-full' src={course.imageURL} alt={course.id} width={150} height={150} style={{backgroundColor: 'var(--primary-color)'}}/>
-                            <p className='font-semibold'>{course.title}</p>
+                            <Image className='h-16 w-16 rounded-full object-cover' src={course.imageURL} alt={course.id} width={150} height={150} style={{backgroundColor: 'var(--primary-color)'}}/>
+                            <p className='font-semibold md:text-sm text-xs'>{course.title}</p>
                         </div>
-                        <Button onClick={clearCart} className=''>Remove</Button>
+                        <Button onClick={clearCart} className='text-xs'>Remove</Button>
                     </div> 
                     <Select onValueChange={setSelectedBatch}>
-                        <SelectTrigger className="w-full h-14">
+                        <SelectTrigger className="w-full h-16 border-none shadow-md bg-neutral-50">
                             <SelectValue placeholder="Choose Batch" />
                         </SelectTrigger>
                         <SelectContent>

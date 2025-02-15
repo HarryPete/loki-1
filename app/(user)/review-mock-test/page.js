@@ -190,12 +190,12 @@ const Mock = () =>
             <div className="w-full lg:w-[60%] space-y-4 leading-relaxed">
             {active.map((que, index)=>
             (
-                <Card className="p-6 space-y-4" key={index}>
+                <Card className="p-6 space-y-4 bg-neutral-50" key={index}>
                     <h1 className="font-semibold">{que+1 +'. ' +mock.quiz.reference[que].question}</h1>
                     <div className="space-y-2">
                     {mock.quiz.reference[que].options.map((data, ind)=>
                     (
-                        <div className="bg-gray-100 p-4 rounded flex items-start justify-between gap-4" key={ind}>
+                        <div className="bg-neutral-200 p-4 rounded flex items-start justify-between gap-4" key={ind}>
                             <p>{ind+1 +'. ' +data.option}</p>
                             {(mock.quiz.reference[que].answers.includes(ind+1) || mock.answers[que].answers.includes(ind+1)) && 
                                 <Image className='h-5 w-fit' 

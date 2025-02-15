@@ -47,22 +47,12 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
     }
 
     return(
-        <Card className='p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
-            <div className='rounded flex flex-col h-40 p-4 justify-center items-center shadow-md relative'>
-                <Image className='rounded object-cover' src={batch.course.imageURL} alt={batch.title} layout='fill'/>
+        <div className='space-y-2 relative cursor-pointer ' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
+            <div className='rounded-xl h-56 p-4 flex flex-col justify-center items-center shadow-md gap-1' style={{backgroundImage:"radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <Image className='rounded-full object-cover h-28' src={batch.course.imageURL} alt={batch.title} height={100} width={100}/>
+                {level === 'admin' ? <h1  className='text-neutral-100 font-semibold pt-1'>{batch.title.split('-')[1]}</h1> : <p className='bg-gray-300 p-1 rounded text-xs '>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate)}</p>}
             </div>
-            <div className='flex justify-between items-center text-sm'>
-                <p className='font-semibold'>{batch.title}</p>
-                <p>{batch.status}</p>
-            </div>
-            {/* <p className='absolute top-6 right-6 bg-gray-300 p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p> */}
-             {/* 
-            <div className='flex justify-between items-end text-sm'>
-                {level === "admin" ? (type === 'batch' ? <p> Enrollments : {batch.enrollments.length}</p> : <p> Participants : {participants}</p>) : <p>{batch.sessions.length} lectures</p>}
-                
-                
-            </div>  */}
-        </Card>
+        </div>
     )
 }
 

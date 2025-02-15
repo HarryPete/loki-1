@@ -44,8 +44,8 @@ const BillingCard = ({course, selectedBatch}) =>
     }
 
     return(
-        <div className='rounded p-4 flex flex-col gap-4 shadow-md'>
-            <p className='text-center font-semibold text-lg'>PRICE DETAILS</p>
+        <div className='rounded-xl p-6 flex flex-col gap-4 shadow-md bg-neutral-50 md:text-sm text-xs'>
+            <p className='text-center font-semibold text-base pb-4'>PRICE DETAILS</p>
             <div className='flex justify-between'>
                 <p className=''>Price (1 Item)</p>
                 <p className=''>${course.price}</p>

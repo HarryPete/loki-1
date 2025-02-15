@@ -87,15 +87,15 @@ const Login = () =>
     }
 
     return(
-        <div className='h-[100vh] flex items-center justify-center' style={{backgroundColor:'var(--primary-bg)'}}>
-            <div className='bg-white rounded w-96 p-6'> 
-                <div className='flex justify-center mb-4'>
-                    <Image className='h-16 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
+        <div style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}} className='h-[100vh] flex items-center justify-center'>
+            <div className='rounded-xl w-96 p-8 space-y-2 bg-white'> 
+                <div className='flex justify-center cursor-pointer mb-6'>
+                    <Image className='h-12 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
                 </div>
                 <div className='w-full flex flex-col gap-4 items-center'>
                     <form className='flex flex-col w-full gap-4'onSubmit={handleSubmit}>
-                        <Input className='h-12' name="email" type="text" placeholder="Email" />
-                        <Input className='h-12' name="password" type="text" placeholder="Password" />
+                        <Input className='h-12 bg-neutral-50' name="email" type="text" placeholder="Email" />
+                        <Input className='h-12 bg-neutral-50' name="password" type="text" placeholder="Password" />
 
                         {isError && 
                         <div className='flex gap-2 items-center text-sm'>
@@ -108,14 +108,14 @@ const Login = () =>
                        <Image className='h-6 w-fit' src={successicon} alt='error'/>
                        <p className='text-green-600'>{successMessage}</p>
                    </div>}
-                        <Button type='submit'>Login</Button>
+                        <Button type='submit p-6'>Login</Button>
                     </form>
 
-                    <p className=''>or</p>
+                    <p className='text-muted-foreground'>or</p>
                     <GoogleAuth/>
                 </div>
-                <div className='text-center mt-2 text-sm text-gray-400'>Don't have an account?
-                    <Link href='/signup' className='pl-1 hover:text-yellow-300 cursor-pointer'>Signup</Link>
+                <div className='text-center pt-2 text-sm text-gray-400'>Don't have an account?
+                    <Link href='/signup' className='pl-1 text-blue-500 hover:underline cursor-pointer'>Signup</Link>
                 </div>
                 {/* <div className='text-center'>
                     <Link href='/reset-password' className='mt-2 text-sm text-blue-900 hover:underline'>Forgot password</Link>

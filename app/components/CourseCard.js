@@ -1,71 +1,49 @@
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import verified from '../../assets/verified.png'
-import Link from 'next/link'
-import { BorderBeam } from '@/components/ui/border-beam'
-import { Card } from '@/components/ui/card'
-import logo from '../../assets/logo.png'
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import verified from '@/assets/tick-dark.png';
 
-const extraData =
-[
-    {
-        id:1,
-        description: 'Recorded lectures'
-    },
-    {
-        id:2,
-        description: '10+ mock tests'
-    },
-    {
-        id:3,
-        description: '1:1 sessions'
-    },
-    {
-        id:4,
-        description: 'Exclusive study guides'
-    },
-    {
-        id:5,
-        description: 'Lifetime access to forum'
-    },
-    {
-        id:6,
-        description: 'Exam strategies'
-    },
-    {
-        id:7,
-        description: 'Job assistance'
-    },
-]
+const extraData = [
+  'Recorded Lectures',
+  '10+ Mock Tests',
+  '1:1 Sessions',
+  'Exclusive Study Guides',
+  'Lifetime Forum Access',
+  'Exam Strategies',
+  'Job Assistance',
+];
 
-const CourseCard = ({level, course}) =>
-{
+const CourseCard = ({ level, course }) => {
+  return (
+    <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`}>
+      <motion.div
+        whileHover={{ scale: 1.00 }}
+        whileTap={{ scale: 0.95 }}
+        className='relative group cursor-pointer'
+        
+      >
+        <Card  style={{
+            backgroundImage:
+              "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)",
+          }} className='space-y-4 p-6 bg-white shadow-xl rounded-xl text-xs md:text-sm transition duration-300'>
+          <div className='relative w-full flex items-center justify-center rounded-lg overflow-hidden'>
+            <Image
+              src={course.imageURL}
+              alt={course.title}
+              width={100}
+              height={100}
+              className='object-cover h-40 w-fit group-hover:scale-105 transition-transform duration-300'
+            />
+        </div>
 
-    return(
-        <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative'>
-        <Card className='space-y-4 p-4'>
-            <div className='flex flex-col items-center justify-center h-48 rounded relative'>
-                <Image className='h-[100%] w-full rounded object-cover' src={course.imageURL} alt={course.id} layout='fill'/>
-            </div>
-            {/* {level !== 'admin' && <BorderBeam colorFrom='var(--primary-color)' colorTo='var(--action-color)' className='rounded-xl'/>} */}
-            
-            <p className='md:text-sm text-xs font-semibold' >{course.title}</p> 
-            
-            {/* <p className='md:text-3xl text-2xl text-center w-full font-bold'>${course.price}</p> */}
-            {level !== 'admin' && 
-            <div className='flex flex-col gap-2'>
-                {extraData.map((data)=>
-                (
-                    <div key={data.id} className='flex gap-2 items-center text-sm'>
-                        <Image className='h-5 w-fit' src={verified} alt='icon'/>
-                        <p>{data.description}</p>
-                    </div>
-                ))}
-                <p className='text-gray-400 mt-2 text-sm'>35 lectures, 60 hours</p>
-            </div>}
+        <h3 className='font-semibold text-white text-center'>{course.title}</h3>
+          
         </Card>
-        </Link>
-    )
-}
+      </motion.div>
+    </Link>
+  );
+};
 
-export default CourseCard
+export default CourseCard;
