@@ -22,7 +22,7 @@ const SessionCard = ({session, index, updateSessionStatus, activeAgenda, setActi
     }
 
     return(
-        <Card className='flex justify-between items-center text-sm p-4'>
+        <Card className='flex justify-between items-center p-6 bg-blue-50'>
             <div className='flex items-center gap-2'>
                 <TooltipProvider>
                 <Tooltip>

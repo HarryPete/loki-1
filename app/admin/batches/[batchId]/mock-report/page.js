@@ -111,17 +111,17 @@ const MockReport = () =>
     
     return (
         <div className="space-y-4">
-            <div>
-                <h1 className="font-semibold">{batchId} / Set {set}</h1>
-                <h1 className="text-muted-foreground text-sm">{batch.mocks[index].results.length} Participants</h1>
+            <div className="text-white p-6 space-y-3 rounded-xl" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+              <h1 className="font-semibold">Mock Report</h1>
+              <div className="text-xs">{batchId}  •  Set {set}  •  {batch.mocks[index].results.length} Participants</div>  
             </div>
             <div className="flex flex-col lg:flex-row gap-4 relative">
             <div className="lg:w-[40%] w-full">
             <div className="lg:sticky lg:top-28">
-              <div className="space-y-2 max-h-[80vh] overflow-y-scroll pr-4">
+              <div className="space-y-3 max-h-[80vh] overflow-y-scroll pr-4">
               {batch.mocks[index].results.map((result, resultId)=>
               (
-                <Card className={`${viewResult === resultId && 'bg-yellow-400'} flex justify-between items-center md:text-sm text-xs p-4 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
+                <Card className={`${viewResult === resultId ? 'bg-yellow-400' : 'bg-neutral-50 hover:bg-neutral-200'}  flex justify-between items-center md:text-sm text-xs p-6 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
                   <div className="flex items-center gap-1">
                     <Image className="h-5 w-5 rounded-full object-cover object-top" width={100} height={100} src={result.enrollment.user?.imageURL ? result.enrollment.user?.imageURL : defaultDP} alt={result.enrollment.user.name}/>
                     <p>{result.enrollment.user.name}</p>
@@ -152,12 +152,13 @@ const MockReport = () =>
                 <div className="w-full space-y-3 leading-relaxed">
                 {active.map((que, queIndex)=>
                 (
-                  <Card className="p-6 space-y-4 md:text-sm text-xs" key={queIndex}>
-                    <h1 className="font-semibold">{que+1 +'. ' +batch.mocks[index].quiz.reference[que].question}</h1>
+                  <Card className="p-6 space-y-4 md:text-sm text-xs bg-neutral-50" key={queIndex}>
+                    <h1 className="font-semibold">Question {que+1}</h1>
+                    <h1 className="font-semibold">{batch.mocks[index].quiz.reference[que].question}</h1>
                     <div className="space-y-2">
                     {batch.mocks[index].quiz.reference[que].options.map((data, ind)=>
                     (
-                      <div className="bg-gray-100 p-4 rounded flex items-start justify-between gap-4" key={ind}>
+                      <div className="bg-neutral-200 p-4 rounded flex items-start justify-between gap-4" key={ind}>
                         <p>{ind+1 +'. ' +data.option}</p>
                         {(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].answers.includes(ind+1)) && 
                         <Image className='h-5 w-fit' 

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import styles from './styles.module.css'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import Progress from '@/app/components/Progress'
+import ProgressDetails from '@/app/components/Progress'
 import SessionCard from '@/app/components/SessionCard'
 import Enrollment from '@/app/components/Enrollment'
 import { toast } from 'sonner'
@@ -24,10 +24,36 @@ import { FormatDate } from '@/utility/FormatDate'
 import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import UpdateDisplayPicture from '@/app/components/UpdateDisplayPicture'
 import MockReport from '@/app/components/MockReport'
-import { Loader2, Users } from 'lucide-react'
 import LoadingMini from '@/app/components/LoadingMini'
 import mockIcon from '@/assets/mock.png'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Book, Calendar, GroupIcon, Loader2, User, Video } from "lucide-react";
+
+import { motion } from "framer-motion";
+import { Progress } from '@radix-ui/react-progress'
+
+export const completedSessions = (sessions, type='') =>
+{
+    if(!sessions)
+        return
+    
+    const completed = sessions.filter((session) => session.status === 'Completed').length 
+    if(type === 'count')
+        return completed
+    
+    const progress = (completed/sessions.length)*100
+    return progress
+}
+
+export const completedProfiles = (enrollments) =>
+{
+    if(!enrollments)
+        return
+
+    const completed = enrollments.filter((enrollment) => enrollment.user.isProfileComplete).length 
+    return completed
+}
 
 const Batch = () =>
 {
@@ -43,7 +69,15 @@ const Batch = () =>
     const [ removeDuplicates, setRemoveDuplicates ] = useState(false);
     const [ isButtonLoading, setIsButtonLoading ] = useState(false);
     const router = useRouter();
+    const [activeTab, setActiveTab] = useState("sessions");
     const pathname = usePathname();
+
+    const tabs = 
+    [
+        { id: "sessions", label: "Sessions", bg: 'bg-blue-400', completed: completedSessions(batch?.sessions, 'count'), total: batch?.sessions?.length, progress: completedSessions(batch?.sessions) },
+        { id: "enrollments", label: "Enrollments", bg: 'bg-gray-400', completed: completedProfiles(batch?.enrollments), total: batch?.enrollments?.length, progress: completedProfiles(batch?.enrollments)*100/batch?.enrollments?.length },
+        { id: "mocks", label: "Mocks", bg: 'bg-green-400', completed: batch?.mocks?.length, total: 6, progress: batch?.mocks?.length*100/6}
+    ];
 
     const findDuplicates = () => 
     {
@@ -222,70 +256,132 @@ const Batch = () =>
       }
     }
 
-    console.log(batch)
-
     if(isLoading)
         return <Loading/>
 
     return(
-        <div className='space-y-4'>
+        <div className='space-y-4 md:text-sm text-xs'>
             <div className='relative'>
-                <Progress batchData={batch} level='admin' getBatch={getBatch}/>
-                <Image className='fixed cursor-pointer text-xs bottom-4 right-4 h-10 w-fit p-2.5 bg-yellow-500 rounded-full'
-                 src={removeDuplicates ? closeIcon : duplicateIcon} alt='icon' onClick={()=>
+            <ProgressDetails batchData={batch} level='admin' getBatch={getBatch}/>
+            <Image className='fixed cursor-pointer text-xs bottom-4 right-4 h-10 w-fit p-2.5 bg-yellow-500 rounded-full'
+                src={removeDuplicates ? closeIcon : duplicateIcon} alt='icon' onClick={()=>
+                {
+                    if(!removeDuplicates)
                     {
-                        if(!removeDuplicates)
-                        {
-                            setRemoveDuplicates(true);
-                            findDuplicates();
-                        }
-                        else
-                            setRemoveDuplicates(false);
+                        setRemoveDuplicates(true);
+                        findDuplicates();
                     }
-                }/>
+                    else
+                    setRemoveDuplicates(false);
+                }
+            }/>
             </div>
-            <h1 className='font-semibold text-base pt-4'>Mocks</h1>
-            <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
-            
-                {batch.course.mocks.map((mock, index)=>
+
+            <div className="flex flex-col md:flex-row gap-4 text-sm ">
+                <div className="w-full md:w-1/3 rounded-xl shadow-md p-8 h-fit space-y-6 md:sticky md:top-28 overflow-y-auto text-black bg-neutral-50">
+                {tabs.map((tab) => 
                 (
-                    <Card className={`${batch.mocks[index] ? 'border-green-500' : 'border-red-500' } border-2 p-4 text-sm`} key={mock.id}>
-                        {isLoading ? <LoadingMini/> :
-                        <div className="space-y-3">
-                            <div className='bg-gray-100 p-6 gap-2 flex flex-col items-center rounded relative'>
-                                <Image className='h-12 w-fit' src={mockIcon} alt='mock'/>
-                                <p>Set {mock.id}</p>
-                                {batch.mocks[index] && 
-                                <div className="absolute top-2 right-2">
-                                    <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
-                                </div>}
-                            </div>
-                            <div className="flex justify-center">
-                            {batch.mocks[index] ? 
-                            <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Report card</Button> :
-                                <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
-                            </div>
-                        </div>}
-                  </Card>                
-                ))}
+                    <div key={tab.id} className="flex gap-2 relative">
+                    
+                    {/* Animated Indicator */}
+                    {activeTab === tab.id && (
+                    <motion.div
+                        layoutId="activeIndicator"
+                        className="absolute left-[-2] w-2 h-full rounded-lg"
+                        style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    />)}
+
+                    <button className={`w-full text-left space-y-2 relative p-2 pl-6 rounded-lg transition-all duration-300 ${activeTab === tab.id ? "" : "hover:bg-gray-200"}`} onClick={() => setActiveTab(tab.id)}>
+                    <p className="font-medium">{tab.label}</p>
+                    <Progress value={tab.progress} className="h-4 w-full bg-gray-300 rounded-full">
+                        <motion.div
+                        className={`${tab.bg} h-full rounded-full`}
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${tab.progress}%` }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}/>
+                    </Progress>
+
+                    <div className="flex items-center justify-between text-xs">
+                        <p>{tab.completed}/{tab.total}</p>
+    
+                        <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}>
+                        {tab.progress.toFixed(2)}%
+                    </motion.p>
+                    </div>
+                    </button>
+                </div>))}
+
+                <div className="text-xs flex justify-around gap-2">
+                    <TooltipProvider>
+                        <Tooltip>
+                        <TooltipTrigger className="flex space-y-1 flex-col items-center">
+                            <Book size={16} />
+                            <p>Course</p>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{batch.course.id.toUpperCase()}</p>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    
+                    <TooltipProvider>
+                        <Tooltip>
+                        <TooltipTrigger className="flex space-y-1 flex-col items-center">
+                            <GroupIcon size={16} />
+                         <p>Batch</p>
+                     </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{batch.title}</p>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    
+                    <TooltipProvider>
+                        <Tooltip>
+                        <TooltipTrigger className="flex space-y-1 flex-col items-center">
+                            <Calendar size={16} />
+                        <p>Duration</p>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate)}</p>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    
+                    <TooltipProvider>
+                        <Tooltip>
+                        <TooltipTrigger className="flex space-y-1 flex-col items-center">
+                            <User size={16} />
+                            <p>Mentor</p>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{batch.mentor.name}</p>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </div>
             </div>
-            <div className='grid lg:grid-cols-2 grid-cols-1 gap-4 relative border-t pt-8'>
-                
-                <div className='space-y-4'>
-                <h1 className='font-semibold text-base'>Sessions</h1>
-                {batch.sessions.map((session, index) =>
+
+            {activeTab === "sessions" && (
+                <div className="space-y-3 w-full md:w-2/3">
+                {batch.sessions.map((session, index) => 
                 (
                     <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus} setActiveAgenda={setActiveAgenda} activeAgenda={activeAgenda}/>
                 ))}
-                </div>
-                
-                <div className='space-y-4'>
-                <h1 className='font-semibold text-base'>Enrollments</h1>
+                </div>)}
+
+            {activeTab === "enrollments" && (
+                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3'>
+            
                 {batch.enrollments.length ? 
                 batch.enrollments.map((enrollment)=>
                 {                       
                     return(
-                    <Card key={enrollment._id} className={`${removeDuplicates && duplicates.includes(enrollment.user._id) && 'bg-red-500 text-white'} p-4 flex items-center gap-4 h-fit`}>
+                    <Card key={enrollment._id} className={`${removeDuplicates && duplicates.includes(enrollment.user._id) ? 'bg-red-500 text-white' : (enrollment.user.isProfileComplete ? 'bg-gray-100' : 'bg-red-100')} p-6 flex items-center gap-4 h-fit`}>
                     <Image className='h-6 w-6 object-cover object-top rounded-full' src={enrollment?.user?.imageURL ? enrollment?.user?.imageURL : defaultDP} alt={enrollment.user.name} width={100} height={100}/>
                     <div className="text-sm flex justify-between items-center w-full">
                         <h1>{enrollment.user.name}</h1>
@@ -389,13 +485,45 @@ const Batch = () =>
                     </Card>)
                 }) : 
                 <p className='text-center text-xl mt-4 font-semibold'>No Enrollments</p>
-                }
-                </div>
-            </div>        
+            }
+            </div>)}
+
+
+            {activeTab === "mocks" && (
+                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3'>
+            
+                {batch.course.mocks.map((mock, index)=>
+                (
+                    <Card className={`${batch.mocks[index] ? 'bg-green-50' : 'bg-red-50' } p-6 text-sm`} key={mock.id}>
+                        {isLoading ? <LoadingMini/> :
+                        <div className="space-y-3">
+                            <div className='gap-2 flex justify-between rounded relative'>
+                                <div className='flex items-center gap-2'>
+                                    <Image className='h-6 w-fit' src={mockIcon} alt='mock'/>
+                                    <p>Set {mock.id}</p>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                    {batch.mocks[index] && <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
+
+                                    {batch.mocks[index] ? 
+                                    <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Report card</Button> :
+                                    <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
+                                </div>
+                            </div>
+                        </div>}
+                  </Card>                
+                ))}
+            </div>)}
+        </div>
+              
         </div>
     )
 }
 
 export default Batch
 
-// <Enrollment enrollment={enrollment} batch={batch} getBatch={getBatch} key={enrollment._id}/>
+
+
+
+
+
