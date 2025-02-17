@@ -34,9 +34,9 @@ const avatars = [
 
   const HeroSection = () => {
     return (
-      <div className="p-4 text-white text-base">
+      <div className="text-white text-base">
         <div
-          className="md:h-[80vh] h-[95vh] pt-[15vh] rounded-xl w-full flex items-center justify-center relative"
+          className="md:h-[80vh] h-[100vh] pt-[15vh] w-full flex items-center justify-center relative"
           style={{
             backgroundImage:
               "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)",
@@ -78,7 +78,7 @@ const avatars = [
             </motion.p>
   
             <motion.div
-              className="flex md:flex-row flex-col justify-center items-center gap-6"
+              className="flex md:flex-row flex-col justify-center items-center gap-6 p-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}

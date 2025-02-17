@@ -26,7 +26,7 @@ const StatSection = () =>
 {
 
   return (  
-      <div className="container mx-auto rounded-lg flex justify-around text-center mt-4">
+      <div className="container mx-auto rounded-lg flex justify-around text-center my-8">
         <div>
           <h2 className="md:text-base text-sm md:pb-3 pb-1 text-muted-foreground font-semibold">Countries</h2>
           <Counter value={25} />

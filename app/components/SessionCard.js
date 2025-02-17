@@ -10,16 +10,11 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"  
-import Switch from './Switch'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
-const SessionCard = ({session, index, updateSessionStatus, activeAgenda, setActiveAgenda, level}) =>
+const SessionCard = ({session, index, updateSessionStatus, level}) =>
 {
-    const handleAgenda = (e) =>
-    {
-        e.stopPropagation();
-        setActiveAgenda(index)
-    }
 
     return(
         <Card className='flex justify-between items-center p-6 bg-blue-50'>
@@ -38,8 +33,8 @@ const SessionCard = ({session, index, updateSessionStatus, activeAgenda, setActi
             {level === "admin" ? 
 
             <div className='flex items-center gap-2'>
-                <Switch id={session._id} status={session.status} updateSessionStatus={updateSessionStatus}/>
-                <Label >{session.status}</Label>
+                 <Switch checked={session.status === "Completed"}  onCheckedChange={()=> updateSessionStatus(session._id, session.status)}/>
+                <Label className='md:text-sm text-xs' >{session.status}</Label>
             </div> : 
             <div className='flex items-center'>
                 <p>{session.status}</p>

@@ -40,6 +40,8 @@ const Graduates = () =>
         }
     }
 
+    console.log(graduates)
+
     if(isLoading)
         return <Loading/>
 

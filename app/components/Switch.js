@@ -10,8 +10,8 @@ const Switch = ({id, status, updateSessionStatus}) =>
     }
 
     return(
-        <div className='w-8 h-4 shadow-md border border-gray-200 rounded-3xl relative cursor-pointer' onClick={()=> {handleClick(); updateSessionStatus(id, status)}}>
-            <div className={`absolute shadow-lg top-0 transition-transform rounded-full w-4 h-4 ${slide === 'Upcoming' ? 'left-0 bg-blue-950' : 'right-0 bg-yellow-400'} `}></div>
+        <div className={`w-10 h-6 shadow-md border rounded-3xl relative cursor-pointer ${slide === 'Upcoming' ? ' bg-gray-200' : 'bg-yellow-400'}`} onClick={()=> {handleClick(); updateSessionStatus(id, status)}}>
+            <div className={`absolute shadow-lg left-0.5 top-0.25 transition-transform bg-white rounded-full w-5 h-5 ${slide === 'Upcoming' ? 'left-0 ' : 'right-0'}`}></div>
         </div>
     )
 }

@@ -168,7 +168,7 @@ const EditMock = () =>
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="bg-white p-6 shadow-lg rounded-xl space-y-4 relative">
+            <div className="bg-neutral-50 p-6 shadow-lg rounded-xl space-y-4 relative">
                 <div className="flex justify-between gap-2">
                   <h1 className="text-base font-semibold">Question {index+1}</h1>
                   {/* <Image className="h-7 w-fit cursor-pointer bg-gray-100 shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete' onClick={deleteQuestion}/> */}

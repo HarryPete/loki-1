@@ -79,7 +79,7 @@ const Users = () =>
                 <p className="text-xs">{users.length}</p>
             </div> */}
             <div className="relative pb-4">
-                <Input className='p-6 px-4 rounded-lg bg-neutral-50' onChange={(e)=> handleChange(e)} placeholder='Enter user'/>
+                <Input className='p-6 px-4 rounded-lg bg-neutral-50' onChange={(e)=> handleChange(e)} placeholder='Search'/>
                 <span className="absolute right-4 top-6 translate-y-[-50%] font-semibold cursor-pointer" onClick={()=> setFilteredUsers(users)}>x</span>
                 <p className="text-muted-foreground md:text-sm text-xs pt-2">{filteredusers.length>0 ? filteredusers.length +' profiles' : 'Profile not found'}</p>
             </div>

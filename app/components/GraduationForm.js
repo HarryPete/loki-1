@@ -101,7 +101,7 @@ const GraduationForm = ({newGrad, setNewGrad, getGrads}) =>
     return (
     <Dialog open={newGrad} onOpenChange={setNewGrad}>
         <DialogTrigger asChild>
-            <Button className='h-10 text-xs md:text-sm'>New Grad Batch</Button>
+            <Button className='h-10 text-xs'>New Grad Batch</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

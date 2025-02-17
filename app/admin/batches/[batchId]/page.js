@@ -370,7 +370,7 @@ const Batch = () =>
                 <div className="space-y-3 w-full md:w-2/3">
                 {batch.sessions.map((session, index) => 
                 (
-                    <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus} setActiveAgenda={setActiveAgenda} activeAgenda={activeAgenda}/>
+                    <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus}/>
                 ))}
                 </div>)}
 

@@ -77,7 +77,9 @@ const Page = () =>
     return(
             
         <div className="space-y-2">
-            <div ref={divRef} className="bg-white p-12 space-y-4 flex flex-col items-center" style={{backgroundColor: 'var(--primary-bg)'}}>
+            
+            <Button onClick={downloadScores}>Download</Button>
+            <div ref={divRef} className="bg-white p-12 space-y-4 flex flex-col items-center" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
             
 
             <div className="w-full grid grid-cols-2 p-4 text-white">
@@ -93,8 +95,8 @@ const Page = () =>
                 
                 
             </div>
-            <Table className='bg-white rounded'>
-                <TableHeader className='rounded'>
+            <Table className='bg-white'>
+                <TableHeader className=''>
                 <TableRow className='text-bas font-bold bg-yellow-400 ' >
                     <TableHead className='text-center p-5 font-semibold' style={{color: 'var(--primary-bg)'}}>Sr. No.</TableHead>
                     <TableHead className='text-center p-5 font-semibold' style={{color: 'var(--primary-bg)'}}>Graduates</TableHead>
@@ -113,7 +115,6 @@ const Page = () =>
                 </TableBody>
             </Table>
             </div>
-            <Button onClick={downloadScores}>Download</Button>
         </div>
     )
 }

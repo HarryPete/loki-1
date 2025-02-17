@@ -49,21 +49,28 @@ const Page = () =>
 
     return(
         <div className="space-y-4">
-            <div className="flex justify-between items-center font-semibold">
-                <h1>Set {mock.title.split('-')[0][0]} - {mock.title.split('-')[1]}</h1>
+            <div className="flex justify-between items-start text-white p-6 rounded-xl" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <div className="space-y-2">
+                    <h1 className="font-semibold">Mock Test Preview</h1>
+                    <p className="text-xs">Set {mock.title.split('-')[0][0]} • {mock.title.split('-')[1]} • {mock.reference.length} Questions</p>
+                </div>
                 <Button className='h-6 text-sm' onClick={()=> router.push(`${pathname}/edit?mockId=${mock._id}`)}>Edit</Button>
             </div>
             <div className="space-y-6">
             {mock.reference.map((data, index)=>
             (
-                <Card key={index} className='p-4 text-sm space-y-2'>
-                    <h1 className="font-semibold leading-relaxed p-2">{index+1 +'. ' +data.question}</h1>
+                <Card key={index} className='p-4 text-sm space-y-2 bg-neutral-50'>
+                    <h1 className="font-semibold leading-relaxed p-2">Question {index+1}</h1>
+                    <h1 className="font-semibold leading-relaxed p-2">{data.question}</h1>
                     <div className="space-y-2">
                         {data.options.map((opt, ind)=>
                         (
-                            <div key={ind} className={`${opt.isCorrect && 'bg-gray-100 rounded'} p-3 flex items-start justify-between gap-4 lg:w-[70%] w-full`}>
-                                <p className={`rounded`}>{ind+1 +'. ' +opt.option}</p>
-                                {opt.isCorrect && <Image className="h-5 w-5" src={correct} alt='correct'/>}
+                            <div key={ind} className={`flex items-center gap-2 px-3`}>
+                                <p className="font-semibold w-4">{ind+1}.</p>
+                                <div className={`mx-3 ${opt.isCorrect && 'bg-neutral-200 rounded mx-0 p-3'} leading-loose w-full py-3 rounded flex items-start justify-between gap-4`}>
+                                    <p>{opt.option}</p>
+                                    {opt.isCorrect && <Image className="h-5 w-5" src={correct} alt='correct'/>}
+                                </div>
                             </div>
                         ))}
                     </div>
