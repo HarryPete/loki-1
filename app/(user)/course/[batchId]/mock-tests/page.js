@@ -89,12 +89,6 @@ const Batch = () =>
 
     const handleMock = async (mock) =>
     {
-        // if(mock.status === 'Locked')
-        //     return toast.error('Access denied')
-
-        // if(mock.id <= enrollment.mocks.length)
-        //     return toast.error(`Set ${index+1} is already assigned`)
-
         try
         {
             setIsLoading(true);

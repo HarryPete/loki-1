@@ -61,11 +61,18 @@ const Page = () =>
             (
                 <Card key={index} className='p-4 text-sm space-y-2 bg-neutral-50'>
                     <h1 className="font-semibold leading-relaxed p-2">Question {index+1}</h1>
-                    <h1 className="font-semibold leading-relaxed p-2">{data.question}</h1>
-                    <div className="space-y-2">
+                    <h1 className="font-semibold leading-relaxed px-2">{data.question}</h1>
+                    {mock.reference[index]?.extendedQuestion?.length>0 && 
+                    <div className="font-semibold leading-loose pt-1">
+                    {mock.reference[index]?.extendedQuestion.map((sentence,index)=>
+                    (
+                        <p className='font-medium px-2' key={index}>{index+1 +'. '  +sentence}</p>
+                    ))}
+                    </div>}
+                    <div className="space-y-2 pt-2">
                         {data.options.map((opt, ind)=>
                         (
-                            <div key={ind} className={`flex items-center gap-2 px-3`}>
+                            <div key={ind} className={`flex items-center gap-1 px-3`}>
                                 <p className="font-semibold w-4">{ind+1}.</p>
                                 <div className={`mx-3 ${opt.isCorrect && 'bg-neutral-200 rounded mx-0 p-3'} leading-loose w-full py-3 rounded flex items-start justify-between gap-4`}>
                                     <p>{opt.option}</p>

@@ -21,6 +21,19 @@ class quizService
         }
     }
 
+    async updateQuiz(quizId, reference)
+    {
+        try
+        {
+            await Quiz.findByIdAndUpdate(quizId, {$set: {reference}});
+            return 
+        }
+        catch(error)
+        {
+            return error
+        }
+    }
+
     async getAllQuizzes()
     {
         try

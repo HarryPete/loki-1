@@ -71,8 +71,8 @@ const MockTestBar = ({mockData}) =>
     <Card className="" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
       <div className="flex flex-col text-white rounded-t-xl" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}} ref={divRef}>
       <CardHeader className="items-center pb-0">
-      <h1 className="font-semibold text-center text-lg">Mock Report</h1>
-      <p className="text-muted">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p>
+      <h1 className="font-semibold text-center text-base">Mock Report</h1>
+      <p className="text-muted text-xs">{mockData.enrollment.batch.title} • Mock set {mockData.quiz.title.split('-')[0][0]}</p>
       </CardHeader>
       <CardContent className="flex gap-2 pb-0 items-center">
         
@@ -95,17 +95,23 @@ const MockTestBar = ({mockData}) =>
               strokeWidth={5}
             >
             <Label
-              content={({ viewBox }) => {
+            content={({ viewBox }) => 
+            {
               return (
-              <text x={viewBox.cx}
+              <text
+              x={viewBox.cx}
               y={viewBox.cy}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-black text-lg font-semibold">
-              {((correct / (total)) * 100).toFixed(1)}%
-            </text>);
-            }}
-              />
+              fontSize="1.125rem" // equivalent to text-lg
+              fontWeight="600" // equivalent to font-semibold
+              fill="white" // Change text color to white
+              >
+              {((correct / total) * 100).toFixed(1)}%
+              </text>
+            );
+          }}/>
+
             </Pie>
           </PieChart>
         </ChartContainer>
@@ -113,7 +119,7 @@ const MockTestBar = ({mockData}) =>
       </CardContent>
       <CardFooter>
       <div className="flex flex-col text-center justify-between gap-2 text-sm w-full">
-          <p><span className="font-semibold">Name</span> {mockData.enrollment.user.name}</p>
+          <p>{mockData.enrollment.user.name}</p>
           <p className="text-gray-400 text-xs">Latest attempt on {FormatDate(mockData.updatedAt)}</p>
      
           <div className="flex text-center justify-around text-xs">

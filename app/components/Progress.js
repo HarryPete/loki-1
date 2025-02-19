@@ -22,8 +22,6 @@ export const sprintProgress = (sessions, mocks) =>
 
 const Progress = ({batchData, getBatch}) =>
 {
-    console.log(batchData)
-
     const updateBatch = async (enrollmentStatus, access, type)=>
     {
         try

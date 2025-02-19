@@ -155,6 +155,13 @@ const MockReport = () =>
                   <Card className="p-6 space-y-4 md:text-sm text-xs bg-neutral-50" key={queIndex}>
                     <h1 className="font-semibold">Question {que+1}</h1>
                     <h1 className="font-semibold">{batch.mocks[index].quiz.reference[que].question}</h1>
+                    {batch.mocks[index]?.quiz?.reference[que]?.extendedQuestion?.length>0 && 
+                      <div className="font-semibold leading-loose pt-1">
+                      {batch.mocks[index]?.quiz?.reference[que]?.extendedQuestion?.map((sentence,index)=>
+                      (
+                        <p className='font-medium' key={index}>{index+1 +'. '  +sentence}</p>
+                      ))}
+                      </div>}
                     <div className="space-y-2">
                     {batch.mocks[index].quiz.reference[que].options.map((data, ind)=>
                     (

@@ -145,8 +145,8 @@ const EditMock = () =>
 
       try
       {
-        const url = '/api/quiz'
-        const response = await axios.post(url, {title: '1M-CAMS', course: '66f376fb1c527d1058d8aecc', reference: mock })
+        const url = `/api/quiz/${mockId}`
+        const response = await axios.put(url, {reference: mock })
         toast.success(response.data.message);
       }
       catch(error)
@@ -281,10 +281,10 @@ const EditMock = () =>
         
         <div className="w-full flex justify-between">
           <div className="space-x-2 h-fit">
-            <Button className='text-xs' type="submit">Update</Button>
+            <Button className='text-xs' type="submit">Update Question</Button>
           </div>
           
-          <Button  className='text-xs' onClick={handleSubmit}>Finish</Button>
+          <Button  className='text-xs' onClick={handleSubmit}>Update Quiz</Button>
         </div>  
         </form>
       </Form>

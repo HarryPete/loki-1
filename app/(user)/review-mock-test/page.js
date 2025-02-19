@@ -191,7 +191,18 @@ const Mock = () =>
             {active.map((que, index)=>
             (
                 <Card className="p-6 space-y-4 bg-neutral-50" key={index}>
-                    <h1 className="font-semibold">{que+1 +'. ' +mock.quiz.reference[que].question}</h1>
+                    <span className="font-semibold">Question {index+1}</span>
+                    <h1 className="font-semibold">{mock.quiz.reference[que].question}</h1>
+                    <div>
+                    <p className="font-semibold leading-relaxed">{active[index].question}</p>
+                    {mock?.quiz?.reference[que]?.extendedQuestion?.length>0 && 
+                        <div className="font-semibold leading-loose pt-1">
+                        {mock?.quiz?.reference[que]?.extendedQuestion?.map((sentence,index)=>
+                        (
+                            <p className='font-medium' key={index}>{index+1 +'. '  +sentence}</p>
+                        ))}
+                        </div>}
+                    </div>
                     <div className="space-y-2">
                     {mock.quiz.reference[que].options.map((data, ind)=>
                     (

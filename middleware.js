@@ -50,8 +50,6 @@ export default async function middleware(req)
     }
 
     return null
-    
-    
 }
 
 export const config = 
