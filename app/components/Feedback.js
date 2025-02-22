@@ -82,6 +82,9 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
         {
             const url = '/api/feedback'
             const response = await axios.post(url, {user: data.user.id, course: selectedCourse, rating: value, comment: feedback }) 
+            setValue(-1);
+            setFeedbcak('');
+            setFeedbackForm(false)
             toast(response.data.message)
         }
         catch(error)

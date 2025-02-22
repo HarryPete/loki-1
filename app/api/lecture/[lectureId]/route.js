@@ -23,6 +23,23 @@ const courseInstance = new courseService();
 //     } 
 // }
 
+export async function PUT(req, {params}) 
+{
+    try
+    {
+        await dbConnect();
+
+        const { lectureId } = await params
+        const { lectureDetails } = await req.json()
+        await lectureInstance.updateLecture(lectureId, lectureDetails);
+        return NextResponse.json({ message: 'Lecture updated'})
+    }
+    catch(error)
+    {
+        return NextResponse.json({error: error.message})
+    }
+} 
+
 export async function GET(req, {params}) 
 {
     try

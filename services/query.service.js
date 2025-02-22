@@ -7,7 +7,7 @@ class queryService
     {
         try
         {
-            const newQuery = await Query.create({name, email, contact});
+            const newQuery = await Query.create({name, email, contact, message});
             await newQuery.save();
             return;
         }

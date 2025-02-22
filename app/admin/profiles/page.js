@@ -46,9 +46,13 @@ const Users = () =>
     {
         try
         {
-            const url = '/api/enrollments';
+            const url = '/api/user';
             const response = await axios.get(url);
-            const users = response.data.map((user, index)=> {return {...user, position: index+1 }})
+            const users = [];
+            response.data.forEach((user, index)=>
+            {
+                users.push({...user, position: index+1})
+            })
             setUsers(users)
             setFilteredUsers(users)
         }
@@ -65,7 +69,7 @@ const Users = () =>
     const handleChange = (e) =>
     {
         let name = e.target.value
-        const filteredNames = users.filter((user)=> user?.user.name.toLowerCase().includes(name.toLowerCase()) || user?.user.email.toLowerCase().includes(name.toLowerCase()));
+        const filteredNames = users.filter((user)=> user.name.includes(name) || user.email.includes(name));
         setFilteredUsers(filteredNames)
     }
 
@@ -91,61 +95,57 @@ const Users = () =>
             {filteredusers?.map((user, index) => 
             (
                 <div key={user._id} className="p-4 flex items-start gap-4 rounded-xl bg-neutral-50 shadow-md relative">
-                    <Image className='h-12 w-12 object-cover object-top rounded-full' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user.user.name} width={100} height={100}/>
+                    <Image className='h-12 w-12 object-cover object-top rounded-full' src={user?.imageURL ? user?.imageURL : defaultDP} alt={user.name} width={100} height={100}/>
                     <div className="text-sm space-y-1 ">
-                        <h1 className="font-semibold">{user.user.name}</h1>
-                        <p className="pb-2">{user.user?.email}</p>
-                        <p className="absolute right-2 bottom-2 text-base font-semibold">{user.position}</p>
+                        <h1 className="font-semibold">{user.name}</h1>
+                        <p className="pb-2">{user?.email}</p>
+                        <p className="absolute right-2 bottom-2 text-lg font-semibold">{user.position}</p>
                         <Button className='h-6 text-xs' onClick={() => handleOpenDialog(user._id)}>Details</Button>
                        
                         <Dialog open={openUserId === user._id} onOpenChange={handleCloseDialog}>
                         <DialogContent className="sm:max-w-[425px] text-sm">
                             <DialogHeader>
-                                <DialogTitle>{user?.user.name}</DialogTitle>
-                                <DialogDescription>{user?.user.role}</DialogDescription>
+                                <DialogTitle>{user.name}</DialogTitle>
+                                <DialogDescription>{user.role}</DialogDescription>
                             </DialogHeader>
                             <div className="space-y-2">
                                 <div className="flex flex-col gap-2 items-center justify-center">
-                                    <Image className='h-20 w-20 object-cover rounded-full object-top' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user.user.name} width={100} height={100}/>
+                                    <Image className='h-28 w-28 object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} alt={user.name} width={100} height={100}/>
                                    
                                 </div>
                                 <h1 className="font-semibold border-b border-gray-300 pb-2">Profile details</h1>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Enrollment ID</span>
-                                        <span>{user?._id}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Email</span>
-                                        <span>{user?.user?.email}</span>
+                                        <span>{user?.email}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Contact</span>
-                                        <span>{user?.user?.contact}</span>
+                                        <span>{user?.contact}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Experience</span>
-                                        <span>{user?.user?.experience}</span>
+                                        <span>{user?.experience}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Domain</span>
-                                        <span>{user?.user?.domain}</span>
+                                        <span>{user?.domain}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Country</span>
-                                        <span>{user?.user?.country}</span>
+                                        <span>{user?.country}</span>
                                     </div>
                                 </div>
-                                <h1 className="font-semibold border-b border-gray-300 pb-2">Mocks</h1>
+                                <h1 className="font-semibold border-b border-gray-300 pb-2">Enrollments</h1>
                                 <div className="space-y-1">
-                                    {user.mocks?.map((mock)=>
+                                    {user?.enrollments?.map((enrollment)=>
                                     (
-                                        <div key={mock}>
-                                            <h1>{mock}</h1>
+                                        <div key={enrollment._id}>
+                                            <h1>{enrollment?.batch?.title}</h1>
                                         </div>
                                     ))}
                                 </div>
-                                <p className="pt-4 text-gray-400">{user?.user.role +' since ' +FormatDate(user?.user.createdAt)}</p>
+                                <p className="pt-4 text-gray-400">{user.role +' since ' +FormatDate(user.createdAt)}</p>
                             </div>
                         </DialogContent>
                         </Dialog>    

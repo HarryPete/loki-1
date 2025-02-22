@@ -121,14 +121,17 @@ const MockReport = () =>
               <div className="space-y-3 max-h-[80vh] overflow-y-scroll pr-4">
               {batch.mocks[index].results.map((result, resultId)=>
               (
-                <Card className={`${viewResult === resultId ? 'bg-yellow-400' : 'bg-neutral-50 hover:bg-neutral-200'}  flex justify-between items-center md:text-sm text-xs p-6 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
-                  <div className="flex items-center gap-1">
-                    <Image className="h-5 w-5 rounded-full object-cover object-top" width={100} height={100} src={result.enrollment.user?.imageURL ? result.enrollment.user?.imageURL : defaultDP} alt={result.enrollment.user.name}/>
-                    <p>{result.enrollment.user.name}</p>
+                <Card className={`${viewResult === resultId ? 'bg-yellow-400' : 'bg-neutral-50 hover:bg-neutral-200'} md:text-sm text-xs p-6 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-1">
+                      <Image className="h-5 w-5 rounded-full object-cover object-top" width={100} height={100} src={result.enrollment.user?.imageURL ? result.enrollment.user?.imageURL : defaultDP} alt={result.enrollment.user.name}/>
+                      <p>{result.enrollment.user.name}</p>
+                    </div>
+                    <div className="space-x-2">
+                      <span className="text-muted-foreground">{FormatDate(result.updatedAt)}</span>
+                    </div>
                   </div>
-                  <div className="space-x-2">
-                    <span className="text-muted-foreground">{FormatDate(result.updatedAt)}</span>
-                  </div>
+                  <p className="mt-2 text-xs text-muted-foreground">{result._id}</p>
                 </Card>
               ))}
               </div>

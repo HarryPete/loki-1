@@ -9,8 +9,8 @@ export async function POST(req)
     {
         await dbConnect();
 
-        const { name, email, contact } = await req.json()
-        await queryInstance.createQuery(name, email, contact)
+        const { name, email, contact, message } = await req.json()
+        await queryInstance.createQuery(name, email, contact, message)
         return NextResponse.json({message: 'Response recorded'});
     }
     catch(error)

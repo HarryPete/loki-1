@@ -60,6 +60,7 @@ const RequestForm = () =>
             setIsLoading(true)
             const url = '/api/query'
             const response = await axios.post(url, data);
+            form.reset({name: "", email: "", contact: "", message: ""})
             toast(response.data.message);
         }   
         catch(error)
@@ -126,7 +127,7 @@ const RequestForm = () =>
 
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="message"
                     render={({ field }) => (
                     <FormItem>
                         <FormLabel>Message</FormLabel>

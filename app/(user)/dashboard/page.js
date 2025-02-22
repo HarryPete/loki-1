@@ -67,7 +67,7 @@ const Dashboard = () =>
         
     return(
         <div className="space-y-4">
-            <h2 className="text-lg font-bold ">{getGreeting() +', ' +userData.name}!</h2>
+            <h2 className="text-lg font-bold ">{getGreeting() +', ' +userData?.name}!</h2>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
                 {userData?.enrollments?.map((enrollment)=>
                 (

@@ -16,6 +16,11 @@ const querySchema = new Schema({
         type: String,
         required: true
     },
+    message:
+    {
+        type: String,
+        required: true
+    },
     status:
     {
         type: String,

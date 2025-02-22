@@ -11,11 +11,42 @@ import Image from 'next/image';
 import Rating from '@/app/components/Rating';
 import defaultDP from '../../../../assets/defaultDP.png'
 import CourseDetail from '@/app/components/CourseDetail';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { FormatDate } from '@/utility/FormatDate';
 import { Textarea } from '@/components/ui/textarea';
 import deleteIcon from '../../../../assets/delete.png'
+import SessionCard from '@/app/components/SessionCard';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { motion } from "framer-motion";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    FormMessageeFormMessage} from "@/components/ui/form"
+    import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip" 
+import material from '@/assets/material.png'
+import LectureCard from '@/app/components/LectureCard';
+
+
+const formSchema = z.object({
+    recording: z.string().min(7, {
+      message: "Invalid title",
+    })
+  })
 
 const Course = () =>
 {
@@ -25,14 +56,40 @@ const Course = () =>
     const courseId = pathname.split('/')[3];
     const [ selectedFeedback, setSelectedFeedback] = useState(null);
     const [ userFeedback, setUserFeedback ] = useState('');
+    const [activeTab, setActiveTab] = useState("sessions");
+    
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: 
+        {
+            recording: ""
+        },
+    })
 
-    // const form = useForm({
-    //     resolver: zodResolver(formSchema),
-    //     defaultValues: 
-    //     {
-    //         comment: userFeedback
-    //     },
-    // })
+    const tabs = 
+    [
+        { id: "sessions", label: "Sessions", count: course?.lectures?.length },
+        { id: "feedbacks", label: "Feedbacks", count: course?.feedbacks?.length} 
+    ];
+
+async function onSubmit(data) 
+{
+    try
+    {
+        setIsLoading(true)
+        const url = '/api/course'
+        const response = await axios.post(url, data);
+        toast(response.data.message);
+    }   
+    catch(error)
+    {
+        console.log(error)
+    }
+    finally
+    {
+        setIsLoading(false)
+    }
+}
 
     useEffect(()=>
     {
@@ -43,7 +100,6 @@ const Course = () =>
     {
         try
         {
-            setIsLoading(true)
             const url = `/api/course/${courseId}`
             const response = await axios.get(url);
             setCourse(response.data);
@@ -74,6 +130,8 @@ const Course = () =>
         }
     }
 
+    console.log(course)
+
     const handleDelete = async (id) =>
     {
         try
@@ -94,47 +152,54 @@ const Course = () =>
 
     return(
         <div className='space-y-4 md:text-sm text-xs leading-relaxed'>
-            <CourseDetail level='admin' course={course}/>
-            <h1 className='text-lg font-semibold pt-4'>Course feedbacks</h1>
-{/*             
-            <Carousel>
-                <CarouselContent>
-                    {course.feedbacks.map((feed) => (
-                    <CarouselItem key={feed._id} className='lg:basis-1/2'>
-                        <Card className='p-4 space-y-4 aspect-square'>
-                            <Image className="h-12 w-12 object-cover" src={feed.user?.imageeURL ? feed.user?.imageeURL  : defaultDP } alt='user' width={100} height={100}/>
-                            <div className="space-y-2">
-                                <p className="font-lg font-semibold">{feed.user.name}</p>
-                                <p>{feed.comment}</p>
-                                <Rating value={feed.rating}/>
-                            </div>
-                        </Card>
-                    </CarouselItem>
+
+            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <Image className='object-cover rounded-xl h-48 w-fit' src={course.imageURL} alt={course.title} height={100} width={100}/>
+                <div className='md:text-xl md:bottom-12 text-lg absolute bottom-4 px-8 w-full text-center space-y-2 mb-2 z-50'>
+                    <p className='font-semibold'>{course.title}</p>
+                </div>
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+            {tabs.map((tab) => 
+            (
+                <div key={tab.id} className="flex gap-2 relative">
+                    <button className={`w-full flex flex-col justify-between items-center p-4 space-y-2 relative pl-6 rounded-lg transition-all duration-300 ${activeTab === tab.id ? "bg-yellow-400" : "bg-neutral-100 hover:bg-gray-200"}`} onClick={() => setActiveTab(tab.id)}>
+                        <p className="font-semibold md:text-base text-sm">{tab.label}</p>
+                        <p className="">{tab.count}</p>
+                    </button>
+                </div>))
+            }
+            </div>
+
+            {activeTab === 'sessions' && 
+            <div className="w-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+                {course.lectures.map((lecture, index) => 
+                (
+                    <LectureCard lecture={lecture} index={index} key={lecture._id} course={course}/>
                 ))}
-                </CarouselContent>
-                <CarouselPrevious/>
-                <CarouselNext />
-            </Carousel>
-             */}
+            </div>}
+
+            {activeTab === 'feedbacks' &&
             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4">
             {course.feedbacks.map((feed)=>
             (
-                <Card key={feed._id} className='p-4 space-y-4 relative'>
-                    <Image className="h-12 w-12 object-cover rounded-full object-top" src={feed.user?.imageURL ? feed.user?.imageURL  : defaultDP } alt='user' width={100} height={100}/>
-                    <div className="space-y-2">
-                        <p className='leading-relaxed'>{feed.comment}</p>
-                        <p className="font-lg font-semibold">{feed.user.name}</p>
-                        <Rating value={feed.rating}/>
+                <Card key={feed._id} className='p-5 bg-neutral-50 flex justify-between items-center relative'>
+                    <div className='flex items-center gap-2'>
+                        <Image className="h-8 w-8 object-cover rounded-full object-top" src={feed.user?.imageURL ? feed.user?.imageURL  : defaultDP } alt='user' width={100} height={100}/>
+                        <p className="">{feed.user.name}</p>
+                    </div>
+                    <div className="">
                         <Dialog open={selectedFeedback === feed._id} onOpenChange={()=> setSelectedFeedback(null)}>
                             
-                            <div className='absolute top-2 right-2 flex items-center gap-3' >
+                            <div className='flex items-center gap-3' >
                                 <Button className='h-6' 
                                 onClick={()=> 
                                 {
                                     setUserFeedback(feed.comment)
                                     setSelectedFeedback(feed._id)
                                 }}>Edit</Button>
-                                <Image className="h-5 w-fit cursor-pointer" onClick={()=> handleUpdate(feed._id, "delete")} src={deleteIcon} alt='delete'/> 
+                                
                             </div>
 
                             <DialogContent className="sm:max-w-[425px]">
@@ -149,13 +214,16 @@ const Course = () =>
                                 <Rating value={feed.rating}/>
                                 </div>
                                 <Textarea className='p-2 min-h-36' value={userFeedback} onChange={(e)=> setUserFeedback(e.target.value)}/>
-                                <Button onClick={()=> handleUpdate(feed._id, "edit")}>Update</Button>
+                                <div className='grid grid-cols-2 gap-2'>
+                                    <Button onClick={()=> handleUpdate(feed._id, "edit")}>Update</Button>
+                                    <Button variant="outline" onClick={()=> handleUpdate(feed._id, "delete")}>Delete</Button>
+                                </div>
                             </DialogContent>
                         </Dialog>
                     </div>
                 </Card> 
             ))}
-            </div>
+            </div>}
         </div>
     )
 }

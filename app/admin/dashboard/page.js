@@ -11,16 +11,22 @@ import {
   Briefcase,
   ClipboardList,
   FileText,
+  Group,
+  ScreenShare,
+  FileQuestion,
 } from "lucide-react";
 
 const routes = [
-  { id: 1, title: "Batches", route: "/admin/batches", icon: Users },
+  { id: 1, title: "Batches", route: "/admin/batches", icon: Group },
   { id: 2, title: "Courses", route: "/admin/courses", icon: BookOpen },
-  { id: 3, title: "Enrollments", route: "/admin/enrollments", icon: ClipboardList },
-  { id: 4, title: "Forum", route: "/forum", icon: MessageSquare },
-  { id: 5, title: "Graduates", route: "/admin/graduates", icon: GraduationCap },
-  { id: 6, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase },
-  { id: 7, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText },
+  { id: 3, title: "Display", route: "/admin/display", icon: ScreenShare },
+  { id: 4, title: "Enrollments", route: "/admin/enrollments", icon: ClipboardList },
+  { id: 5, title: "Forum", route: "/forum", icon: MessageSquare },
+  { id: 6, title: "Graduates", route: "/admin/graduates", icon: GraduationCap },
+  { id: 7, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase },
+  { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText },
+  { id: 9, title: "Profiles", route: "/admin/profiles", icon: Users },
+  // { id: 10, title: "Queries", route: "/admin/queries", icon: FileQuestion },
 ];
 
 const Dashboard = () => {
@@ -37,7 +43,7 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="p-6 bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl text-center transition-all duration-300 hover:bg-white/20 flex flex-col items-center gap-3">
+              <Card className="p-6 bg-neutral-50 backdrop-blur-lg shadow-lg rounded-2xl text-center transition-all duration-300 hover:bg-yellow-400 flex flex-col items-center gap-3">
                 <Icon className="h-6 w-6 text-black/80" />
                 <span className="md:text-sm text-xs">{data.title}</span>
               </Card>

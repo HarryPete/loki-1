@@ -27,7 +27,7 @@ const CourseCard = ({ level, course }) => {
         <Card  style={{
             backgroundImage:
               "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)",
-          }} className='space-y-4 p-6 bg-white shadow-xl rounded-xl text-xs md:text-sm transition duration-300'>
+          }} className='space-y-4 p-4 bg-white shadow-xl rounded-xl text-xs md:text-sm transition duration-300'>
           <div className='relative w-full flex items-center justify-center rounded-lg overflow-hidden'>
             <Image
               src={course.imageURL}
@@ -38,7 +38,7 @@ const CourseCard = ({ level, course }) => {
             />
         </div>
 
-        <h3 className='font-semibold text-white text-center'>{course.title}</h3>
+        <h3 className='font-semibold md:text-base text-sm text-white text-center'>{course.title}</h3>
           
         </Card>
       </motion.div>

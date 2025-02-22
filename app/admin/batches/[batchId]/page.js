@@ -372,7 +372,7 @@ const Batch = () =>
                 (
                     <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus}/>
                 ))}
-                </div>)}
+            </div>)}
 
             {activeTab === "enrollments" && (
                 <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3'>

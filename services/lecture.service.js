@@ -16,6 +16,19 @@ class lectureService
         }
     }
 
+    async updateLecture(lectureId, lectureDetails)
+    {
+        try
+        {
+            await Lecture.findByIdAndUpdate(lectureId, {$set: lectureDetails })
+            return
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async getLecture(lectureId)
     {
         try
