@@ -90,11 +90,6 @@ const Mock = () =>
         {
             const url = `/api/assessment/${mockId}`
             const response = await axios.get(url);
-            if(!response.data.batch.access)
-            {
-                router.push('/dashboard')
-                toast.error('Access Denied')
-            }
             setActive(response.data.quiz.reference)
             setMock(response.data);
             if(mockAnswers.length === response.data.quiz.reference.length)
@@ -125,9 +120,8 @@ const Mock = () =>
     }, [status]);
 
     if(status === 'loading' || isLoading)
-    return(
-        <Loading/>   
-    )
+        return <Loading/>   
+    
 
     return(
         <div className="space-y-2">

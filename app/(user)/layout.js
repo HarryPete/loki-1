@@ -35,8 +35,8 @@ export default function Layout({ children })
             const url = `/api/user/${data.user.id}`
             const response = await axios.get(url);
             setUserData(response.data)
-            const chatId = response.data.chat[0]?._id ? response.data.chat[0]?._id : null
-            setChatId(chatId);
+            // const chatId = response.data.chat[0]?._id ? response.data.chat[0]?._id : null
+            // setChatId(chatId);
         }
         catch(error)
         {
