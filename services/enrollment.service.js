@@ -118,7 +118,7 @@ class enrollmentService
     {
         try
         {
-            return await Batch.findByIdAndDelete(enrollmentId);
+            return await Enrollment.findByIdAndDelete(enrollmentId);
         }
         catch(error)
         {

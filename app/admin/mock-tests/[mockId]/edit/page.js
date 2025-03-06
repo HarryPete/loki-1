@@ -160,14 +160,13 @@ const EditMock = () =>
       name: "options",
     });
 
-    console.log(mock)
-
     if(isLoading)
         return <Loading/>
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <Button className='text-xs' onClick={()=> {form.reset(); dispatch(addNewQuestion()); setIndex(mock.length)}}>Add question</Button>
             <div className="bg-neutral-50 p-6 shadow-lg rounded-xl space-y-4 relative">
                 <div className="flex justify-between gap-2">
                   <h1 className="text-base font-semibold">Question {index+1}</h1>
@@ -267,10 +266,10 @@ const EditMock = () =>
                      }}
                   />
                    
-                  <Image className={`${index+1 !== mockEdit.length ? 'bg-yellow-400 cursor-pointer' : 'bg-gray-200' } absolute right-[-5%] top-[50%]  rounded-full p-2 h-8 w-fit`} src={next} alt='previous' 
+                  <Image className={`${index+1 !== mock.length ? 'bg-yellow-400 cursor-pointer' : 'bg-gray-200' } absolute right-[-5%] top-[50%]  rounded-full p-2 h-8 w-fit`} src={next} alt='previous' 
                     onClick={()=> 
                     {
-                      if(index+1 === mockEdit.length)
+                      if(index+1 === mock.length)
                         return
                       setIndex((prev)=> prev+1)
                     }}

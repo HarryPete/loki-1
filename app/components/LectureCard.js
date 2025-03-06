@@ -137,7 +137,7 @@ const LectureCard = ({lecture, index, course}) =>
                 />
 
                 {recording.length > 2 ?
-                 <iframe className='lg:w-[100%] lg:h-[20vh] h-[100%] w-[100%] rounded shadow-lg' width="560" height="100" src={recording} title={title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> 
+                 <iframe className='w-[100%] h-[20vh] rounded shadow-lg' width="560" height="100" src={recording} title={title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> 
                 : <p className='text-center py-2 text-muted-foreground text-sm'>Recording unavailable</p>}
 
 

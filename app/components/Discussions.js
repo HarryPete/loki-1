@@ -64,8 +64,8 @@ const Discussions = ({discussions, getDiscussions}) =>
         <div className='grid grid-cols-1 gap-4 lg:text-sm text-xs'>
             {discussions.map((discussion, index) =>
             (
-                <Card className='space-y-4 p-4' key={discussion._id}>
-                    {index === 0 && <span className='bg-yellow-400 p-1 text-xs rounded'>Recent</span>}
+                <Card className='space-y-4 p-6 bg-neutral-50' key={discussion._id}>
+                    {index === 0 && <span className='bg-yellow-400 p-1 px-2 text-xs rounded-2xl'>Recent</span>}
                     <Discussion discussion={discussion} handleDelete={handleDelete}/>
                     {user && 
                     <div className='flex gap-2'>
@@ -73,7 +73,7 @@ const Discussions = ({discussions, getDiscussions}) =>
                         <Button className='lg:text-sm text-xs' onClick={()=> handleComment(discussion._id)}>Send</Button>
                     </div>}
                     { discussion.comments.length > 0 ?
-                    <div className='flex items-center gap-2 bg-gray-100 w-fit p-2 cursor-pointer rounded-2xl' onClick={()=> setViewComment((prev) => prev  === discussion._id ? null : discussion._id)}>
+                    <div className='flex items-center gap-2 bg-neutral-100 w-fit p-2 cursor-pointer rounded-2xl' onClick={()=> setViewComment((prev) => prev  === discussion._id ? null : discussion._id)}>
                         <p>{discussion.comments?.length > 1 ? 'View responses' : 'View response'}</p>
                        <Image className='h-4 w-fit' src={viewComment === discussion._id ? upArrow : downArrow} alt='comments'/> 
                     </div>:(user && <p className='text-muted-foreground'>Be the first one to respond</p> )}

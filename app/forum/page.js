@@ -74,8 +74,12 @@ const Forum = () =>
         <div>
         <Header/>
         <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4 pt-24'>
+            <div className='p-6 space-y-2 rounded-xl text-white' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <h1 className='text-base font-semibold'>Welcome to Fints AML Forum!</h1>
+                <p className='text-xs text-muted pb-2'>Join the FinTS Forum to discuss financial crime trends, share insights, and connect with industry experts. Stay informed, collaborate, and enhance your knowledge in financial crime prevention!</p>
+                {user && <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>}
+            </div>
             
-            {user && <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>}
                    
             {discussions ? 
             <div className='space-y-4 '>                 

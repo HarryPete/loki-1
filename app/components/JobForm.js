@@ -119,8 +119,10 @@ const JobForm = () =>
 
     return(
             <Form {...form} >
-                <h1 className="font-semibold">Post a job</h1>
-                <p className='text-gray-400 mt-2 md:text-sm text-xs'>Quickly post job openings and connect with top talent. Simplify your hiring process with our easy-to-use platform – start building your dream team today!</p>
+                <div className='p-4 rounded-xl text-white' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                  <h1 className="font-semibold">Post a job</h1>
+                  <p className='text-gray-400 mt-2 md:text-sm text-xs'>Quickly post job openings and connect with top talent. Simplify your hiring process with our easy-to-use platform – start building your dream team today!</p>
+                </div>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 text-xs grid lg:grid-cols-2 grid-cols-1 gap-4 items-start">
                 <FormField
                     control={form.control}
@@ -393,10 +395,10 @@ const JobForm = () =>
                 />
 
                 {isLoading ? 
-                <Button className='h-10 w-full lg:col-span-2 col-span-1' type="submit">
+                <Button className='h-10 w-fit lg:col-span-2 col-span-1' type="submit">
                   <Loader2 className='animate-spin'/>
                 </Button> : 
-                <Button className='h-10 w-full lg:col-span-2 col-span-1' type="submit">Post</Button>}
+                <Button className='h-10 w-fit lg:col-span-2 col-span-1' type="submit">Post</Button>}
                 </form>
             </Form>
         

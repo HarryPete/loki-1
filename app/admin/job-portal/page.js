@@ -66,7 +66,7 @@ const Page = () =>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
             {jobs.map((job)=>
             (
-                <Card key={job._id} className='p-6 md:text-sm text-xs space-y-1'>
+                <Card key={job._id} className='p-6 md:text-sm text-xs space-y-1 bg-neutral-50'>
                     <div className="font-semibold flex items-center justify-between">
                         <span>{job.title}</span>
                         <span className="text-muted-foreground">{job.company}</span>

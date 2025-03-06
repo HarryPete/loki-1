@@ -48,7 +48,7 @@ const Comment = ({comment, getDiscussions, user}) =>
             />
 
             {(comment.replies?.length > 0 ? 
-            <div className='ml-12 flex items-center gap-2 bg-gray-100 rounded-full w-fit px-2 p-1 cursor-pointer '
+            <div className='ml-12 flex items-center gap-2 bg-neutral-100 rounded-full w-fit px-2 p-1 cursor-pointer '
                 onClick={()=>
                 { 
                     setViewReply((prev)=> prev === comment._id ? null : comment._id); 

@@ -19,13 +19,18 @@ import { toast } from "sonner";
 import Image from "next/image";
 import UserHistory from "@/app/components/UserHistory";
 import { Input } from "@/components/ui/input";
+import ProfileForm from "@/app/components/ProfileForm";
+import EnrollmentForm from "@/app/components/EnrollmentForm";
 
 const Users = () =>
 {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ users, setUsers ] = useState(null);   
+    const [ newUser, setNewUser ] = useState(false);   
     const [ openUserId, setOpenUserId ] = useState(null);
     const [ filteredusers, setFilteredUsers ] = useState(null);
+    const [ batches, setBatches ] = useState(null);
+    const [ newEnrollment, setNewEnrollment ] = useState(false)
 
     const handleOpenDialog = (userId) => 
     {
@@ -39,10 +44,25 @@ const Users = () =>
 
     useEffect(()=>
     {
-        getEnrollments();
+        getProfiles();
+        getBatches();
     },[])
 
-    const getEnrollments = async ()=>
+    const getBatches = async () =>
+    {
+        try
+        {
+            const url = `/api/batch`
+            const response = await axios.get(url);
+            setBatches(response.data)
+        }
+        catch(error)
+        {
+            toast.error(error.message);     
+        } 
+    }
+
+    const getProfiles = async ()=>
     {
         try
         {
@@ -73,8 +93,6 @@ const Users = () =>
         setFilteredUsers(filteredNames)
     }
 
-    console.log(users)
-
     if(isLoading)
         return <Loading/>
 
@@ -85,9 +103,12 @@ const Users = () =>
                 <h1 className="font-semibold">Fintsters</h1>
                 <p className="text-xs">{users.length}</p>
             </div> */}
+
+            <ProfileForm newUser={newUser} setNewUser={setNewUser}/>
+
             <div className="relative pb-4">
                 <Input className='p-6 px-4 rounded-lg bg-neutral-50' onChange={(e)=> handleChange(e)} placeholder='Search'/>
-                <span className="absolute right-4 top-6 translate-y-[-50%] font-semibold cursor-pointer" onClick={()=> setFilteredUsers(users)}>x</span>
+                <span className="absolute right-4 top-6 translate-y-[-50%] font-semibold cursor-pointer" onClick={()=> {setFilteredUsers(users); set}}>x</span>
                 <p className="text-muted-foreground md:text-sm text-xs pt-2">{filteredusers.length>0 ? filteredusers.length +' profiles' : 'Profile not found'}</p>
             </div>
             
@@ -145,7 +166,9 @@ const Users = () =>
                                         </div>
                                     ))}
                                 </div>
-                                <p className="pt-4 text-gray-400">{user.role +' since ' +FormatDate(user.createdAt)}</p>
+
+                                <EnrollmentForm newEnrollment={newEnrollment} setNewEnrollment={setNewEnrollment} batches={batches} user={user} getProfiles={getProfiles}/>
+                                <p className="pt-2 text-gray-400">{user.role +' since ' +FormatDate(user.createdAt)}</p>
                             </div>
                         </DialogContent>
                         </Dialog>    

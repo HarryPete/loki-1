@@ -224,7 +224,7 @@ const Batch = () =>
         try
         {
             const url = `/api/enrollment/${enrollment.user._id}`
-            const response = await axios.put(url, {batchId: batch._id, enrollmentId:enrollment._id});
+            const response = await axios.put(url, {batchId: batch._id, enrollmentId:enrollment._id, type: "duplicates"});
             toast.success(response.data.message)
             getBatch();
             setRemoveDuplicates(false)

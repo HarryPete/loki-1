@@ -65,7 +65,7 @@ class userService
         }
     }
 
-    async updatEnrollment(userId, enrollmentId)
+    async updateEnrollment(userId, enrollmentId)
     {
         try
         {

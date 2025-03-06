@@ -81,43 +81,7 @@ const SessionCard = ({session, index, updateSessionStatus, level}) =>
                     </TooltipContent>
                 </Tooltip>
                 </TooltipProvider>
-                <Dialog>
-                                <DialogTrigger asChild>
-                                    <p className='cursor-pointer'>Session {index+1}</p>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Session {index+1}</DialogTitle>
-                                    <DialogDescription>
-                                        {session.lecture.title} 
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Recording Link</FormLabel>
-                        <FormControl>
-                        <Input className='md:h-12 h-10 text-sm' {...field} />
-                        </FormControl>
-                        <FormDescription>
-                        </FormDescription>
-                        <FormMessage/>
-                    </FormItem>)}
-                /></form></Form>
-                                <DialogFooter>
-                                    {isLoading ? 
-                                    <Button>
-                                        <Loader2 className='animate-spin'/>
-                                    </Button>
-                                    : <Button>Update</Button>}
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>   
+                <p>Session {index+1}</p>   
             </div>
             
             {level === "admin" ? 

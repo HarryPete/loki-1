@@ -90,11 +90,11 @@ const Mock = () =>
         {
             const url = `/api/assessment/${mockId}`
             const response = await axios.get(url);
-            // if(!response.data.batch.access)
-            // {
-            //     router.push('/dashboard')
-            //     toast('Access Denied')
-            // }
+            if(!response.data.batch.access)
+            {
+                router.push('/dashboard')
+                toast.error('Access Denied')
+            }
             setActive(response.data.quiz.reference)
             setMock(response.data);
             if(mockAnswers.length === response.data.quiz.reference.length)
@@ -110,9 +110,6 @@ const Mock = () =>
             setIsLoading(false)
         }
     }
-
-    console.log(mockAnswers)
-
 
     useEffect(() => 
     {

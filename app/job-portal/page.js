@@ -14,8 +14,8 @@ const Page = () =>
         <div className="">
             <Header/>
             <div className="lg:px-[10vw] px-[5vw] py-12 pt-24">
-            <JobForm showJobForm={showJobForm} setShowJobForm={setShowJobForm}/>
-        </div>
+                <JobForm showJobForm={showJobForm} setShowJobForm={setShowJobForm}/>
+            </div>
         </div>
     )
 }

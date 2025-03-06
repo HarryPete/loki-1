@@ -17,7 +17,7 @@ export async function POST(req, {params})
         const { userId } = await params;
         const { batchId } = await req.json();
         const enrollment = await enrollmentInstance.enroll(userId, batchId)
-        await userInstance.updatEnrollment(userId, enrollment._id);
+        await userInstance.updateEnrollment(userId, enrollment._id);
         await batchInstance.enrollUser(batchId, enrollment._id)
         return NextResponse.json({message : 'Enrolled successfully'});
     }    
@@ -52,11 +52,25 @@ export async function PUT(req, {params})
         await dbConnect();
          
         const { userId } = await params;
-        const { batchId, enrollmentId } = await req.json(); 
-        await userInstance.removeEnrollment(userId, enrollmentId);
-        await batchInstance.removeEnrollment(batchId, enrollmentId);
-        await enrollmentInstance.removeEnrollment(enrollmentId)
-        return NextResponse.json({message: 'Duplicate removed'})
+        const { batchId, enrollmentId, updatedBatchId, type } = await req.json(); 
+
+        if(type === 'duplicates')
+        {
+            await userInstance.removeEnrollment(userId, enrollmentId);
+            await batchInstance.removeEnrollment(batchId, enrollmentId);
+            await enrollmentInstance.removeEnrollment(enrollmentId)
+            return NextResponse.json({message: 'Duplicate removed'})
+        }
+        else
+        {
+            console.log(batchId, enrollmentId, updatedBatchId, type)
+            const updates = { batch: updatedBatchId }
+            await batchInstance.removeEnrollment(batchId, enrollmentId);
+            await batchInstance.enrollUser(updatedBatchId, enrollmentId);
+            await enrollmentInstance.updateEnrollment(enrollmentId, updates);
+            return NextResponse.json({message: 'Enrollment updated'})
+        }
+        
     }  
     catch(error)
     { 

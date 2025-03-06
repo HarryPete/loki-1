@@ -13,7 +13,7 @@ import Link from 'next/link';
 import Loading from '@/app/components/Loading';
 import mockIcon from '../../../../assets/mock.png'
 import { Card } from '@/components/ui/card';
-import { Book, Calendar, GroupIcon, Loader2, User, Video } from "lucide-react";
+import { Book, Calendar, GroupIcon, Loader, Loader2, User, Video } from "lucide-react";
 import { Progress } from "@radix-ui/react-progress";
 import { FormatDate } from "@/utility/FormatDate";
 import { Button } from "@/components/ui/button";
@@ -67,8 +67,8 @@ const Batch = () =>
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("sessions");
     const [ pendingTests, setPendingTests ] = useState(null);
-    
-    const [ cardLoading, setCardloading ] = useState(false);
+    const [ assignLoading, setAssignLoading ] = useState(false);
+    const [ retakeLoading, setRetakeLoading ] = useState(false);
     const pathname = usePathname();
 
     const tabs = 
@@ -128,7 +128,7 @@ const Batch = () =>
     {
         try
         {
-            setIsLoading(true);
+            setAssignLoading(true);
             const url = `/api/assessment`;
             const response = await axios.post(url, {quizId: mock.quiz, enrollmentId: enrollment._id, batchId: enrollment.batch._id, id:mock.id})
             toast.success(response.data.message);
@@ -140,7 +140,7 @@ const Batch = () =>
         }
         finally
         {
-            setIsLoading(false);
+            setAssignLoading(false);
         }
     }
 
@@ -150,7 +150,7 @@ const Batch = () =>
 
         try
         {
-            setCardloading(true)
+            setRetakeLoading(true)
             const mockDetails = { answers: [], status: 'Pending' }
             const url = `/api/assessment/${id}`
             const response = await axios.put(url, mockDetails)
@@ -163,11 +163,9 @@ const Batch = () =>
         }
         finally
         {
-            setCardloading(false)
+            setRetakeLoading(false)
         }
     }
-
-    console.log(enrollment)
 
     if(status === 'loading' || isLoading)
     return(
@@ -303,8 +301,11 @@ const Batch = () =>
                 {enrollment.mocks.map((mock, index)=>
                 (
                     <Card className={`${mock.status === 'Completed' ? 'bg-green-50' : 'bg-red-50'} space-y-2 p-5`} key={mock._id}>
-                        {cardLoading ?
-                        <Loader2/> :
+                        {retakeLoading ?
+                        <div>
+                            <Loader2 className="animate-spin"/>
+                            Resetting...
+                        </div> :
                         <div>
                             <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -332,7 +333,15 @@ const Batch = () =>
                             <Image className='h-6 w-fit' src={mockIcon} alt='test'/>
                             <h1>Mock {index+1}</h1>
                         </div>
-                       {index+1 > enrollment.mocks.length  && <Button className='text-xs' onClick={()=> handleMock(mock)}>Start</Button>}
+                       {index+1 > enrollment.mocks.length  && 
+                       <div>
+                            { assignLoading ?
+                            <Button className='text-xs'>
+                                <Loader2 className="animate-spin"/>
+                                Assigning...
+                            </Button>
+                            : <Button className='text-xs' disabled={assignLoading} onClick={()=> handleMock(mock)}>Start</Button>}
+                        </div>}
                     </Card>
                 ))}
             </div>)}

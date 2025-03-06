@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import UserHistory from "@/app/components/UserHistory";
 import { Input } from "@/components/ui/input";
+import MoveEnrollmentForm from "@/app/components/MoveEnrollmentForm";
 
 const Users = () =>
 {
@@ -26,6 +27,8 @@ const Users = () =>
     const [ users, setUsers ] = useState(null);   
     const [ openUserId, setOpenUserId ] = useState(null);
     const [ filteredusers, setFilteredUsers ] = useState(null);
+    const [ moveEnrollment, setMoveEnrollment ] = useState(false);
+    const [ batches, setBatches ] = useState(null);
 
     const handleOpenDialog = (userId) => 
     {
@@ -40,7 +43,22 @@ const Users = () =>
     useEffect(()=>
     {
         getEnrollments();
+        getBatches();
     },[])
+
+    const getBatches = async () =>
+    {
+        try
+        {
+            const url = `/api/batch`
+            const response = await axios.get(url);
+            setBatches(response.data)
+        }
+        catch(error)
+        {
+            toast.error(error.message);     
+        } 
+    }
 
     const getEnrollments = async ()=>
     {
@@ -102,13 +120,14 @@ const Users = () =>
                         <DialogContent className="sm:max-w-[425px] text-sm">
                             <DialogHeader>
                                 <DialogTitle>{user?.user.name}</DialogTitle>
-                                <DialogDescription>{user?.user.role}</DialogDescription>
+                                <DialogDescription>{user?.batch.title}</DialogDescription>
                             </DialogHeader>
                             <div className="space-y-2">
                                 <div className="flex flex-col gap-2 items-center justify-center">
                                     <Image className='h-20 w-20 object-cover rounded-full object-top' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user.user.name} width={100} height={100}/>
                                    
                                 </div>
+                               
                                 <h1 className="font-semibold border-b border-gray-300 pb-2">Profile details</h1>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
@@ -136,16 +155,19 @@ const Users = () =>
                                         <span>{user?.user?.country}</span>
                                     </div>
                                 </div>
-                                <h1 className="font-semibold border-b border-gray-300 pb-2">Mocks</h1>
-                                <div className="space-y-1">
-                                    {user.mocks?.map((mock)=>
+                                <h1 className="font-semibold pt-4">Mocks</h1>
+                                {user.mocks.length > 0 ? 
+                                <div className="pt-2 border-t space-y-2">
+                                    {user.mocks.map((mock)=>
                                     (
-                                        <div key={mock}>
-                                            <h1>{mock}</h1>
-                                        </div>
+                                        <p key={mock}>{mock}</p>
                                     ))}
                                 </div>
-                                <p className="pt-4 text-gray-400">{user?.user.role +' since ' +FormatDate(user?.user.createdAt)}</p>
+                                : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>}
+                                <div className="pt-4 space-y-2">
+                                    <MoveEnrollmentForm moveEnrollment={moveEnrollment} setMoveEnrollment={setMoveEnrollment} batches={batches} enrollment={user} getEnrollments={getEnrollments}/>
+                                    <p className=" text-gray-400">{user?.user.role +' since ' +FormatDate(user?.user.createdAt)}</p>
+                                </div>
                             </div>
                         </DialogContent>
                         </Dialog>    
