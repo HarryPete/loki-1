@@ -3,6 +3,7 @@ import { Course } from "@/models/course.model";
 import { Enrollment } from "@/models/enrollment.model";
 import { Lecture } from "@/models/lecture.model";
 import { Mentor } from "@/models/mentor.model";
+import { Quiz } from "@/models/quiz.model";
 import { Session } from "@/models/session.model";
 import { Test } from "@/models/test.model";
 import { User } from "@/models/user.model";
@@ -81,7 +82,7 @@ class enrollmentService
     {
         try
         {
-            const enrollments = await Enrollment.find({}).populate([{path: 'user', module: User},{ path: 'batch', module: Batch}]);
+            const enrollments = await Enrollment.find({}).populate([{path: 'user', model: User},{ path: 'batch', model: Batch}, { path: 'mocks', model: Test,  populate: { path: 'quiz', model: Quiz}}]);
             return enrollments
         }
         catch(error)

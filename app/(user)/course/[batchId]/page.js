@@ -33,11 +33,11 @@ export const completedSessions = (sessions, type='') =>
     return progress
 }
 
-export const sprintProgress = (sessions, mocks) =>
+export const sprintProgress = (enrollment) =>
 {
-    const sessionCompleted = sessions.filter((session) => session.status === 'Completed').length 
-    const sessionProgress = (sessionCompleted/sessions.length)*70
-    const mockProgress = (mocks.length/6)*30
+    const sessionCompleted = enrollment.batch.sessions.filter((session) => session.status === 'Completed').length 
+    const sessionProgress = (sessionCompleted/enrollment.batch.sessions.length)*70
+    const mockProgress = (enrollment.mocks.length/enrollment.batch.mocks.length)*30
     const totalProgress = sessionProgress + mockProgress
     return totalProgress
 }
@@ -74,8 +74,8 @@ const Batch = () =>
     const tabs = 
     [
         { id: "sessions", label: "Sessions", bg: 'bg-green-400', completed: completedSessions(enrollment?.batch?.sessions, 'count'), total: enrollment?.batch?.sessions?.length, progress: completedSessions(enrollment?.batch?.sessions) },
-        { id: "assignedMocks", label: "Assigned mocks", bg: 'bg-orange-400', completed: enrollment?.mocks?.length, total: 6, progress: enrollment?.mocks?.length*100/6 },
-        { id: "upcomingMocks", label: "Weekly mocks", bg: 'bg-blue-400', completed: enrollment?.batch?.mocks?.length, total: 6, progress: enrollment?.batch?.mocks?.length*100/6}
+        { id: "assignedMocks", label: "Assigned mocks", bg: 'bg-orange-400', completed: enrollment?.mocks?.length, total: enrollment?.batch?.mocks?.length, progress: enrollment?.mocks?.length*100/enrollment?.batch?.mocks?.length },
+        { id: "upcomingMocks", label: "Weekly mocks", bg: 'bg-blue-400', completed: enrollment?.batch?.mocks?.length, total: enrollment?.batch?.mocks?.length, progress: enrollment?.batch?.mocks?.length*100/enrollment?.batch?.mocks?.length}
     ];
     
     const getEnrollment = async () =>
@@ -179,12 +179,12 @@ const Batch = () =>
                     <User className="text-blue-500" size={20} />
                     <h2 className="text-xl font-bold ">Welcome, {data.user.name}!</h2>
                 </div>
-                <Progress value={sprintProgress(enrollment.batch.sessions, enrollment.mocks)} className="h-4 w-full bg-gray-100 rounded-full">
-                    <div className="h-full bg-yellow-400 rounded-full" style={{ width: `${sprintProgress(enrollment.batch.sessions, enrollment.mocks)}%` }} />
+                <Progress value={sprintProgress(enrollment)} className="h-4 w-full bg-gray-100 rounded-full">
+                    <div className="h-full bg-yellow-400 rounded-full" style={{ width: `${sprintProgress(enrollment)}%` }} />
                 </Progress>
                 <div className="flex items-center justify-between">
                     <p>Sprint Progress ( Live classes + Mock tests )</p>
-                    <p>{sprintProgress(enrollment.batch.sessions, enrollment.mocks).toFixed(2)}%</p>
+                    <p>{sprintProgress(enrollment).toFixed(2)}%</p>
                 </div>
             </div>
             

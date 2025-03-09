@@ -76,7 +76,7 @@ const Batch = () =>
     [
         { id: "sessions", label: "Sessions", bg: 'bg-blue-400', completed: completedSessions(batch?.sessions, 'count'), total: batch?.sessions?.length, progress: completedSessions(batch?.sessions) },
         { id: "enrollments", label: "Enrollments", bg: 'bg-gray-400', completed: completedProfiles(batch?.enrollments), total: batch?.enrollments?.length, progress: completedProfiles(batch?.enrollments)*100/batch?.enrollments?.length },
-        { id: "mocks", label: "Mocks", bg: 'bg-green-400', completed: batch?.mocks?.length, total: 6, progress: batch?.mocks?.length*100/6}
+        { id: "mocks", label: "Mocks", bg: 'bg-green-400', completed: batch?.mocks?.length, total: batch?.mocks?.length, progress: batch?.mocks?.length*100/batch?.mocks?.length}
     ];
 
     const findDuplicates = () => 

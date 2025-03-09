@@ -142,8 +142,6 @@ const Page = () =>
       }
     }
 
-    console.log(mockTitle, course)
-
     const { fields, append, remove } = useFieldArray({
       control: form.control,
       name: "options",

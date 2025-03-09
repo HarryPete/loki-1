@@ -158,9 +158,12 @@ const Users = () =>
                                 <h1 className="font-semibold pt-4">Mocks</h1>
                                 {user.mocks.length > 0 ? 
                                 <div className="pt-2 border-t space-y-2">
-                                    {user.mocks.map((mock)=>
+                                    {user.mocks.map((mock, index)=>
                                     (
-                                        <p key={mock}>{mock}</p>
+                                        <div key={mock._id} className={`flex items-center justify-between ${ index> 0 && user.mocks[index].quiz.id === user.mocks[index-1].quiz.id && 'bg-red-500 p-2 text-white rounded '}`}>
+                                            <p>{mock._id}</p>
+                                            <p className="text-left w-14">Mock {mock.quiz.id}</p>
+                                        </div>
                                     ))}
                                 </div>
                                 : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>}

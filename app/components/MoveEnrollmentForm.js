@@ -83,7 +83,7 @@ const MoveEnrollmentForm = ({ moveEnrollment, setMoveEnrollment, batches, enroll
     return (
     <Dialog open={moveEnrollment} onOpenChange={setMoveEnrollment}>
         <DialogTrigger asChild>
-            <Button className='h-6 text-xs md:text-sm'>Change batch</Button>
+            <Button className='h-8 text-xs'>Change batch</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
