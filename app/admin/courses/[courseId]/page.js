@@ -45,8 +45,8 @@ import LectureCard from '@/app/components/LectureCard';
 const formSchema = z.object({
     recording: z.string().min(7, {
       message: "Invalid title",
-    })
-  })
+    })    
+})
 
 const Course = () =>
 {
@@ -62,8 +62,8 @@ const Course = () =>
         resolver: zodResolver(formSchema),
         defaultValues: 
         {
-            recording: ""
-        },
+            recording: "",
+        }
     })
 
     const tabs = 
@@ -129,8 +129,6 @@ async function onSubmit(data)
             toast.error(error.message)
         }
     }
-
-    console.log(course)
 
     const handleDelete = async (id) =>
     {

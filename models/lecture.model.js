@@ -6,7 +6,14 @@ const lectureSchema = new Schema({
         type: String,
         required: true
     },
-    recording: String
+    recording: String,
+    modules:
+    [
+        {
+            type: String,
+            required: true
+        }
+    ]
 },{timestamps: true})
 
 export const Lecture = mongoose.models?.Lecture || mongoose.model('Lecture', lectureSchema)

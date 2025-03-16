@@ -28,6 +28,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip" 
 import material from '@/assets/material.png'
+import ModuleCard from './ModuleCard';
 
 
 const formSchema = z.object({
@@ -36,12 +37,14 @@ const formSchema = z.object({
     }),
     recording: z.string().min(7, {
       message: "Invalid link",
-    })
-  })
+    }),
+    modules: z.array(
+        z.string().min(1, "Module is required")).min(2, "At least 3 modules are required")
+})
 
 const LectureCard = ({lecture, index, course}) =>
 {
-    const [ isLoading,setIsLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
     const { title, recording, modules } = lecture
 
     const form = useForm({
@@ -49,7 +52,8 @@ const LectureCard = ({lecture, index, course}) =>
         defaultValues: 
         {
             title: title ?? "",
-            recording: recording ?? ""
+            recording: recording ?? "",
+            modules: modules
         },
     })
 
@@ -89,7 +93,9 @@ const LectureCard = ({lecture, index, course}) =>
                 </Tooltip>
             </TooltipProvider>
             <p>Session {index+1}</p>
-            </div> 
+            </div>
+
+            <div className='flex items-center gap-2'>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button className='h-6'>Edit</Button>
@@ -102,7 +108,6 @@ const LectureCard = ({lecture, index, course}) =>
                         </DialogDescription>
                     </DialogHeader>
 
-
                 <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         
@@ -111,7 +116,7 @@ const LectureCard = ({lecture, index, course}) =>
                     name="title"
                     render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Title</FormLabel>
+                        <FormLabel className='font-semibold'>Title</FormLabel>
                         <FormControl>
                         <Input className='md:h-12 h-10 text-sm' {...field} />
                         </FormControl>
@@ -120,13 +125,13 @@ const LectureCard = ({lecture, index, course}) =>
                         <FormMessage/>
                     </FormItem>)}
                 />
-
+                
                 <FormField
                     control={form.control}
                     name="recording"
                     render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Recording Link</FormLabel>
+                        <FormLabel className='font-semibold'>Recording Link</FormLabel>
                         <FormControl>
                         <Input className='md:h-12 h-10 text-sm' {...field} />
                         </FormControl>
@@ -137,9 +142,8 @@ const LectureCard = ({lecture, index, course}) =>
                 />
 
                 {recording.length > 2 ?
-                 <iframe className='w-[100%] h-[20vh] rounded shadow-lg' width="560" height="100" src={recording} title={title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> 
+                 <iframe className='w-[100%] h-16 rounded shadow-lg' width="10" height="10" src={recording} title={title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> 
                 : <p className='text-center py-2 text-muted-foreground text-sm'>Recording unavailable</p>}
-
 
                 {isLoading ? 
                     <Button>
@@ -147,13 +151,15 @@ const LectureCard = ({lecture, index, course}) =>
                     </Button>
                     : <Button type="submit">Update</Button>}
                 </form>
-                </Form>
                 
+                </Form>
                 <DialogFooter>
                 
                 </DialogFooter>
                 </DialogContent>
             </Dialog>   
+            <ModuleCard lecture={lecture} index={index} course={course}/>
+            </div>
         </Card>
     )
 }
