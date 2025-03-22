@@ -97,7 +97,7 @@ const Progress = ({batchData, getBatch}) =>
     
     return(
         <div className='space-y-4'>
-            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative' style={{backgroundImage: batchData.course.id === 'cams' ? "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)" : "radial-gradient(164.75% 100% at 50% 0, #834155 0, #3f172a 98.73%)"}}>
                 <Image className='object-cover rounded-xl h-48 w-fit' src={batchData.course.imageURL} alt={batchData.course.title} height={100} width={100}/>
                 <div className='text-3xl absolute bottom-2 left-4 space-y-2 mb-2 z-50'>
                     <p className='font-semibold'>{batchData.title.split('-')[1]}</p>

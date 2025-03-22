@@ -89,7 +89,7 @@ const Users = () =>
     const handleChange = (e) =>
     {
         let name = e.target.value
-        const filteredNames = users.filter((user)=> user.name.includes(name) || user.email.includes(name));
+        const filteredNames = users.filter((user)=> user.name.includes(name.toLowerCase()) || user.email.includes(name.toLowerCase()));
         setFilteredUsers(filteredNames)
     }
 

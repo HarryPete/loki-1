@@ -71,12 +71,13 @@ const Batch = () =>
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("sessions");
     const pathname = usePathname();
+    const [ assignedMocks, setAssignedMocks ] = useState([]);
 
     const tabs = 
     [
         { id: "sessions", label: "Sessions", bg: 'bg-blue-400', completed: completedSessions(batch?.sessions, 'count'), total: batch?.sessions?.length, progress: completedSessions(batch?.sessions) },
         { id: "enrollments", label: "Enrollments", bg: 'bg-gray-400', completed: completedProfiles(batch?.enrollments), total: batch?.enrollments?.length, progress: completedProfiles(batch?.enrollments)*100/batch?.enrollments?.length },
-        { id: "mocks", label: "Mocks", bg: 'bg-green-400', completed: batch?.mocks?.length, total: batch?.mocks?.length, progress: batch?.mocks?.length*100/batch?.mocks?.length}
+        { id: "mocks", label: "Mocks", bg: 'bg-green-400', completed: batch?.mocks?.length, total: batch?.course?.mocks?.length, progress: batch?.mocks?.length*100/batch?.course?.mocks?.length}
     ];
 
     const findDuplicates = () => 
@@ -103,6 +104,10 @@ const Batch = () =>
             const url = `/api/batch/${batchId}`
             const response = await axios.get(url);
             setBatch(response.data);
+            response.data.mocks.forEach((mock)=>
+            {
+                setAssignedMocks((prev)=> [...prev, mock.id])
+            })
             getGraduationBatches();
         }
         catch(error)
@@ -256,6 +261,9 @@ const Batch = () =>
       }
     }
 
+    console.log(batch)
+    console.log(assignedMocks)
+
     if(isLoading)
         return <Loading/>
 
@@ -375,7 +383,7 @@ const Batch = () =>
             </div>)}
 
             {activeTab === "enrollments" && (
-                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3'>
+                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3 h-fit'>
             
                 {batch.enrollments.length ? 
                 batch.enrollments.map((enrollment)=>
@@ -490,11 +498,11 @@ const Batch = () =>
 
 
             {activeTab === "mocks" && (
-                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3'>
+                <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3 h-fit'>
             
                 {batch.course.mocks.map((mock, index)=>
                 (
-                    <Card className={`${batch.mocks[index] ? 'bg-green-50' : 'bg-red-50' } p-6 text-sm`} key={mock.id}>
+                    <Card className={`${assignedMocks.includes(mock.id) ? 'bg-green-50' : 'bg-red-50' } p-6 text-sm`} key={mock.id}>
                         {isLoading ? <LoadingMini/> :
                         <div className="space-y-3">
                             <div className='gap-2 flex justify-between rounded relative'>
@@ -503,10 +511,10 @@ const Batch = () =>
                                     <p>Set {mock.id}</p>
                                 </div>
                                 <div className='flex items-center gap-2'>
-                                    {batch.mocks[index] && <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
+                                    {assignedMocks.includes(mock.id) && <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
 
-                                    {batch.mocks[index] ? 
-                                    <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Report card</Button> :
+                                    {assignedMocks.includes(mock.id) ? 
+                                    <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Discuss</Button> :
                                     <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
                                 </div>
                             </div>

@@ -14,6 +14,8 @@ const Batches = () => {
   const [batches, setBatches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newBatch, setNewBatch] = useState(false);
+  const [filtereBatches, setFilteredBatches] = useState([]); 
+  const [ selectedCourse, setSelectedCourse ] = useState("all")
   const router = useRouter();
 
   useEffect(() => {
@@ -21,15 +23,17 @@ const Batches = () => {
   }, []);
   
 
-  const getBatches = async () => {
-    try {
+  const getBatches = async () => 
+  {
+    try 
+    {
       const url = `/api/batch`;
       const response = await axios.get(url);
-      console.log(response)
       const sortedBatches = response.data.sort(
         (a, b) => new Date(a.startDate) - new Date(b.startDate)
       );
       setBatches(sortedBatches);
+      setFilteredBatches(sortedBatches)
     } catch (error) {
       toast(error.message);
     } finally {
@@ -37,7 +41,8 @@ const Batches = () => {
     }
   };
 
-  const removeBatch = async (id) => {
+  const removeBatch = async (id) => 
+  {
     try {
       const url = `/api/batch/${id}`;
       await axios.delete(url);
@@ -46,6 +51,23 @@ const Batches = () => {
       console.log(error);
     }
   };
+
+  const handleFilter = (type) =>
+  {
+    setSelectedCourse(type);
+    
+    if(type === 'all')
+    {
+      const sortedBatches = batches.sort(
+      (a, b) => new Date(a.startDate) - new Date(b.startDate));
+      setFilteredBatches(sortedBatches)
+    }
+    else
+    {
+      const filtereBatches = batches.filter((batch)=> batch.course.id === type);
+      setFilteredBatches(filtereBatches)
+    }
+  }
 
   if (isLoading) return <Loading />;
 
@@ -56,7 +78,14 @@ const Batches = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <div className="flex justify-between items-center">
       <BatchForm newBatch={newBatch} setNewBatch={setNewBatch} getBatches={getBatches} />
+      <div className="flex space-x-2">
+        {selectedCourse !== 'all' && <Button onClick={()=> handleFilter("all")}>All</Button>}
+        {selectedCourse !== 'cams' && <Button onClick={()=> handleFilter("cams")}>CAMS</Button>}
+        {selectedCourse !== 'cgss' && <Button onClick={()=> handleFilter("cgss")}>CGSS</Button>}
+      </div>
+      </div>
 
       <motion.div 
         className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4"
@@ -68,7 +97,7 @@ const Batches = () => {
         }}
       >
         <AnimatePresence>
-          {batches.map((batch) => (
+          {filtereBatches.map((batch) => (
             <motion.div
               key={batch._id}
               variants={{

@@ -172,6 +172,8 @@ const Batch = () =>
         <Loading/>   
     )
 
+    console.log(enrollment)
+
     return(
         <div className="space-y-6">
             <div className="text-white shadow-md p-6 rounded-xl space-y-6 text-sm" style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
@@ -312,7 +314,7 @@ const Batch = () =>
                                 <Image className='h-6 w-fit' src={mockIcon} alt='test'/>
                                 <h1>Mock {index+1}</h1>
                             </div>
-                            <Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>
+                            {(enrollment.batch.mocks[index].status === 'Unlocked' || mock.status === 'Pending') && <Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>}
                         </div>
                         {enrollment.batch.mocks[index].status === 'Unlocked' && mock.status === 'Completed' &&
                         <div className="flex gap-1 text-xs">

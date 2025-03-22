@@ -39,7 +39,7 @@ const formSchema = z.object({
       message: "Invalid link",
     }),
     modules: z.array(
-        z.string().min(1, "Module is required")).min(2, "At least 3 modules are required")
+        z.string().min(1, "Module is required"))
 })
 
 const LectureCard = ({lecture, index, course}) =>
