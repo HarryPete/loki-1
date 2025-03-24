@@ -261,6 +261,12 @@ const Batch = () =>
       }
     }
 
+    const checkBatchIndex = (id) =>
+    {
+        const position = assignedMocks.findIndex(num => num === id);
+        return position
+    }
+
     console.log(batch)
     console.log(assignedMocks)
 
@@ -499,6 +505,18 @@ const Batch = () =>
 
             {activeTab === "mocks" && (
                 <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3 h-fit'>
+
+                {assignedMocks.length > 0 && 
+                <div className='pb-4 flex items-center justify-end'>
+                    
+                    <div className='flex items-center space-x-4'>
+                    {assignedMocks.map((index)=> 
+                    (
+                        <Card key={index} className='bg-orange-50 p-2 px-4 rounded-full aspect-square flex items-center'>{index}</Card>
+                    ))}
+                    </div>
+                </div>
+                }
             
                 {batch.course.mocks.map((mock, index)=>
                 (
@@ -511,7 +529,7 @@ const Batch = () =>
                                     <p>Set {mock.id}</p>
                                 </div>
                                 <div className='flex items-center gap-2'>
-                                    {assignedMocks.includes(mock.id) && <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
+                                    {assignedMocks.includes(mock.id) && <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
 
                                     {assignedMocks.includes(mock.id) ? 
                                     <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Discuss</Button> :
