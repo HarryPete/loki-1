@@ -137,6 +137,10 @@ const Users = () =>
                                 <h1 className="font-semibold border-b border-gray-300 pb-2">Profile details</h1>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Profile ID</span>
+                                        <span>{user?._id}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
                                         <span className="text-gray-500">Email</span>
                                         <span>{user?.email}</span>
                                     </div>

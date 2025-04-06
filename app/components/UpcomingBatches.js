@@ -28,9 +28,9 @@ const UpcomingBatches = () =>
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 items-center leading-loose">
           
           {[
-            { title: "CGSS - 4", description: "Comprehensive learning program for aspirants preparing for CGSS certification", tick: tick2, bg: "bg-white text-black", date: 'February 15', link: '/courses/cgss' },
+            { title: "CAMS - 152", description: "Comprehensive learning program for aspirants preparing for CGSS certification", tick: tick2, bg: "bg-white text-black", date: 'May 2', link: '/courses/cams' },
             { title: "CAMS - 0", description: "An accelerated course for individuals aiming to quickly prepare for the CAMS certification", tick: tick1, bg: "bg-gradient-to-b from-gray-800 to-gray-900 text-white", date: 'Fastrack Batch', link: '/courses/cams' },
-            { title: "CAMS - 150", description: "Comprehensive learning program for aspirants preparing for CAMS certification", tick: tick2, bg: "bg-white text-black", date: 'February 28', link: '/courses/cams'},
+            { title: "CGSS - 5", description: "Comprehensive learning program for aspirants preparing for CAMS certification", tick: tick2, bg: "bg-white text-black", date: 'May 23', link: '/courses/cgss'},
           ].map((batch, index) => (
             <motion.div 
               key={index} 

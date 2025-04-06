@@ -314,7 +314,7 @@ const Batch = () =>
                                 <Image className='h-6 w-fit' src={mockIcon} alt='test'/>
                                 <h1>Mock {index+1}</h1>
                             </div>
-                            {(enrollment.batch.mocks[index].status === 'Unlocked' || mock.status === 'Pending') && <Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>}
+                            <Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>
                         </div>
                         {enrollment.batch.mocks[index].status === 'Unlocked' && mock.status === 'Completed' &&
                         <div className="flex gap-1 text-xs">

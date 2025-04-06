@@ -104,6 +104,10 @@ const Batch = () =>
             const url = `/api/batch/${batchId}`
             const response = await axios.get(url);
             setBatch(response.data);
+
+            if(assignedMocks.length > 0)
+                return
+
             response.data.mocks.forEach((mock)=>
             {
                 setAssignedMocks((prev)=> [...prev, mock.id])
@@ -266,9 +270,6 @@ const Batch = () =>
         const position = assignedMocks.findIndex(num => num === id);
         return position
     }
-
-    console.log(batch)
-    console.log(assignedMocks)
 
     if(isLoading)
         return <Loading/>
@@ -528,13 +529,36 @@ const Batch = () =>
                                     <Image className='h-6 w-fit' src={mockIcon} alt='mock'/>
                                     <p>Set {mock.id}</p>
                                 </div>
-                                <div className='flex items-center gap-2'>
-                                    {assignedMocks.includes(mock.id) && <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>}
 
-                                    {assignedMocks.includes(mock.id) ? 
-                                    <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Discuss</Button> :
-                                    <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
-                                </div>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button className='h-6 text-xs'>Settings</Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-[425px] space-y-0.5">
+                                        <DialogHeader>
+                                            <DialogTitle>Mock {mock.id}</DialogTitle>
+                                            <DialogDescription>{assignedMocks.includes(mock.id) ? 'Assigned' : 'Unassigned'}</DialogDescription>
+                                        </DialogHeader>
+                                        <div className='space-y-6 md:text-sm text-xs'>
+                                        {assignedMocks.includes(mock.id) && 
+                                        <div className='flex justify-between items-center'>
+                                            <p>Retake</p>
+                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
+                                        </div>}
+
+                                        {assignedMocks.includes(mock.id) && 
+                                        <div className='flex justify-between items-center'>
+                                            <p>Hide</p>
+                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
+                                        </div>}
+
+                                        {assignedMocks.includes(mock.id) ? 
+                                        <Button className='text-xs w-full' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Discuss</Button> :
+                                        <Button className='text-xs w-full' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
+                                
                             </div>
                         </div>}
                   </Card>                

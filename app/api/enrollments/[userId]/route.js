@@ -13,10 +13,10 @@ export async function POST(req, {params})
     {
         await dbConnect();
 
-        const { userId } = params;
+        const { userId } = await params;
         const { batchId } = await req.json();
         const enrollment = await enrollmentInstance.enroll(userId, batchId)
-        await userInstance.updatEnrollment(userId, enrollment._id);
+        await userInstance.updateEnrollment(userId, enrollment._id);
         await batchInstance.enrollUser(batchId, enrollment._id)
         return NextResponse.json({message : 'Enrolled successfully'});
     }    
