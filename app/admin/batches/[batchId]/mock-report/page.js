@@ -35,7 +35,7 @@ const MockReport = () =>
     const [ viewResult, setViewResult ] = useState(-1);
     const params = useSearchParams();
     const set = params.get('set')
-    const index = set-1
+    const index = set
     const pathname = usePathname();
     const batchId = pathname.split('/')[3]
 

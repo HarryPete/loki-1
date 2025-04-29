@@ -119,8 +119,8 @@ const Users = () =>
                         <Dialog open={openUserId === user._id} onOpenChange={handleCloseDialog}>
                         <DialogContent className="sm:max-w-[425px] text-sm">
                             <DialogHeader>
-                                <DialogTitle>{user?.user.name}</DialogTitle>
-                                <DialogDescription>{user?.batch.title}</DialogDescription>
+                                <DialogTitle>{user?.user?.name}</DialogTitle>
+                                <DialogDescription>{user?.batch?.title}</DialogDescription>
                             </DialogHeader>
                             <div className="space-y-2">
                                 <div className="flex flex-col gap-2 items-center justify-center">
