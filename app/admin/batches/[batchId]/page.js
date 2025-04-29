@@ -555,7 +555,7 @@ const Batch = () =>
                                         </div>}
 
                                         {assignedMocks.includes(mock.id) ? 
-                                        <Button className='text-xs w-full' onClick={()=> router.push(`${pathname}/mock-report?set=${checkBatchIndex(mock.id)}`)}>Discuss</Button> :
+                                        <Button className='text-xs w-full' onClick={()=> router.push(`${pathname}/mock-report?mock=${checkBatchIndex(mock.id)+1}`)}>Discuss</Button> :
                                         <Button className='text-xs w-full' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
                                         </div>
                                     </DialogContent>
