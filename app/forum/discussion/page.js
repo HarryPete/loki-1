@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import axios from 'axios'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
@@ -24,8 +24,6 @@ const Discussion = () =>
     const router = useRouter();
     const session = useSession();
     const user = session?.data?.user?.id
-
-    console.log(params)
 
     useEffect(() =>
     {        
@@ -149,4 +147,13 @@ const Discussion = () =>
     )
 }
 
-export default Discussion
+const Page = () =>
+{
+    return(
+        <Suspense fallback={<Loading/>}>
+            <Discussion/>
+        </Suspense>
+    )
+}
+
+export default Page
