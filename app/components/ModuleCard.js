@@ -32,7 +32,7 @@ const ModuleCard = ({ lecture, index, course }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="h-6">Modules</Button>
+                <Button className="h-6 text-xs">Modules</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -86,7 +86,7 @@ const ModuleCard = ({ lecture, index, course }) => {
                             <Loader2 className="animate-spin" />
                         </Button>
                     ) : (
-                        <Button onClick={onSubmit}>Update</Button>
+                        <Button onClick={onSubmit} className='text-xs'>Update</Button>
                     )}
                 </DialogFooter>
             </DialogContent>

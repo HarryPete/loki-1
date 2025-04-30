@@ -79,7 +79,7 @@ const Page = () =>
         <div className="space-y-8">
         {Object.keys(mocks).map((course)=>
         (
-          <div key={course} className="space-y-4 border-b pb-12">
+          <div key={course} className="space-y-4">
             <h1 className="font-semibold">{course.toUpperCase()}</h1>
             <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4">
             {mocks[course].map((mock)=>

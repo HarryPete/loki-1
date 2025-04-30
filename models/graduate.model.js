@@ -7,10 +7,10 @@ const graduateSchema = new Schema({
         ref: 'Enrollment'
     }],
     course:
-    [{
+    {
         type: Schema.Types.ObjectId,
         ref: 'Course'
-    }],
+    },
     month:
     {
         type: String,

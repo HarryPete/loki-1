@@ -24,7 +24,7 @@ class graduateService
     {
         try
         {
-            const graduates = await Graduate.find();
+            const graduates = await Graduate.find().populate({path: 'course'});
             return graduates
         }
         catch(error)
@@ -50,7 +50,7 @@ class graduateService
     {
         try
         {
-            const monthlyGraduates = await Graduate.findById(id).populate([{path: 'enrollments', module: Enrollment, populate:{ path: 'user', model: User}},{ path: 'course', module: Course}]);
+            const monthlyGraduates = await Graduate.findById(id).populate([{path: 'course', path: 'enrollments', module: Enrollment, populate:{ path: 'user', model: User}},{ path: 'course', module: Course}]);
             return monthlyGraduates
         }
         catch(error)

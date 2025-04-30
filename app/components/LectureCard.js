@@ -98,7 +98,7 @@ const LectureCard = ({lecture, index, course}) =>
             <div className='flex items-center gap-2'>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button className='h-6'>Edit</Button>
+                    <Button className='h-6 text-xs'>Edit</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
@@ -149,7 +149,7 @@ const LectureCard = ({lecture, index, course}) =>
                     <Button>
                         <Loader2 className='animate-spin'/>
                     </Button>
-                    : <Button type="submit">Update</Button>}
+                    : <Button type="submit" className='text-xs'>Update</Button>}
                 </form>
                 
                 </Form>

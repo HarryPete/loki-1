@@ -24,21 +24,18 @@ const CourseCard = ({ level, course }) => {
         className='relative group cursor-pointer'
         
       >
-        <Card  style={{
-            backgroundImage:
-              "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)",
-          }} className='space-y-4 p-4 bg-white shadow-xl rounded-xl text-xs md:text-sm transition duration-300'>
+        <Card style={{backgroundImage: course.id === 'cams' ? "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)" : "radial-gradient(164.75% 100% at 50% 0, #834155 0, #3f172a 98.73%)"}} className='space-y-4 p-8 bg-white shadow-xl rounded-xl text-xs md:text-sm transition duration-300'>
           <div className='relative w-full flex items-center justify-center rounded-lg overflow-hidden'>
             <Image
               src={course.imageURL}
               alt={course.title}
               width={100}
               height={100}
-              className='object-cover h-40 w-fit group-hover:scale-105 transition-transform duration-300'
+              className='object-cover h-32 w-fit group-hover:scale-105 transition-transform duration-300'
             />
         </div>
 
-        <h3 className='font-semibold md:text-base text-sm text-white text-center'>{course.title}</h3>
+        <h3 className='font-semibold md:text-sm text-xs text-white text-center'>{course.title}</h3>
           
         </Card>
       </motion.div>

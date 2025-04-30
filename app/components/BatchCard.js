@@ -48,7 +48,7 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
 
     return(
         <div className='space-y-2 relative cursor-pointer ' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
-            <div className='rounded-xl h-56 p-4 flex flex-col justify-center items-center shadow-md gap-1' style={{backgroundImage: batch.course.id === 'cams' ? "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)" : "radial-gradient(164.75% 100% at 50% 0, #834155 0, #3f172a 98.73%)"}}>
+            <div className='rounded-xl h-48 p-4 flex flex-col justify-center items-center shadow-md' style={{backgroundImage: batch.course.id === 'cams' ? "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)" : "radial-gradient(164.75% 100% at 50% 0, #834155 0, #3f172a 98.73%)"}}>
                 <Image className='rounded-full object-cover h-28' src={batch.course.imageURL} alt={batch.title} height={100} width={100}/>
                 {level === 'admin' ? <h1  className='text-neutral-100 font-semibold'>{batch.title.split('-')[1]}</h1> : <p className='bg-gray-300 p-1 rounded text-xs '>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate)}</p>}
             </div>

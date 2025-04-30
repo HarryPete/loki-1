@@ -89,7 +89,7 @@ const Page = () =>
                 </div>
                 
                 <div className="flex justify-end items-center gap-2">
-                    <p className="text-sm text-end">CAMS Results - {graduates.month +', ' +graduates.year}</p>
+                    <p className="text-sm text-end">{graduates.course.id.toUpperCase()} Results - {graduates.month +', ' +graduates.year}</p>
                     <Image className="h-12 w-fit" src={trophy} alt='trophy'/>
                 </div>
                 

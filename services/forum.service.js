@@ -54,11 +54,11 @@ class forumService
         }
     }
 
-    async findDiscussionById(discussionId)
+    async findDiscussionById(id)
     {
         try
         {
-            const discussions = await Forum.findById(discussionId).populate({path: 'author', model: User})
+            const discussions = await Forum.findById(id).populate({path: 'author', model: User})
             .populate
             (
                 {
@@ -80,12 +80,12 @@ class forumService
                     }]
                 }
             );
+            console.log(discussions)
             return discussions;
         }
         catch(error)
         {
-            console.log(error)
-            throw new Error('Failed to fetch discussions')
+            return error
         }
     }
 

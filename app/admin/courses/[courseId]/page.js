@@ -151,7 +151,7 @@ async function onSubmit(data)
     return(
         <div className='space-y-4 md:text-sm text-xs leading-relaxed'>
 
-            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+            <div className='flex flex-col text-sm md:text-base h-[50vh] rounded-xl text-white justify-center items-center relative'  style={{backgroundImage: course.id === 'cams' ? "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)" : "radial-gradient(164.75% 100% at 50% 0, #834155 0, #3f172a 98.73%)"}}>
                 <Image className='object-cover rounded-xl h-48 w-fit' src={course.imageURL} alt={course.title} height={100} width={100}/>
                 <div className='md:text-xl md:bottom-12 text-lg absolute bottom-4 px-8 w-full text-center space-y-2 mb-2 z-50'>
                     <p className='font-semibold'>{course.title}</p>
