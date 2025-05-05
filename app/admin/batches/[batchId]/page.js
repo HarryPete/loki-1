@@ -163,6 +163,8 @@ const Batch = () =>
         }
     }
 
+    console.log(graduationBatches)
+
     useEffect(()=>
     {
        getBatch();
@@ -442,9 +444,8 @@ const Batch = () =>
                                         <span>{enrollment.user?.country}</span>
                                     </div>
                                     {enrollment.graduationBatch && 
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Graduation</span>
-                                        <span>{enrollment.graduationBatch.month +' ' +enrollment.graduationBatch.year}</span>
+                                    <div className="flex items-center justify-center bg-yellow-400 p-3 rounded-lg">
+                                        <span>{enrollment.graduationBatch.month +' ' +enrollment.graduationBatch.year} Graduate</span>
                                     </div>}
                                 </div>
                             </div>
@@ -478,10 +479,11 @@ const Batch = () =>
                                         <SelectTrigger className="w-full h-12">
                                             <SelectValue placeholder="Choose Graduation Batch" />
                                         </SelectTrigger>
+                                        
                                         <SelectContent>
                                         {graduationBatches.map((batch)=>
                                         (
-                                            <SelectItem className='h-12' value={batch._id} key={batch._id}>{batch.month +' ' +batch.year}</SelectItem>
+                                            <SelectItem className='h-12' value={batch._id} key={batch._id}>{batch.course.id.toUpperCase() +' - ' +batch.month +' ' +batch.year}</SelectItem>
                                         ))}
                                         </SelectContent>
                                     </Select>

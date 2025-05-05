@@ -30,7 +30,7 @@ import { useForm } from "react-hook-form"
 
 const formSchema = z.object({
   
-  courseId: z.string().min(7, {
+  course: z.string().min(7, {
     message: "Course is required",
   }),
   month: z.string().min(3, {
@@ -73,7 +73,7 @@ const GraduationForm = ({newGrad, setNewGrad, getGrads}) =>
             resolver: zodResolver(formSchema),
             defaultValues: 
             {
-                courseId: "",
+                course: "",
                 month: "",
                 year: ""
             },
@@ -91,7 +91,7 @@ const GraduationForm = ({newGrad, setNewGrad, getGrads}) =>
         }   
         catch(error)
         {
-            console.log(error)
+            toast.error(error.message)
         }
     }
 
@@ -115,7 +115,7 @@ const GraduationForm = ({newGrad, setNewGrad, getGrads}) =>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <FormField
                 control={form.control}
-                name="courseId"
+                name="course"
                 render={({ field }) => (
                 <FormItem>
                 <FormLabel>Course</FormLabel>
