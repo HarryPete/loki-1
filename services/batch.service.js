@@ -133,6 +133,19 @@ class batchService
         }
     }
 
+    async updateMockVisibility(batchId, id, visibility)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $set: { 'mocks.$.hide': !visibility }})
+            
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async getAllBatches()
     {
         try

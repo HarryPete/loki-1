@@ -33,11 +33,11 @@ const chartConfig =
     },
 };
 
-const MockTestBar = ({mockData}) =>
+const MockTestBar = ({mockData, correctAnswers}) =>
 {
     const divRef = useRef(null);
     const total = mockData.answers.length
-    const correct = mockData.score;
+    const correct = correctAnswers.length;
     const incorrect = total - correct;
 
     const chartData = 

@@ -37,6 +37,12 @@ export async function PUT(req, {params})
             return NextResponse.json({message: 'Mock Assigned'})
         }
 
+        if(type === "visibility")
+        {
+            await batchInstance.updateMockVisibility(batchId, batchDetails.id, batchDetails.visibility);
+            return NextResponse.json({message: `Mock Visibility Updated`})
+        }
+
         if(type === "retake")
         {
             await batchInstance.updateMockStatus(batchId, batchDetails.id, batchDetails.status);

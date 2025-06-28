@@ -170,7 +170,7 @@ const Mock = () =>
     return(
         <div className="flex lg:flex-row flex-col gap-4 items-start md:text-sm text-xs relative">
             <div className="flex flex-col gap-4 lg:w-[40%] w-full lg:sticky lg:top-28 top-0">
-                <MockTestBar mockData={mock}/>
+                <MockTestBar mockData={mock} correctAnswers={correctAnswers}/>
                 <Card className="p-4 space-y-2 text-xs">
                     <p className="font-semibold">Feedback </p>
                     <p className="leading-relaxed ">{message}</p>

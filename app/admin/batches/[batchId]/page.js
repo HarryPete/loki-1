@@ -246,13 +246,14 @@ const Batch = () =>
         }
     }
 
-    const updateMock = async (mock, id, status="", type) =>
+    const updateMock = async (mock, id, status="", type, visibility) =>
     {
       try
       {
+         
           setIsLoading(true)
           const url = `/api/batch/${batch._id}`
-          const batchDetails = { mock: {quiz:mock._id, id}, id, status, type }
+          const batchDetails = { mock: {quiz:mock._id, id}, id, status, type, visibility }
           const response = await axios.put(url, batchDetails);
           toast.success(response.data.message);
           getBatch()
@@ -547,13 +548,13 @@ const Batch = () =>
                                         {assignedMocks.includes(mock.id) && 
                                         <div className='flex justify-between items-center'>
                                             <p>Retake</p>
-                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
+                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake", batch.mocks[checkBatchIndex(mock.id)]?.hide)}/>
                                         </div>}
 
                                         {assignedMocks.includes(mock.id) && 
                                         <div className='flex justify-between items-center'>
                                             <p>Hide</p>
-                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
+                                            <Switch checked={batch.mocks[checkBatchIndex(mock.id)].hide} onCheckedChange={()=> updateMock(mock, mock.id, batch.mocks[checkBatchIndex(mock.id)].status === 'Locked' ? 'Unlocked' : 'Locked', "visibility", batch.mocks[checkBatchIndex(mock.id)]?.hide)}/>
                                         </div>}
 
                                         {assignedMocks.includes(mock.id) ? 

@@ -34,6 +34,11 @@ const batchSchema = new Schema(
                 enum: ['Locked', 'Unlocked'],
                 default : 'Locked'
             },
+            hide:
+            {
+                type: Boolean,
+                default : false
+            },
         }],
         enrollments:
         [{

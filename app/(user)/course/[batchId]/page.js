@@ -69,6 +69,7 @@ const Batch = () =>
     const [ pendingTests, setPendingTests ] = useState(null);
     const [ assignLoading, setAssignLoading ] = useState(false);
     const [ retakeLoading, setRetakeLoading ] = useState(false);
+    const [ assignedMockId, setAssignedMockId ] = useState(null);
     const pathname = usePathname();
 
     const tabs = 
@@ -84,14 +85,14 @@ const Batch = () =>
         {
             const url = `/api/enrollment/${enrolmentId}`
             const response = await axios.get(url);
-            if(!response.data.batch.access)
+            if(!response.data.batch.access || !response.data.access)
             {
                 router.push('/dashboard')
                 toast('Access Denied')
             }
             setEnrollment(response.data)
-            const pendingTests = response.data.batch.mocks.slice(response.data.mocks.length)
-            setPendingTests(pendingTests.length)
+            // const pendingTests = response.data.batch.mocks.slice(response.data.mocks.length)
+            // setPendingTests(pendingTests.length)
         }
         catch(error)
         {
@@ -128,6 +129,7 @@ const Batch = () =>
     {
         try
         {
+            setAssignedMockId(mock.id)
             setAssignLoading(true);
             const url = `/api/assessment`;
             const response = await axios.post(url, {quizId: mock.quiz, enrollmentId: enrollment._id, batchId: enrollment.batch._id, id:mock.id})
@@ -140,7 +142,7 @@ const Batch = () =>
         }
         finally
         {
-            setAssignLoading(false);
+            setAssignLoading(false)
         }
     }
 
@@ -171,8 +173,6 @@ const Batch = () =>
     return(
         <Loading/>   
     )
-
-    console.log(enrollment)
 
     return(
         <div className="space-y-6">
@@ -314,9 +314,11 @@ const Batch = () =>
                                 <Image className='h-6 w-fit' src={mockIcon} alt='test'/>
                                 <h1>Mock {index+1}</h1>
                             </div>
-                            <Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>
+                            {enrollment.batch.mocks[index].hide ? <Button className='text-xs' disabled={true}>Restricted</Button> :<Button className='text-xs' onClick={()=> router.push(mock.status === 'Pending' ? `/mock-test?mockId=${mock._id}` : `/review-mock-test?mockId=${mock._id}`)}>{mock.status === 'Completed' ? 'Review' : 'Continue'}</Button>}
                         </div>
-                        {enrollment.batch.mocks[index].status === 'Unlocked' && mock.status === 'Completed' &&
+                        {enrollment.batch.mocks[index].status === 'Unlocked' && mock.status === 'Completed' && 
+                        !enrollment.batch.mocks[index]?.hide && 
+                        
                         <div className="flex gap-1 text-xs">
                             You can retake this mock now. 
                             <span className='text-xs text-blue-500 cursor-pointer' onClick={(e)=> handleRetake(e, mock._id)}> Click here!</span>
@@ -335,15 +337,15 @@ const Batch = () =>
                             <Image className='h-6 w-fit' src={mockIcon} alt='test'/>
                             <h1>Mock {index+1}</h1>
                         </div>
-                       {index+1 > enrollment.mocks.length  && 
+                       {index+1 > enrollment.mocks.length  ? 
                        <div>
-                            { assignLoading ?
+                            { assignLoading && assignedMockId === mock.id ?
                             <Button className='text-xs'>
                                 <Loader2 className="animate-spin"/>
                                 Assigning...
                             </Button>
-                            : <Button className='text-xs' disabled={assignLoading} onClick={()=> handleMock(mock)}>Start</Button>}
-                        </div>}
+                            : (enrollment.mocks.length === index ? <Button className='text-xs' disabled={assignLoading} onClick={()=> handleMock(mock)}>Start</Button>: <Button className='text-xs' disabled={true}>Upcoming</Button>)}
+                        </div> : <Button className='text-xs' disabled={true}>Assigned</Button>}
                     </Card>
                 ))}
             </div>)}
