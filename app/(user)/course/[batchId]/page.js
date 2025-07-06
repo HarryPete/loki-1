@@ -232,7 +232,6 @@ const Batch = () =>
             ))}
             <div className="text-xs flex justify-around gap-2">
                 
-
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger className="flex space-y-1 flex-col items-center">

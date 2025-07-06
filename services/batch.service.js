@@ -120,6 +120,19 @@ class batchService
         }
     }
 
+    async removeMock(batchId, id, testId)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $pull: { 'mocks.$.results': testId }})
+            
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async updateMockStatus(batchId, id, status)
     {
         try

@@ -138,6 +138,18 @@ class enrollmentService
             throw error
         }
     }
+
+    async removeMock(enrollmentId, testId)
+    {
+        try
+        {
+            return await Enrollment.findByIdAndUpdate(enrollmentId, {$pull : { mocks : testId }})   
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
 }
 
 export default enrollmentService

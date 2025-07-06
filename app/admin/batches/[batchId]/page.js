@@ -163,8 +163,6 @@ const Batch = () =>
         }
     }
 
-    console.log(graduationBatches)
-
     useEffect(()=>
     {
        getBatch();

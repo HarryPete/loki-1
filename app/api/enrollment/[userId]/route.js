@@ -52,9 +52,15 @@ export async function PUT(req, {params})
         await dbConnect();
          
         const { userId } = await params;
-        const { batchId, enrollmentId, updatedBatchId, type } = await req.json(); 
+        const { batchId, enrollmentId, updatedBatchId, setId, mockId, type } = await req.json(); 
 
-        if(type === 'duplicates')
+        if(type === "duplicateMocks")
+        {
+            await enrollmentInstance.removeMock(enrollmentId, mockId);
+            await batchInstance.removeMock(batchId, setId, mockId);
+            return NextResponse.json({message: 'Duplicate mock removed'})
+        }
+        else if(type === 'duplicates')
         {
             await userInstance.removeEnrollment(userId, enrollmentId);
             await batchInstance.removeEnrollment(batchId, enrollmentId);
@@ -63,7 +69,6 @@ export async function PUT(req, {params})
         }
         else
         {
-            console.log(batchId, enrollmentId, updatedBatchId, type)
             const updates = { batch: updatedBatchId }
             await batchInstance.removeEnrollment(batchId, enrollmentId);
             await batchInstance.enrollUser(updatedBatchId, enrollmentId);

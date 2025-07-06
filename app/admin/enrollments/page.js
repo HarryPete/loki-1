@@ -20,6 +20,7 @@ import Image from "next/image";
 import UserHistory from "@/app/components/UserHistory";
 import { Input } from "@/components/ui/input";
 import MoveEnrollmentForm from "@/app/components/MoveEnrollmentForm";
+import { Delete, Minus, Trash, Trash2 } from "lucide-react";
 
 const Users = () =>
 {
@@ -40,6 +41,8 @@ const Users = () =>
         setOpenUserId(null);
     };
 
+    // const getMockId = (batchMocks, mockId)
+
     useEffect(()=>
     {
         getEnrollments();
@@ -58,6 +61,22 @@ const Users = () =>
         {
             toast.error(error.message);     
         } 
+    }
+
+    const handleDuplicateMocks = async (batchId, enrollmentId, setId, mockId, type) =>
+    {
+        try
+        {
+            const url = `/api/enrollment/${enrollmentId}`;
+            const details = { batchId, enrollmentId, setId, mockId, type }
+            const response = await axios.put(url, details);
+            toast.success(response.message);
+            getEnrollments();
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
     }
 
     const getEnrollments = async ()=>
@@ -162,9 +181,14 @@ const Users = () =>
                                     (
                                         <div key={mock._id} className={`flex items-center justify-between ${ index> 0 && user.mocks[index].quiz.id === user.mocks[index-1].quiz.id && 'bg-red-500 p-2 text-white rounded '}`}>
                                             <p>{mock._id}</p>
-                                            <p className="text-left w-14">Mock {mock.quiz.id}</p>
+                                            <div className="flex items-center gap-1">
+                                                <p className="text-left w-14">Mock {mock.quiz.id}</p>
+                                                {index> 0 && user.mocks[index].quiz.id === user.mocks[index-1].quiz.id && 
+                                                <Button className='rounded-full bg-white w-4 h-7' 
+                                                onClick={()=>handleDuplicateMocks(user.batch._id, user._id, mock.quiz.id, mock._id, "duplicateMocks")}><Trash2/></Button>}
+                                            </div>
                                         </div>
-                                    ))}
+                                    ))} 
                                 </div>
                                 : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>}
                                 <div className="pt-4 space-y-2">
