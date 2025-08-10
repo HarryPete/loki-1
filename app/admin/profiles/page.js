@@ -21,6 +21,7 @@ import UserHistory from "@/app/components/UserHistory";
 import { Input } from "@/components/ui/input";
 import ProfileForm from "@/app/components/ProfileForm";
 import EnrollmentForm from "@/app/components/EnrollmentForm";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Users = () =>
 {
@@ -30,7 +31,9 @@ const Users = () =>
     const [ openUserId, setOpenUserId ] = useState(null);
     const [ filteredusers, setFilteredUsers ] = useState(null);
     const [ batches, setBatches ] = useState(null);
-    const [ newEnrollment, setNewEnrollment ] = useState(false)
+    const [ newEnrollment, setNewEnrollment ] = useState(false);
+    const [ searchType, setSearchType ] = useState('name');
+    const [ searchValue, setSearchValue ] = useState('');
 
     const handleOpenDialog = (userId) => 
     {
@@ -88,8 +91,17 @@ const Users = () =>
 
     const handleChange = (e) =>
     {
-        let name = e.target.value
-        const filteredNames = users.filter((user)=> user.name.includes(name.toLowerCase()) || user.email.includes(name.toLowerCase()));
+        let search = e.target.value
+        setSearchValue(search)
+        const filteredNames = users.filter((user)=> 
+        {
+            if(searchType === 'name')
+                return user.name.includes(search.toLowerCase()) || user.email.includes(search.toLowerCase())
+            if(searchType === 'country')
+                return user.country?.toLowerCase().includes(search.toLowerCase())
+            else
+                return user.organisation?.toLowerCase().includes(search.toLowerCase())
+        });
         setFilteredUsers(filteredNames)
     }
 
@@ -106,11 +118,24 @@ const Users = () =>
 
             <ProfileForm newUser={newUser} setNewUser={setNewUser}/>
 
-            <div className="relative pb-4">
-                <Input className='p-6 px-4 rounded-lg bg-neutral-50' onChange={(e)=> handleChange(e)} placeholder='Search'/>
-                <span className="absolute right-4 top-6 translate-y-[-50%] font-semibold cursor-pointer" onClick={()=> {setFilteredUsers(users); set}}>x</span>
-                <p className="text-muted-foreground md:text-sm text-xs pt-2">{filteredusers.length>0 ? filteredusers.length +' profiles' : 'Profile not found'}</p>
+            <div className="flex gap-2">
+                <div className="relative flex gap-2 w-full">
+                    <Input className='p-6 px-4 rounded-lg bg-neutral-50' value={searchValue} onChange={(e)=> handleChange(e)} placeholder='Search'/>
+                    <span className="absolute right-4 top-6 translate-y-[-50%] font-semibold cursor-pointer" onClick={()=> {setFilteredUsers(users); setSearchType('name'); setSearchValue('')}}>x</span>
+                </div>
+                <Select onValueChange={setSearchType}>
+                        <SelectTrigger className="p-6 px-4 rounded-lg bg-neutral-50 w-40">
+                            <SelectValue placeholder="Search by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className='h-14' value="name">Name | Email</SelectItem>
+                            <SelectItem className='h-14' value="country">Country</SelectItem>
+                            <SelectItem className='h-14' value="organisation">Organisation</SelectItem>
+                        </SelectContent>
+                    </Select>
             </div>
+
+            <p className="text-muted-foreground md:text-sm text-xs pt-2">{filteredusers.length>0 ? filteredusers.length +' profiles' : 'Profile not found'}</p>
             
              <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
             {filteredusers?.map((user, index) => 
@@ -119,7 +144,8 @@ const Users = () =>
                     <Image className='h-12 w-12 object-cover object-top rounded-full' src={user?.imageURL ? user?.imageURL : defaultDP} alt={user.name} width={100} height={100}/>
                     <div className="text-sm space-y-1 ">
                         <h1 className="font-semibold">{user.name}</h1>
-                        <p className="pb-2">{user?.email}</p>
+                        <p>{user?.country}</p>
+                        <p className="pb-2 text-muted-foreground">{user?.organisation || 'NA'}</p>
                         <p className="absolute right-2 bottom-2 text-lg font-semibold">{user.position}</p>
                         <Button className='h-6 text-xs' onClick={() => handleOpenDialog(user._id)}>Details</Button>
                        
