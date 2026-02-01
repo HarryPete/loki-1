@@ -10,14 +10,20 @@ const slice = createSlice({
     {
         addAnswerTemplate(state, action)
         {
-            const { length } = action.payload;
-            Array.from({length}).forEach(()=>
+            const { length, flag, data } = action.payload;
+            if(flag)
+                state.responses = data
+            else
             {
-                state.responses.push({
-                    answers: [],
-                    isFlagged: false
+                state.responses = []; 
+                Array.from({length}).forEach(()=>
+                {
+                    state.responses.push({
+                        answers: [],
+                        isFlagged: false
+                    })
                 })
-            })
+            }
         },
         updateAnswer(state, action)
         {

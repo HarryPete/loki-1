@@ -92,8 +92,8 @@ const Mock = () =>
             const response = await axios.get(url);
             setActive(response.data.quiz.reference)
             setMock(response.data);
-            if(mockAnswers.length === response.data.quiz.reference.length)
-                return
+            // if(mockAnswers.length === response.data.quiz.reference.length)
+            //     return
             dispatch(addAnswerTemplate({length: response.data.quiz.reference.length}))
         }
         catch(error)
@@ -104,6 +104,12 @@ const Mock = () =>
         {
             setIsLoading(false)
         }
+    }
+
+    const handleSave = () =>
+    {
+        localStorage.setItem(mockId, JSON.stringify(mockAnswers))
+        toast.success("Mock progess is saved!")
     }
 
     useEffect(() => 
@@ -122,16 +128,18 @@ const Mock = () =>
     if(status === 'loading' || isLoading)
         return <Loading/>   
     
-
     return(
-        <div className="space-y-2">
-            <div className='rounded-xl p-4 text-white space-y-3' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
-                <h1 className="font-semibold">All the best, {mock.enrollment.user.name}</h1>
-                <div className="flex items-center gap-1 text-muted text-xs">
-                    <p>{mock.enrollment.batch.title.split('-')[0]}</p>
-                    <span className='hidden sm:inline'>•</span>
-                    <p>{mock.quiz.reference.length} questions</p>
+        <div className="space-y-4">
+            <div className='rounded-xl p-6 text-white flex justify-between' style={{ backgroundImage: "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)"}}>
+                <div className='rounded-xl text-white space-y-3'>
+                    <h1 className="font-semibold">All the best, {mock.enrollment.user.name}</h1>
+                    <div className="flex items-center gap-1 text-muted text-xs">
+                        <p>{mock.enrollment.batch.title.split('-')[0]}</p>
+                        <span className='hidden sm:inline'>•</span>
+                        <p>{mock.quiz.reference.length} questions</p>
+                    </div>
                 </div>
+                <Button className='text-xs' onClick={handleSave}>Save</Button>
             </div>
 
             {active.length===mockAnswers.length && reviewQuestions.length>0 &&
@@ -143,7 +151,7 @@ const Mock = () =>
             ))}
             </div>}
 
-            <div className='grid grid-cols-1 gap-4 relative text-sm bg-neutral-50 p-8 rounded-xl shadow-lg'>
+            <div className='grid grid-cols-1 gap-4 relative text-sm bg-neutral-50 p-8 rounded-xl shadow-xl'>
             <span className="font-semibold">Question {index+1}</span>
                     
             <div>
@@ -185,7 +193,7 @@ const Mock = () =>
                             setIndex((prev)=> prev-1)
                         }}
                     />
-                    <Image className={`${(mockAnswers[index].isFlagged || mockAnswers[index].answers.length > 0) && index+1 !== mockAnswers.length ? 'bg-yellow-400 cursor-pointer' : 'bg-gray-200' }  rounded-full p-2 h-8 w-fit`} src={next} alt='previous' 
+                    <Image className={`${(mockAnswers[index].isFlagged || mockAnswers[index].answers.length > 0) && index < mockAnswers.length - 1  ? 'bg-yellow-400 cursor-pointer' : 'bg-gray-200' }  rounded-full p-2 h-8 w-fit`} src={next} alt='next' 
                         onClick={()=> 
                         {
                             if(!(mockAnswers[index].isFlagged || mockAnswers[index].answers.length > 0))
@@ -194,7 +202,7 @@ const Mock = () =>
                                 return
                             setIndex((prev)=> prev+1)
                         }}/>
-                    <Image className="h-8 w-fit cursor-pointer absolute b-0 left-0" src={mockAnswers[index].isFlagged ? flagged : flag} alt='previous' 
+                    <Image className="h-8 w-fit cursor-pointer absolute b-0 left-0" src={mockAnswers[index].isFlagged ? flagged : flag} alt='skip' 
                         onClick={()=> 
                         {
                             if(!mockAnswers[index].isFlagged)
@@ -208,7 +216,7 @@ const Mock = () =>
                         }
                     }/>
                 </div>
-                {index+1 === mockAnswers.length &&
+                {index === mockAnswers.length - 1 && (mockAnswers[index]?.answers.length>0 || mockAnswers[index].isFlagged) &&
                 <div className="absolute right-8 bottom-8">
                     <Button className='text-xs' onClick={onSubmit}>Finish</Button>
                 </div>}

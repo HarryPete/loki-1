@@ -7,30 +7,25 @@ import sessionService from "@/services/session.service";
 import { NextResponse } from "next/server";
 const sessionInstance = new sessionService();
 
-export async function POST(req, {params})
-{
-    try
-    {
-        await dbConnect();
+export async function POST(req, { params }) {
+  try {
+    await dbConnect();
 
-        const { title, courseId, mentor, startDate, endDate } = await req.json(); 
+    const { title, courseId, mentor, startDate, endDate } = await req.json();
+    const newBatch = await batchInstance.addNewBatch(title, courseId, mentor, startDate, endDate);
+    const course = await courseInstance.getByCourseId(courseId);
 
-        const newBatch = await batchInstance.addNewBatch(title, courseId, mentor, startDate, endDate);
-        const course = await courseInstance.getByCourseId(courseId);
-
-        let id=1;
-        for(let lecture of course.lectures)
-        {
-            const batchSession = await sessionInstance.addNewSession(id, lecture._id)
-            await batchInstance.updateSessions(newBatch._id, batchSession._id);
-            id++;
-        }
-        return NextResponse.json({message: 'Batch added'})
+    // Sequentially process lectures in order
+    for (let i = 0; i < course.lectures.length; i++) {
+      const lecture = course.lectures[i];
+      const batchSession = await sessionInstance.addNewSession(i + 1, lecture._id);
+      await batchInstance.updateSessions(newBatch._id, batchSession._id);
     }
-    catch(error)
-    {
-        return NextResponse.json({error: error});
-    }
+
+    return NextResponse.json({ message: 'Batch added successfully' });
+  } catch (error) {
+    return NextResponse.json({ error: error.message });
+  }
 }
 
 export async function GET(req, res)

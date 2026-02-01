@@ -79,7 +79,7 @@ const Batches = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="flex justify-between items-center">
-      <BatchForm newBatch={newBatch} setNewBatch={setNewBatch} getBatches={getBatches} />
+      <BatchForm newBatch={newBatch} setNewBatch={setNewBatch} getBatches={getBatches}/>
       <div className="flex space-x-2">
         {selectedCourse !== 'all' && <Button onClick={()=> handleFilter("all")}>All</Button>}
         {selectedCourse !== 'cams' && <Button onClick={()=> handleFilter("cams")}>CAMS</Button>}

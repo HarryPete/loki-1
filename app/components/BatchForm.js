@@ -124,8 +124,8 @@ const BatchForm = ({newBatch, setNewBatch, getBatches}) =>
             const url = '/api/batch'
             const response = await axios.post(url, batchDetails);
             toast(response.data.message);
-            getBatches()
             setNewBatch(false)
+            getBatches()
         }   
         catch(error)
         {
