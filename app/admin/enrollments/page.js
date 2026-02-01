@@ -24,12 +24,12 @@ import { Delete, Minus, Trash, Trash2 } from "lucide-react";
 
 const Users = () =>
 {
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ users, setUsers ] = useState(null);   
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ users, setUsers ] = useState([]);   
     const [ openUserId, setOpenUserId ] = useState(null);
-    const [ filteredusers, setFilteredUsers ] = useState(null);
-    const [ moveEnrollment, setMoveEnrollment ] = useState(false);
-    const [ batches, setBatches ] = useState(null);
+    const [ filteredusers, setFilteredUsers ] = useState([]);
+    // const [ moveEnrollment, setMoveEnrollment ] = useState(false);
+    // const [ batches, setBatches ] = useState([]);
 
     const handleOpenDialog = (userId) => 
     {
@@ -42,26 +42,6 @@ const Users = () =>
     };
 
     // const getMockId = (batchMocks, mockId)
-
-    useEffect(()=>
-    {
-        getEnrollments();
-        getBatches();
-    },[])
-
-    const getBatches = async () =>
-    {
-        try
-        {
-            const url = `/api/batch`
-            const response = await axios.get(url);
-            setBatches(response.data)
-        }
-        catch(error)
-        {
-            toast.error(error.message);     
-        } 
-    }
 
     const handleDuplicateMocks = async (batchId, enrollmentId, setId, mockId, type) =>
     {
@@ -78,6 +58,26 @@ const Users = () =>
             console.log(error);
         }
     }
+
+    useEffect(()=>
+    {
+        getEnrollments();
+        // getBatches();
+    },[])
+
+    // const getBatches = async () =>
+    // {
+    //     try
+    //     {
+    //         const url = `/api/batch`
+    //         const response = await axios.get(url);
+    //         setBatches(response.data)
+    //     }
+    //     catch(error)
+    //     {
+    //         toast.error(error.message);     
+    //     } 
+    // }
 
     const getEnrollments = async ()=>
     {
@@ -106,8 +106,6 @@ const Users = () =>
         setFilteredUsers(filteredNames)
     }
 
-    console.log(users)
-
     if(isLoading)
         return <Loading/>
 
@@ -130,9 +128,9 @@ const Users = () =>
                 <div key={user._id} className="p-4 flex items-start gap-4 rounded-xl bg-neutral-50 shadow-md relative">
                     <Image className='h-12 w-12 object-cover object-top rounded-full' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user.user.name} width={100} height={100}/>
                     <div className="text-sm space-y-1 ">
-                        <h1 className="font-semibold">{user.user.name}</h1>
-                        <p className="pb-2">{user.user?.email}</p>
-                        <p className="absolute right-2 bottom-2 text-base font-semibold">{user.position}</p>
+                        <h1 className="font-semibold">{user?.user?.name}</h1>
+                        <p className="pb-2">{user?.user?.email}</p>
+                        <p className="absolute right-2 bottom-2 text-base font-semibold">{user?.position}</p>
                         <Button className='h-6 text-xs' onClick={() => handleOpenDialog(user._id)}>Details</Button>
                        
                         <Dialog open={openUserId === user._id} onOpenChange={handleCloseDialog}>
@@ -143,7 +141,7 @@ const Users = () =>
                             </DialogHeader>
                             <div className="space-y-2">
                                 <div className="flex flex-col gap-2 items-center justify-center">
-                                    <Image className='h-20 w-20 object-cover rounded-full object-top' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user.user.name} width={100} height={100}/>
+                                    <Image className='h-20 w-20 object-cover rounded-full object-top' src={user?.user?.imageURL ? user?.user?.imageURL : defaultDP} alt={user?.user?.name} width={100} height={100}/>
                                    
                                 </div>
                                
@@ -192,7 +190,7 @@ const Users = () =>
                                 </div>
                                 : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>}
                                 <div className="pt-4 space-y-2">
-                                    <MoveEnrollmentForm moveEnrollment={moveEnrollment} setMoveEnrollment={setMoveEnrollment} batches={batches} enrollment={user} getEnrollments={getEnrollments}/>
+                                    {/* <MoveEnrollmentForm moveEnrollment={moveEnrollment} setMoveEnrollment={setMoveEnrollment} batches={batches} enrollment={user} getEnrollments={getEnrollments}/> */}
                                     <p className=" text-gray-400">{user?.user.role +' since ' +FormatDate(user?.user.createdAt)}</p>
                                 </div>
                             </div>
