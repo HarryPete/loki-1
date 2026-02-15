@@ -54,6 +54,10 @@ class enrollmentService
                 }]
             },
             {
+                path: 'user',
+                model: User
+            },
+            {
                 path: 'mocks', 
                 model: Test,
             }])

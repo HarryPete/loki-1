@@ -29,9 +29,10 @@ import mockIcon from '@/assets/mock.png'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Book, Calendar, GroupIcon, Loader2, User, Video } from "lucide-react";
-
+import { Delete, Minus, Trash, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Progress } from '@radix-ui/react-progress'
+import { Input } from "@/components/ui/input";
 
 export const completedSessions = (sessions, type='') =>
 {
@@ -72,6 +73,9 @@ const Batch = () =>
     const [activeTab, setActiveTab] = useState("sessions");
     const pathname = usePathname();
     const [ assignedMocks, setAssignedMocks ] = useState([]);
+    const [ filteredusers, setFilteredUsers ] = useState([]);
+    const [ enrollments, setEnrollments ] = useState([])
+    const [ searchInput, setSearchInput ] = useState("")
 
     const tabs = 
     [
@@ -113,6 +117,8 @@ const Batch = () =>
                 setAssignedMocks((prev)=> [...prev, mock.id])
             })
             getGraduationBatches();
+            setEnrollments(response.data.enrollments)
+            setFilteredUsers(response.data.enrollments)
         }
         catch(error)
         {
@@ -272,7 +278,29 @@ const Batch = () =>
         return position
     }
 
-    console.log(batch)
+    const handleDuplicateMocks = async (batchId, enrollmentId, setId, mockId, type) =>
+    {
+        try
+        {
+            const url = `/api/enrollment/${enrollmentId}`;
+            const details = { batchId, enrollmentId, setId, mockId, type }
+            const response = await axios.put(url, details);
+            toast.success(response.message);
+            getBatch();
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    }
+
+    const handleChange = (e) =>
+    {
+        let name = e.target.value
+        setSearchInput(name)
+        const filteredNames = batch.enrollments.filter((enrollment)=> enrollment?.user.name.toLowerCase().includes(name.toLowerCase()) || enrollment?.user.email.toLowerCase().includes(name.toLowerCase()));
+        setFilteredUsers(filteredNames)
+    }
 
     if(isLoading)
         return <Loading/>
@@ -394,9 +422,15 @@ const Batch = () =>
 
             {activeTab === "enrollments" && (
                 <div className='grid grid-cols-1 gap-3 pb-8 w-full md:w-2/3 h-fit'>
+                
+                <div className="relative">
+                    <Input className='p-8 px-4 rounded-lg bg-neutral-50' value={searchInput} onChange={(e)=> handleChange(e)} placeholder='Search'/>
+                    <Button className="absolute right-4 top-8 translate-y-[-50%] text-xs" onClick={()=> { setSearchInput(""); setFilteredUsers(enrollments)}}>clear</Button>
+                    {/* <p className="text-muted-foreground md:text-sm text-xs pt-2">{filteredusers.length>0 ? filteredusers.length +' profiles' : 'Profile not found'}</p> */}
+                </div>
             
-                {batch.enrollments.length ? 
-                batch.enrollments.map((enrollment)=>
+                {filteredusers.length ? 
+                filteredusers.map((enrollment)=>
                 {                       
                     return(
                     <Card key={enrollment._id} className={`${removeDuplicates && duplicates.includes(enrollment.user._id) ? 'bg-red-500 text-white' : (enrollment.user.isProfileComplete ? 'bg-gray-100' : 'bg-red-100')} p-6 flex items-center gap-4 h-fit`}>
@@ -409,7 +443,7 @@ const Batch = () =>
                         <DialogContent className='sm:max-w-[425px] text-sm'>
                             <DialogHeader>
                                 <DialogTitle>{enrollment.user.name}</DialogTitle>
-                                <DialogDescription>{enrollment.user.role}</DialogDescription>
+                                <DialogDescription>{enrollment?.user.role +' since ' +FormatDate(enrollment?.user.createdAt)}</DialogDescription>
                             </DialogHeader>
                             <div className="space-y-2">
                                 <div className="flex flex-col gap-2 items-center justify-center">
@@ -448,6 +482,27 @@ const Batch = () =>
                                     </div>}
                                 </div>
                             </div>
+                            {/* <h1 className="font-semibold pt-4">Mocks</h1>
+                                {enrollment.mocks.length > 0 ? 
+                                <div className="pt-2 border-t space-y-2">
+                                    {enrollment.mocks.map((mock, index)=>
+                                    (
+                                        <div key={mock._id} className={`flex items-center justify-between ${ index> 0 && enrollment.mocks[index].quiz.id === enrollment.mocks[index-1].quiz.id && 'bg-red-500 p-2 text-white rounded '}`}>
+                                            <p>{mock._id}</p>
+                                            <div className="flex items-center gap-1">
+                                                <p className="text-left w-14">Mock {mock.quiz.id}</p>
+                                                {index> 0 && enrollment.mocks[index].quiz.id === enrollment.mocks[index-1].quiz.id && 
+                                                <Button className='rounded-full bg-white w-4 h-7' 
+                                                onClick={()=>handleDuplicateMocks(enrollment.batch._id, enrollment._id, mock.quiz.id, mock._id, "duplicateMocks")}><Trash2/></Button>}
+                                            </div>
+                                        </div>
+                                    ))} 
+                                </div>
+                                : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>} */}
+                                {/* <div className="pt-4 space-y-2">
+                                    <MoveEnrollmentForm moveEnrollment={moveEnrollment} setMoveEnrollment={setMoveEnrollment} batches={batches} enrollment={user} getEnrollments={getEnrollments}/>
+                                    <p className=" text-gray-400">{enrollment?.user.role +' since ' +FormatDate(enrollment?.user.createdAt)}</p>
+                                </div> */}
                             <div className='flex justify-between border-t space-y-2 pt-4'>
                             
                             
@@ -461,6 +516,38 @@ const Batch = () =>
                                 <Switch checked={enrollment.access} onCheckedChange={()=> updateAccessStatus(enrollment._id, !enrollment.access)}/>
                             </div>
                             </div>  
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button>Mocks</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px] text-sm">
+                                <DialogHeader>
+                                    <DialogTitle>{enrollment.user.name}</DialogTitle>
+                                    <DialogDescription>
+                                        {enrollment.mocks.length} mocks
+                                    </DialogDescription>
+                                </DialogHeader>
+                                
+                                    {enrollment.mocks.length > 0 ? 
+                                <div className="pt-2 border-t space-y-2">
+                                    {enrollment.mocks.map((mock, index)=>
+                                    (
+                                        <div key={mock._id} className={`flex items-center justify-between ${ index> 0 && enrollment.mocks[index].quiz.id === enrollment.mocks[index-1].quiz.id && 'bg-red-500 p-2 text-white rounded '}`}>
+                                            <p>Mock {index+1}</p>
+                                            <div className="flex items-center gap-1">
+                                                {/* <p className="text-left w-14">Mock {mock.quiz.id}</p> */}
+                                                {index> 0 && enrollment.mocks[index].quiz.id === enrollment.mocks[index-1].quiz.id && 
+                                                <Button className='rounded-full bg-white w-4 h-7' 
+                                                onClick={()=>handleDuplicateMocks(enrollment.batch._id, enrollment._id, mock.quiz.id, mock._id, "duplicateMocks")}><Trash2/></Button>}
+                                            </div>
+                                        </div>
+                                    ))} 
+                                </div>
+                                : <p className="text-muted-foreground pt-2 border-t">No mocks assigned</p>}
+                               
+                            </DialogContent>
+                        </Dialog>
                             
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -502,7 +589,7 @@ const Batch = () =>
                     
                     </Card>)
                 }) : 
-                <p className='text-center text-xl mt-4 font-semibold'>No Enrollments</p>
+                <p className='text-center text-xl mt-4 font-semibold'>No enrollments found</p>
             }
             </div>)}
 

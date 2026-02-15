@@ -7,7 +7,7 @@ import locked from '../../../../assets/locked.png'
 import pendingIcon from '../../../../assets/pendingIcon.png'
 import youtube from '../../../../assets/youtube.png'
 import { useParams, usebatchId, useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from 'sonner';
 import Link from 'next/link';
 import Loading from '@/app/components/Loading';
@@ -19,6 +19,13 @@ import { FormatDate } from "@/utility/FormatDate";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import template from '@/assets/template.png'
+import jsPDF from 'jspdf'
+import { toPng } from "html-to-image";
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const completedSessions = (sessions, type='') =>
 {
@@ -71,8 +78,10 @@ const Batch = () =>
     const [ retakeLoading, setRetakeLoading ] = useState(false);
     const [ assignedMockId, setAssignedMockId ] = useState(null);
     const pathname = usePathname();
+    const divRef = useRef(null);
+    const [ checkStatus, setCheckStatus ] = useState(false)
 
-    const tabs = 
+    const tabs =    
     [
         { id: "sessions", label: "Sessions", bg: 'bg-green-400', completed: completedSessions(enrollment?.batch?.sessions, 'count'), total: enrollment?.batch?.sessions?.length, progress: completedSessions(enrollment?.batch?.sessions) },
         { id: "assignedMocks", label: "Assigned mocks", bg: 'bg-orange-400', completed: enrollment?.mocks?.length, total: enrollment?.batch?.mocks?.length, progress: enrollment?.mocks?.length*100/enrollment?.batch?.mocks?.length },
@@ -90,9 +99,19 @@ const Batch = () =>
                 router.push('/dashboard')
                 toast('Access Denied')
             }
-            setEnrollment(response.data)
-            // const pendingTests = response.data.batch.mocks.slice(response.data.mocks.length)
-            // setPendingTests(pendingTests.length)
+            const userEnrollment = response.data;
+            setEnrollment(userEnrollment)
+            const isBatchCompleted = () => 
+            {
+                const sessions = userEnrollment?.batch?.sessions;
+                if (!sessions || sessions.length === 0) return false;
+                return sessions.every(session => session.status === "Completed");
+            };
+            const sessionStatus = isBatchCompleted()
+            setCheckStatus(sessionStatus)
+                        
+            const pendingTests = response.data.batch.mocks.slice(response.data.mocks.length)
+            setPendingTests(pendingTests.length)
         }
         catch(error)
         {
@@ -169,10 +188,65 @@ const Batch = () =>
         }
     }
 
+    console.log(enrollment)
+
+    const downloadCertification = async () => 
+    {
+        if (!divRef.current) return
+        const scale = 4
+
+        try {
+            const dataUrl = await toPng(divRef.current, {
+            cacheBust: true,
+            pixelRatio: scale,
+            })
+
+            const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [
+                divRef.current.offsetWidth,
+                divRef.current.offsetHeight,
+            ],
+            })
+
+            pdf.addImage(
+            dataUrl,
+            'PNG',
+            0,
+            0,
+            divRef.current.offsetWidth,
+            divRef.current.offsetHeight
+            )
+
+            pdf.save('fintsaml-certificate.pdf')
+        } catch (err) {
+            toast.error('Failed to download certificate')
+        }
+    }
+
     if(status === 'loading' || isLoading)
     return(
         <Loading/>   
     )
+
+    const start = new Date(enrollment.batch.startDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    );
+
+    const end = new Date(enrollment.batch.endDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    );
 
     return(
         <div className="space-y-6">
@@ -280,6 +354,30 @@ const Batch = () =>
                     </Tooltip>
                 </TooltipProvider>
             </div>
+                {checkStatus && <Dialog>
+                    <DialogTrigger asChild>
+                        <Button className='w-full text-xs'>Certificate</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] space-y-0.5">
+                        
+                        <DialogHeader>
+                        <DialogTitle>Certificate</DialogTitle>
+                        <DialogDescription>{enrollment.batch.course.title}</DialogDescription>
+                        </DialogHeader>
+                        
+                        
+                        <div>  
+                            <div ref={divRef} className={`relative text-[#d39800] font-sans ${montserrat.className}`}>
+                                <Image className="w-fit h-400px" src={template} alt='certificate'/>
+                                <h1 className="absolute md:text-md sm:text-sm text-xs font-bold text w-full md:left-10 left-[10%] top-[46%]">{enrollment.user.name.toUpperCase()}</h1>
+                                <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[56%]">{enrollment.batch.course.title.toUpperCase()}</p>
+                                <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[66%]">{start.toUpperCase() +' - ' +end.toUpperCase()}</p>
+                            </div>
+                        </div>
+              
+                        <Button className='text-xs' onClick={downloadCertification}>Download certificate</Button>
+                    </DialogContent>
+                </Dialog>}
             </div>
 
             <div className="flex-1 space-y-6">

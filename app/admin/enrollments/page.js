@@ -28,6 +28,7 @@ const Users = () =>
     const [ users, setUsers ] = useState([]);   
     const [ openUserId, setOpenUserId ] = useState(null);
     const [ filteredusers, setFilteredUsers ] = useState([]);
+    const [ enrollments, setEnrollments ] = useState([])
     // const [ moveEnrollment, setMoveEnrollment ] = useState(false);
     // const [ batches, setBatches ] = useState([]);
 
