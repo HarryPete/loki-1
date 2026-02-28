@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AvatarCircles } from "@/components/magicui/avatar-circles";
 import Navbar from "./Navbar";
+import Marquee from "@/components/ui/marquee";
 
 const avatars = [
     {
@@ -35,6 +36,12 @@ const avatars = [
   const HeroSection = () => {
     return (
       <div className="text-white text-base">
+        <Marquee className="justify-center overflow-hidden bg-yellow-400 text-black [--duration:10s] [--gap:4rem] w-full">
+          <div className="px-8 text-sm">
+            CAMS Morning Batch – Starting 13th March 2026.
+          </div>   
+                    
+        </Marquee>
         <div
           className="md:h-[80vh] h-[100vh] pt-[15vh] w-full flex items-center justify-center relative"
           style={{
