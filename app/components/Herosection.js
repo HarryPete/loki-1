@@ -37,8 +37,8 @@ const avatars = [
     return (
       <div className="text-white text-base">
         <Marquee className="justify-center overflow-hidden bg-yellow-400 text-black [--duration:10s] [--gap:4rem] w-full">
-          <div className="px-8 text-sm">
-            CAMS Morning Batch – Starting 13th March 2026.
+          <div className="px-8 text-md">
+            CAMS Evening Batch – Starting 24th April 2026.
           </div>   
                     
         </Marquee>
