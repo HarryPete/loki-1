@@ -29,19 +29,19 @@ const StatSection = () =>
       <div className="container mx-auto rounded-lg flex justify-around text-center my-8">
         <div>
           <h2 className="md:text-base text-sm md:pb-3 pb-1 text-muted-foreground font-semibold">Countries</h2>
-          <Counter value={25} />
+          <Counter value={40} />
         </div>
         <div>
           <h2 className="md:text-base text-sm md:pb-3 pb-1 text-muted-foreground font-semibold">Batches</h2>
-          <Counter value={150}/>
+          <Counter value={160}/>
         </div>
         <div>
           <h2 className="md:text-base text-sm md:pb-3 pb-1 text-muted-foreground font-semibold">Achievers</h2>
-          <Counter value={1500}/>
+          <Counter value={2000}/>
         </div>
         <div>
           <h2 className="md:text-base text-sm md:pb-3 pb-1 text-muted-foreground font-semibold">Success Rate</h2>
-          <Counter value={92} type="percent"/>
+          <Counter value={93} type="percent"/>
         </div>
       </div>
   );

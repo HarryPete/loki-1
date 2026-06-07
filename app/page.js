@@ -46,7 +46,6 @@ const Home = () =>
 
     return(
         <div className='md:text-sm text-xs leading-loose'>
-            
             <HeroSection isLoading={isLoading} displayData={displayData}/>
             <div>
               <StatSection/>

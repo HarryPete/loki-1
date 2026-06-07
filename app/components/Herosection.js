@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { AvatarCircles } from "@/components/magicui/avatar-circles";
 import Navbar from "./Navbar";
 import Marquee from "@/components/ui/marquee";
+import { IoLocationSharp } from "react-icons/io5";
 
 const avatars = [
     {
@@ -36,14 +37,16 @@ const avatars = [
   const HeroSection = () => {
     return (
       <div className="text-white text-base">
-        <Marquee className="justify-center overflow-hidden bg-yellow-400 text-black [--duration:10s] [--gap:4rem] w-full">
+        
+        {/* <Marquee className="justify-center overflow-hidden bg-yellow-400 text-black [--duration:10s] [--gap:4rem] w-full">
           <div className="px-8 text-md">
             CAMS Evening Batch – Starting 24th April 2026.
           </div>   
                     
-        </Marquee>
+        </Marquee> */}
+
         <div
-          className="md:h-[80vh] h-[100vh] pt-[15vh] w-full flex items-center justify-center relative"
+          className="h-[100vh] pt-[15vh] w-full flex items-center justify-center relative"
           style={{
             backgroundImage:
               "radial-gradient(164.75% 100% at 50% 0, #334155 0, #0f172a 48.73%)",
@@ -64,7 +67,7 @@ const avatars = [
             >
               Master{" "}
               <motion.span
-                className="md:inline block bg-yellow-400 md:p-2 md:mt-0 mt-2 p-2 rounded-lg text-black"
+                className="md:inline block bg-yellow-500 md:p-2 md:mt-0 mt-2 p-2 rounded-lg text-black"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -96,6 +99,13 @@ const avatars = [
                 their skills.
               </p>
             </motion.div>
+            <div className="p-[5vh] w-full flex flex-col gap-4 items-center justify-center relative">
+              <IoLocationSharp className="text-yellow-500 text-5xl" />
+              <h1 className="text-2xl md:text-4xl font-bold text-center">Now Based in <span className="text-yellow-500">UAE</span></h1>
+              <p className="text-center md:text-base text-sm md:text-start leading-loose ">
+                Business Centre, Sharjah Publishing City Free Zone, Sharjah, UAE
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>

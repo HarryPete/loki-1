@@ -59,6 +59,7 @@ const MarqueeProfiles = ({isLoading, displayData}) =>
                           </motion.div>
                         </Link>
                         <h1 className="text-base font-semibold mt-2">{user?.name}</h1>
+                        <p className="lg:text-sm text-xxs">{user?.organisation}</p>
                         <p className="lg:text-sm text-xxs text-gray-400">{user?.country}</p>
                       </motion.div>
                     ))}
