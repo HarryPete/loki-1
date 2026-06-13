@@ -13,6 +13,7 @@ import Comment from '@/app/components/Comment'
 import Image from 'next/image';
 import upArrow from '@/assets/show.png'
 import downArrow from '@/assets/drop.png'
+import { toast } from 'sonner'
 
 const Discussion = () =>
 {
@@ -84,8 +85,10 @@ const Discussion = () =>
                 return toast.error('Comment cannot be empty')
 
             const url = `/api/comment/${id}`
+
             if(user)
             {
+                setIsLoading(true)
                 const response = await axios.post(url, {comment, author: user});
                 toast.success(response.data.message)
                 getDiscussion();
@@ -96,6 +99,10 @@ const Discussion = () =>
         catch(error)
         {
             toast.error(error.message);
+        }
+        finally
+        {
+            setIsLoading(false)
         }
     }
 
@@ -127,11 +134,11 @@ const Discussion = () =>
                         </div>
                     </div>
 
-                {user && 
+                
                 <div className='flex gap-2'>
                     <Input className='lg:text-sm text-xs' value={comment} onChange={(e)=> setComment(e.target.value)} placeholder='Reply'/>
                     <Button className='lg:text-sm text-xs' onClick={()=> handleComment(discussion._id)}>Send</Button>
-                </div>}
+                </div>
 
                 { !discussion.comments.length > 0 && user && <p className='text-muted-foreground'>Be the first one to respond</p> }
                     

@@ -80,7 +80,6 @@ class forumService
                     }]
                 }
             );
-            console.log(discussions)
             return discussions;
         }
         catch(error)
