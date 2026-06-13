@@ -135,10 +135,10 @@ const Discussion = () =>
                     </div>
 
                 
-                <div className='flex gap-2'>
+                {user && <div className='flex gap-2'>
                     <Input className='lg:text-sm text-xs' value={comment} onChange={(e)=> setComment(e.target.value)} placeholder='Reply'/>
                     <Button className='lg:text-sm text-xs' onClick={()=> handleComment(discussion._id)}>Send</Button>
-                </div>
+                </div>}
 
                 { !discussion.comments.length > 0 && user && <p className='text-muted-foreground'>Be the first one to respond</p> }
                     
