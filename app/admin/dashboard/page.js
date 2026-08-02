@@ -14,6 +14,7 @@ import {
   Group,
   ScreenShare,
   FileQuestion,
+  Paperclip
 } from "lucide-react";
 
 const routes = [
@@ -24,9 +25,9 @@ const routes = [
   { id: 5, title: "Forum", route: "/forum", icon: MessageSquare },
   { id: 6, title: "Graduates", route: "/admin/graduates", icon: GraduationCap },
   { id: 7, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase },
-  { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText },
+  // { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText },
   { id: 9, title: "Profiles", route: "/admin/profiles", icon: Users },
-  // { id: 10, title: "Queries", route: "/admin/queries", icon: FileQuestion },
+  // { id: 10, title: "Articles", route: "/admin/articles", icon: Paperclip },
 ];
 
 const Dashboard = () => {

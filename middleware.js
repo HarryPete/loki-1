@@ -36,13 +36,13 @@ export default async function middleware(req)
         if(user.role === 'user' && authRoute)
             return NextResponse.redirect(new URL('/dashboard', nextUrl))
     
-        if(user.role !== 'admin' && nextUrl.pathname.startsWith('/admin'))
+        if((user.role !== 'admin' || user.role !== 'maintainer') && nextUrl.pathname.startsWith('/admin'))
             return NextResponse.redirect(new URL('/', nextUrl))
     
-        if(user.role === 'admin' && nextUrl.pathname.startsWith('/dashboard'))
+        if((user.role === 'admin' || user.role === 'maintainer') && nextUrl.pathname.startsWith('/dashboard'))
             return NextResponse.redirect(new URL('/admin/dashboard', nextUrl))
 
-        if(user.role === 'admin' && authRoute)
+        if((user.role === 'admin' || user.role === 'maintainer') && authRoute)
             return NextResponse.redirect(new URL('/admin/dashboard', nextUrl))
 
         // if(nextUrl.pathname.startsWith('/admin'))
