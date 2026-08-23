@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import {
   GraduationCap,
   BookOpen,
@@ -18,22 +19,31 @@ import {
 } from "lucide-react";
 
 const routes = [
-  { id: 1, title: "Batches", route: "/admin/batches", icon: Group },
-  { id: 2, title: "Courses", route: "/admin/courses", icon: BookOpen },
-  { id: 3, title: "Display", route: "/admin/display", icon: ScreenShare },
-  { id: 4, title: "Enrollments", route: "/admin/enrollments", icon: ClipboardList },
-  { id: 5, title: "Forum", route: "/forum", icon: MessageSquare },
-  { id: 6, title: "Graduates", route: "/admin/graduates", icon: GraduationCap },
-  { id: 7, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase },
-  // { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText },
-  { id: 9, title: "Profiles", route: "/admin/profiles", icon: Users },
-  // { id: 10, title: "Articles", route: "/admin/articles", icon: Paperclip },
+  { id: 1, title: "Batches", route: "/admin/batches", icon: Group, roles: ["admin"] },
+  { id: 2, title: "Courses", route: "/admin/courses", icon: BookOpen, roles: ["admin"] },
+  { id: 3, title: "Display", route: "/admin/display", icon: ScreenShare, roles: ["admin"] },
+  { id: 4, title: "Enrollments", route: "/admin/enrollments", icon: ClipboardList, roles: ["admin"] },
+  { id: 5, title: "Forum", route: "/forum", icon: MessageSquare, roles: ["admin", "maintainer"] },
+  { id: 6, title: "Graduates", route: "/admin/graduates", icon: GraduationCap, roles: ["admin"] },
+  { id: 7, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase, roles: ["admin", "maintainer"] },
+  { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText, roles: ["admin"] },
+  { id: 9, title: "Profiles", route: "/admin/profiles", icon: Users, roles: ["admin"] },
+  { id: 10, title: "Articles", route: "/admin/articles", icon: Paperclip, roles: ["admin", "maintainer"] }
 ];
 
 const Dashboard = () => {
+  const { data, status } = useSession();
+  const role = data?.user?.role;
+
+  if (status === "loading") {
+    return <div className="p-6 text-center">Loading...</div>;
+  }
+
+  const visibleRoutes = routes.filter((r) => r.roles.includes(role));
+
   return (
     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 p-6">
-      {routes.map((data) => {
+      {visibleRoutes.map((data) => {
         const Icon = data.icon;
         return (
           <Link href={data.route} key={data.id}>

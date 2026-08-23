@@ -12,3 +12,12 @@ export const authRoutes =
 [
     '/login', '/signup'
 ] 
+
+export const maintainerRoutes = [
+    '/admin/dashboard',
+    '/admin/job-portal',
+    '/admin/articles',
+    '/forum'
+]
+
+export const adminHome = '/admin/dashboard'
