@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import defaultDP from '../../../assets/defaultDP.png'
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Page = () =>
 {
@@ -19,6 +20,7 @@ const Page = () =>
     const [ isLoading, setIsLoading ] = useState(true);
     const [ jobId, setJobId ] = useState(null);
     const router = useRouter();
+    const { data: session } = useSession();
     const userRole = session?.user?.role; // adjust to match your session shape
     const canManage = userRole === 'maintainer' || userRole === 'admin';
 
