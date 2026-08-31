@@ -92,12 +92,12 @@ const Forum = () =>
                         <ForumSearchbar handleChange={handleChange} searchQuery={searchQuery} getDiscussions={getDiscussions}/>
                         <PopularCard handleChange={handleChange} getTopics={getTopics} topics={topics}/>
                     </div> */}
-                    <div className='w-[100%] grid grid-cols-1 gap-2 text-sm'>
+                    <div className='w-[100%] grid grid-cols-3 gap-4 text-sm'>
                 
                     {discussions.map((discussion) =>
                     (
                         <Card className='space-y-3 p-6 bg-neutral-50' key={discussion._id}>
-                            <Link className='font-semibold lg:text-base text-sm  hover:text-blue-600 cursor-pointer' href={`${pathname}/discussion?dId=${discussion._id}`}>{discussion.title}</Link>
+                            <Link className='font-semibold lg:text-sm text-xs  hover:text-blue-600 cursor-pointer' href={`${pathname}/discussion?dId=${discussion._id}`}>{discussion.title}</Link>
                             <div className='flex flex-wrap gap-2'>
                             {discussion.keywords.map((key, index)=>
                             (

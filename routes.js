@@ -15,7 +15,7 @@ export const authRoutes =
 
 export const maintainerRoutes = [
     '/admin/dashboard',
-    '/admin/job-portal',
+    '/admin/postJob',
     '/admin/articles',
     '/forum'
 ]

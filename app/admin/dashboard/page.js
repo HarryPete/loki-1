@@ -14,6 +14,7 @@ import {
   FileText,
   Group,
   ScreenShare,
+  PersonStanding,
   FileQuestion,
   Paperclip
 } from "lucide-react";
@@ -25,10 +26,11 @@ const routes = [
   { id: 4, title: "Enrollments", route: "/admin/enrollments", icon: ClipboardList, roles: ["admin"] },
   { id: 5, title: "Forum", route: "/forum", icon: MessageSquare, roles: ["admin", "maintainer"] },
   { id: 6, title: "Graduates", route: "/admin/graduates", icon: GraduationCap, roles: ["admin"] },
-  { id: 7, title: "Job Portal", route: "/admin/job-portal", icon: Briefcase, roles: ["admin", "maintainer"] },
-  { id: 8, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText, roles: ["admin"] },
-  { id: 9, title: "Profiles", route: "/admin/profiles", icon: Users, roles: ["admin"] },
-  { id: 10, title: "Articles", route: "/admin/articles", icon: Paperclip, roles: ["admin", "maintainer"] }
+  { id: 7, title: "Jobs Listing", route: "/jobs", icon: Briefcase, roles: ["admin", "maintainer", "user"] },
+  { id: 8, title: "Post Job", route: "/admin/postJob", icon: PersonStanding, roles: ["admin", "maintainer"] },
+  { id: 9, title: "Mock Tests", route: "/admin/mock-tests", icon: FileText, roles: ["admin"] },
+  { id: 10, title: "Profiles", route: "/admin/profiles", icon: Users, roles: ["admin"] },
+  { id: 11, title: "Articles", route: "/admin/articles", icon: Paperclip, roles: ["admin", "maintainer"] }
 ];
 
 const Dashboard = () => {

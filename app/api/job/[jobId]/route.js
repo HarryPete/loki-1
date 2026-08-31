@@ -20,7 +20,7 @@ export async function PUT(req, {params})
     }
 }
 
-export async function GET(req) 
+export async function GET(req, {params}) 
 {
     try
     {
@@ -32,5 +32,24 @@ export async function GET(req)
     catch(error)
     {
         return NextResponse.json({error: error.message})
+    }
+}
+
+export async function DELETE(req, {params})
+{
+    try
+    {
+        await dbConnect();
+        const { jobId } = await params
+        const result = await jobInstance.deleteJobById(jobId);
+
+        if(result.deletedCount === 0)
+            return NextResponse.json({ error: 'Job not found' }, { status: 404 });
+
+        return NextResponse.json({ message: 'Job deleted successfully' })
+    }
+    catch(error)
+    {
+        return NextResponse.json({error: error.message}, { status: 500 })
     }
 }

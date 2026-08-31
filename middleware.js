@@ -9,6 +9,7 @@ export default async function middleware(req)
     const { nextUrl } = req;
     const token = await cookies();
     const cookie = token?.get('__Secure-authjs.session-token');
+    // const cookie = token?.get('authjs.session-token');
     
     let user = null;
     if(cookie)

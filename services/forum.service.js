@@ -24,6 +24,7 @@ class forumService
         try
         {
             const discussions = await Forum.find().populate({path: 'author', model: User})
+            .sort({ createdAt: -1 })
             .populate
             (
                 {

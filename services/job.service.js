@@ -55,6 +55,19 @@ class jobService
             throw error
         }
     }
+
+    async deleteJobById(jobId)
+    {
+        try
+        {
+            const job = await Job.deleteOne({ _id: jobId });
+            return job
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
 }
 
 export default jobService
