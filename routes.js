@@ -16,8 +16,7 @@ export const authRoutes =
 export const maintainerRoutes = [
     '/admin/dashboard',
     '/admin/postJob',
-    '/admin/articles',
-    '/forum'
+    '/admin/articles'
 ]
 
 export const adminHome = '/admin/dashboard'

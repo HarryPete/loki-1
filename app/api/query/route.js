@@ -18,3 +18,18 @@ export async function POST(req)
         return NextResponse.json({error: error.message});
     }
 }
+
+export async function GET(req)
+{
+    try
+    {
+        await dbConnect();
+
+        const queries = await queryInstance.getAllQueries()
+        return NextResponse.json(queries);
+    }
+    catch(error)
+    {
+        return NextResponse.json({error: error.message});
+    }
+}

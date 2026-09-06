@@ -16,6 +16,19 @@ class queryService
             throw error
         }
     }
+
+    async getAllQueries()
+    {
+        try
+        {
+            const queries = await Query.find({});
+            return queries;
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
 }
 
 export default queryService
